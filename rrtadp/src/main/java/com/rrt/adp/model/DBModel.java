@@ -5,7 +5,7 @@ import java.util.Date;
 public class DBModel {
 	
 	private String id;
-	private Date createTime;
+	private Date createTime = new Date();
 	private Date updateTime;
 	
 	

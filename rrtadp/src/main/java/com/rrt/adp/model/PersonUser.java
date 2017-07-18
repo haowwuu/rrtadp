@@ -63,4 +63,14 @@ public class PersonUser extends Account {
 		IDCardBackPicUrl = iDCardBackPicUrl;
 	}
 	
+	@Override
+	public String toString() {
+		return "PersonUser [name=" + name + ", nickName=" + nickName + ", phone=" + phone + ", email=" + email
+				+ ", address=" + address + ", IDCard=" + IDCard + ", IDCardFrontPicUrl=" + IDCardFrontPicUrl
+				+ ", IDCardBackPicUrl=" + IDCardBackPicUrl + ", getAccount()=" + getAccount() + ", getPassword()="
+				+ getPassword() + ", getDescription()=" + getDescription() + ", getType()=" + getType() + ", getRole()="
+				+ getRole() + ", getState()=" + getState() + ", getId()=" + getId() + ", getCreateTime()="
+				+ getCreateTime() + ", getUpdateTime()=" + getUpdateTime() + "]";
+	}
+	
 }

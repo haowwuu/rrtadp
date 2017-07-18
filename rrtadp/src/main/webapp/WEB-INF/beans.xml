@@ -10,5 +10,23 @@
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan>
+	
+	<context:property-placeholder location="classpath:config.properties"/>
+	
+	<bean id="rrtggDataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+    	<property name="driverClassName" value="${rrtgg.jdbc.driverClassName}"/>
+        <property name="url" value="${rrtgg.jdbc.url}"/>
+        <property name="username" value="${rrtgg.jdbc.username}"/>
+        <property name="password" value="${rrtgg.jdbc.password}"/>
+    </bean>
+    
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	  	<property name="dataSource" ref="rrtggDataSource" />
+	</bean>
+	
+	<bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	  	<property name="mapperInterface" value="com.rrt.adp.dao.PersonUserDao" />
+	  	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
 
 </beans>

@@ -15,6 +15,7 @@ public class Account extends DBModel{
 	
 	private String account;
 	private String password;
+	private String token;
 	
 	private String description;
 	
@@ -59,6 +60,11 @@ public class Account extends DBModel{
 	public void setState(String state) {
 		this.state = state;
 	}
-	
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
 	
 }

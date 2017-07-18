@@ -62,4 +62,15 @@ public class CompanyUser extends Account{
 		this.certificateBackPicUrl = certificateBackPicUrl;
 	}
 	
+	@Override
+	public String toString() {
+		return "CompanyUser [companyName=" + companyName + ", legalPerson=" + legalPerson + ", contactPerson="
+				+ contactPerson + ", officePhone=" + officePhone + ", companyAddress=" + companyAddress
+				+ ", certificate=" + certificate + ", certificateFrontPicUrl=" + certificateFrontPicUrl
+				+ ", certificateBackPicUrl=" + certificateBackPicUrl + ", getAccount()=" + getAccount()
+				+ ", getPassword()=" + getPassword() + ", getDescription()=" + getDescription() + ", getType()="
+				+ getType() + ", getRole()=" + getRole() + ", getState()=" + getState() + ", getId()=" + getId()
+				+ ", getCreateTime()=" + getCreateTime() + ", getUpdateTime()=" + getUpdateTime() + "]";
+	}
+	
 }
