@@ -19,7 +19,7 @@ public class UserController {
 	
 	@RequestMapping("/login")
 	public RestResult login(Account account) {
-		Account retn = userService.login(account.getAccount(), account.getPassword());
+		Account retn = userService.login(account);
 		if(null!=retn){
 			return RestResult.defaultSuccessResult(retn, "login success");
 		}else{

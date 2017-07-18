@@ -6,7 +6,7 @@ import com.rrt.adp.model.PersonUser;
 
 public interface UserService {
 	
-	Account login(String account, String password);
+	Account login(Account account);
 	
 	PersonUser registPersonUser(PersonUser user);
 	
