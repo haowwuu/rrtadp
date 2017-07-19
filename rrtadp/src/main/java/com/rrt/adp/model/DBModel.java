@@ -2,9 +2,11 @@ package com.rrt.adp.model;
 
 import java.util.Date;
 
+import com.rrt.adp.util.SequenceGenerator;
+
 public class DBModel {
 	
-	private String id;
+	private String id = SequenceGenerator.next();
 	private Date createTime = new Date();
 	private Date updateTime;
 	

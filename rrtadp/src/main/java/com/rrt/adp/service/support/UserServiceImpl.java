@@ -2,25 +2,32 @@ package com.rrt.adp.service.support;
 
 import javax.annotation.Resource;
 
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+
 import com.rrt.adp.dao.CompanyUserDao;
 import com.rrt.adp.dao.PersonUserDao;
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.CompanyUser;
 import com.rrt.adp.model.PersonUser;
 import com.rrt.adp.service.UserService;
+import com.rrt.adp.util.MessageUtil;
 import com.rrt.adp.util.RequestMessageContext;
 
+@Service
 public class UserServiceImpl implements UserService {
 	
 	@Resource
 	private PersonUserDao personUseDao;
 	@Resource
 	private CompanyUserDao companyUserDao;
+	@Resource
+	private MessageUtil msgUtil;
 
 	@Override
 	public Account login(Account account) {
 		if(null==account||null==account.getAccount()){
-			RequestMessageContext.setMsg("account null");
+			RequestMessageContext.setMsg(msgUtil.get("account.null"));
 			return null;
 		}
 		Account user = null;
@@ -29,17 +36,17 @@ public class UserServiceImpl implements UserService {
 		}else if(Account.TYPE_COMPANY_USER.equals(account.getType())){
 			user = companyUserDao.selectUserByAccount(account.getAccount());
 		}else{
-			RequestMessageContext.setMsg("accout type incorrect");
+			RequestMessageContext.setMsg(msgUtil.get("accout.type.illegal"));
 			return null;
 		}
-		if(null==user){
-			RequestMessageContext.setMsg("accoount not exist");
+		if(null==user||!Account.STATE_CHECKED.equals(user.getState())){
+			RequestMessageContext.setMsg(msgUtil.get("accoount.not.exist"));
 			return null;
 		}
 		if(user.getPassword().equals(account.getPassword())){
 			return user;
 		}else{
-			RequestMessageContext.setMsg("password incorrect");
+			RequestMessageContext.setMsg(msgUtil.get("password.incorrect"));
 		}
 		return null;
 	}
@@ -47,7 +54,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public PersonUser registPersonUser(PersonUser user) {
 		if(checkAccount(user)){
-			personUseDao.insertUser(user);
+			user.setType(Account.TYPE_PERSON_USER);
+			try{
+				personUseDao.insertUser(user);
+			}catch (DataIntegrityViolationException e) {
+				RequestMessageContext.setMsg(msgUtil.get("account.exist"));
+				return null;
+			}		
 			return user;
 		}
 		return null;
@@ -56,7 +69,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public CompanyUser registCompanyUser(CompanyUser user) {
 		if(checkAccount(user)){
-			companyUserDao.insertUser(user);
+			user.setType(Account.TYPE_COMPANY_USER);
+			try {
+				companyUserDao.insertUser(user);
+			} catch (DataIntegrityViolationException e) {
+				RequestMessageContext.setMsg(msgUtil.get("account.exist"));
+				return null;
+			}
+			
 			return user;
 		}
 		return null;
@@ -64,20 +84,48 @@ public class UserServiceImpl implements UserService {
 	
 	private boolean checkAccount(Account account){
 		if(null==account||null==account.getAccount()){
-			RequestMessageContext.setMsg("account null");
+			RequestMessageContext.setMsg(msgUtil.get("account.null"));
 			return false;
 		}
 		if(null==account.getPassword()){
-			RequestMessageContext.setMsg("password null");
+			RequestMessageContext.setMsg(msgUtil.get("password.null"));
 			return false;
 		}
-		if(!Account.TYPE_COMPANY_USER.equals(account.getType())
-				&&!Account.TYPE_PERSON_USER.equals(account.getType())){
-			RequestMessageContext.setMsg("account type illegal");
-		}
+	
 		account.setRole(Account.ROLE_NORMAL);
 		account.setState(Account.STATE_NEW);
 		return true;
+	}
+
+	@Override
+	public boolean updateAccount(Account account) {
+		if(null==account||null==account.getAccount()){
+			RequestMessageContext.setMsg(msgUtil.get("account.null"));
+			return false;
+		}
+		account.setRole(null);
+		account.setPassword(null);
+		if(Account.TYPE_PERSON_USER.equals(account.getType())){
+			personUseDao.updateUser((PersonUser)account);
+		}else if(Account.TYPE_COMPANY_USER.equals(account.getType())){
+			companyUserDao.updateUser((CompanyUser)account);
+		}else{
+			RequestMessageContext.setMsg(msgUtil.get("accout.type.illegal"));
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean updatePersonUser(PersonUser person) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateCompanUser(CompanyUser companyUser) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

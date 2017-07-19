@@ -11,4 +11,10 @@ public interface UserService {
 	PersonUser registPersonUser(PersonUser user);
 	
 	CompanyUser registCompanyUser(CompanyUser user);
+	
+	boolean updateAccount(Account account);
+	
+	boolean updatePersonUser(PersonUser person);
+	
+	boolean updateCompanUser(CompanyUser companyUser);
 }
