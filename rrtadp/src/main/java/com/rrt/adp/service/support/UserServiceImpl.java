@@ -1,5 +1,7 @@
 package com.rrt.adp.service.support;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,7 +20,7 @@ import com.rrt.adp.util.RequestMessageContext;
 public class UserServiceImpl implements UserService {
 	
 	@Resource
-	private PersonUserDao personUseDao;
+	private PersonUserDao personUserDao;
 	@Resource
 	private CompanyUserDao companyUserDao;
 	@Resource
@@ -32,7 +34,7 @@ public class UserServiceImpl implements UserService {
 		}
 		Account user = null;
 		if(Account.TYPE_PERSON_USER.equals(account.getType())){
-			user = personUseDao.selectUserByAccount(account.getAccount());
+			user = personUserDao.selectUserByAccount(account.getAccount());
 		}else if(Account.TYPE_COMPANY_USER.equals(account.getType())){
 			user = companyUserDao.selectUserByAccount(account.getAccount());
 		}else{
@@ -56,7 +58,7 @@ public class UserServiceImpl implements UserService {
 		if(checkAccount(user)){
 			user.setType(Account.TYPE_PERSON_USER);
 			try{
-				personUseDao.insertUser(user);
+				personUserDao.insertUser(user);
 			}catch (DataIntegrityViolationException e) {
 				RequestMessageContext.setMsg(msgUtil.get("account.exist"));
 				return null;
@@ -106,7 +108,7 @@ public class UserServiceImpl implements UserService {
 		account.setRole(null);
 		account.setPassword(null);
 		if(Account.TYPE_PERSON_USER.equals(account.getType())){
-			personUseDao.updateUser((PersonUser)account);
+			personUserDao.updateUser((PersonUser)account);
 		}else if(Account.TYPE_COMPANY_USER.equals(account.getType())){
 			companyUserDao.updateUser((CompanyUser)account);
 		}else{
@@ -118,14 +120,32 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean updatePersonUser(PersonUser person) {
-		// TODO Auto-generated method stub
-		return false;
+		if(null==person||null==person.getAccount()){
+			RequestMessageContext.setMsg(msgUtil.get("account.null"));
+			return false;
+		}
+		personUserDao.updateUser(person);
+		return true;
 	}
 
 	@Override
-	public boolean updateCompanUser(CompanyUser companyUser) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean updateCompanyUser(CompanyUser companyUser) {
+		if(null==companyUser||null==companyUser.getAccount()){
+			RequestMessageContext.setMsg(msgUtil.get("account.null"));
+			return false;
+		}
+		companyUserDao.updateUser(companyUser);
+		return true;
+	}
+
+	@Override
+	public List<PersonUser> getPersonUserList() {
+		 return personUserDao.selectUser();
+	}
+
+	@Override
+	public List<CompanyUser> getCompanyUserList() {
+		return companyUserDao.selectUser();
 	}
 
 }

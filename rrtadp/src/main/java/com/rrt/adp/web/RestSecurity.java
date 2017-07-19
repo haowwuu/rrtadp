@@ -47,4 +47,13 @@ public class RestSecurity {
 		Account account = getSessionAccount(request);
 		return null!=account&&account.isAdmin();
 	}
+	
+	public static boolean isUserOwn(HttpServletRequest request){
+		Account sessionAccount = getSessionAccount(request);
+		String account = request.getParameter("account");
+		if(null==sessionAccount||null==account){
+			return false;
+		}
+		return account.equals(sessionAccount.getAccount());
+	}
 }

@@ -71,9 +71,57 @@ public class UserController {
 		}
 	}
 	
+	@RequestMapping("/delete")
+	public RestResult deleteUser(String account, HttpServletRequest request){
+		Account user = new Account();
+		user.setAccount(account);
+		user.setState(Account.STATE_DELETE);
+		return auditUser(user, request);
+	}
+	
+	@RequestMapping("/personUerList")
+	public RestResult getPersonUserList(HttpServletRequest request){
+		if(!RestSecurity.isAdmin(request)){
+			return RestResult.defaultFailResult(msgUtil.get("permission.deny"));
+		}
+		return RestResult.defaultSuccessResult(userService.getPersonUserList(), "success");
+	}
+	
+	@RequestMapping("/companyUserList")
+	public RestResult getCompanyUserList(HttpServletRequest request){
+		if(!RestSecurity.isAdmin(request)){
+			return RestResult.defaultFailResult(msgUtil.get("permission.deny"));
+		}
+		return RestResult.defaultSuccessResult(userService.getCompanyUserList(), "success");
+	}
+	
 	@RequestMapping("/testSession")
 	public RestResult testSession(HttpServletRequest request){
 		return RestResult.defaultSuccessResult(RestSecurity.getSessionAccount(request), "test session");
+	}
+	
+	@RequestMapping("/updatePersonUser")
+	public RestResult updatePersonUser(PersonUser user, HttpServletRequest request){
+		if(!RestSecurity.isUserOwn(request)){
+			return RestResult.defaultFailResult(msgUtil.get("permission.deny"));
+		}
+		if(userService.updatePersonUser(user)){
+			return RestResult.defaultSuccessResult("success");
+		}else{
+			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+		}
+	}
+	
+	@RequestMapping("/updateCompanyUser")
+	public RestResult updateCompanyUser(CompanyUser user, HttpServletRequest request){
+		if(!RestSecurity.isUserOwn(request)){
+			return RestResult.defaultFailResult(msgUtil.get("permission.deny"));
+		}
+		if(userService.updateCompanyUser(user)){
+			return RestResult.defaultSuccessResult("success");
+		}else{
+			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+		}
 	}
 
 }
