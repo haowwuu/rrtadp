@@ -59,12 +59,12 @@ public class PersonUserDaoTest extends AbstractJUnit4SpringContextTests{
 		int i = userDao.insertUser(user);
 	}
 
-	@Test
+	@Ignore
 	public void testDeleteUser() {
 		userDao.deleteUser("456");
 	}
 
-	@Test
+	@Ignore
 	public void testUpdateUser() {
 		PersonUser user = new PersonUser();
 		user.setAccount("123");
@@ -74,7 +74,7 @@ public class PersonUserDaoTest extends AbstractJUnit4SpringContextTests{
 		userDao.updateUser(user);
 	}
 
-	@Ignore
+	@Test
 	public void testSelectUser() {
 		List<PersonUser> users = userDao.selectUser();
 		users.stream().forEach(System.out::println);

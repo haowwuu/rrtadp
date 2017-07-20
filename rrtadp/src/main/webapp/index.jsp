@@ -5,6 +5,6 @@
     <title>Spring MVC Test</title>
   </head>
   <body>
-    <h1>陈鹏万里的技术博客:http://blog.csdn.net/qq245671051</h1>
+    <h1>rrt</h1>
   </body>
 </html>

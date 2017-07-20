@@ -1,6 +1,8 @@
 package com.rrt.adp.model;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -67,6 +69,27 @@ public class Account extends DBModel{
 	}
 	public boolean isStateLegal(){
 		return isStateLegal(getState());
+	}
+	public static Map<String, Object> dictionary() {
+		Map<String, Object> dic = new HashMap<>();
+		Map<String, String> userType = new HashMap<>();
+		userType.put("company", TYPE_COMPANY_USER);
+		userType.put("person ", TYPE_PERSON_USER);
+		dic.put("user_type", userType);
+		
+		Map<String, String> userRole = new HashMap<>();
+		userRole.put("admin", ROLE_ADMIN);
+		userRole.put("normal", ROLE_NORMAL);
+		dic.put("user_role", userRole);
+		
+		Map<String, String> userState = new HashMap<>();
+		userState.put("new", STATE_NEW);
+		userState.put("checked", STATE_CHECKED);
+		userState.put("locked", STATE_LOCK);
+		userState.put("deleted", STATE_DELETE);
+		dic.put("user_state", userState);
+		
+		return dic;
 	}
 	
 	public String getAccount() {

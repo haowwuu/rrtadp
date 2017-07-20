@@ -40,7 +40,7 @@ public class RestSecurity {
 		if(null==token){
 			token = request.getParameter(TOKEN);
 		}
-		return sessionCache.getIfPresent(token);
+		return null==token?null:sessionCache.getIfPresent(token);
 	}
 	
 	public static boolean isAdmin(HttpServletRequest request){
