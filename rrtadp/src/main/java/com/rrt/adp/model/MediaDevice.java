@@ -9,7 +9,8 @@ public class MediaDevice extends DBModel {
 	
 	private String keyWords;
 	private String description;
-	private String status;
+	private String status;//(running repairing)
+	private String state;//(new checked illeagel)
 	
 	private float longitude;
 	private float latitude;

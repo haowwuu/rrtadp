@@ -20,6 +20,7 @@
         <property name="url" value="${rrtgg.jdbc.url}"/>
         <property name="username" value="${rrtgg.jdbc.username}"/>
         <property name="password" value="${rrtgg.jdbc.password}"/>
+        <!-- <property name="maxWait" value="3000"/> -->
     </bean>
     
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

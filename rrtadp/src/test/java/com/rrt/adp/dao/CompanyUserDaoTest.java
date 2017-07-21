@@ -17,6 +17,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.CompanyUser;
+import com.rrt.adp.util.EncryptUtil;
 import com.rrt.adp.util.SequenceGenerator;
 
 @WebAppConfiguration
@@ -39,12 +40,13 @@ public class CompanyUserDaoTest extends AbstractJUnit4SpringContextTests{
 	public void testInsertUser() {
 		CompanyUser user = new CompanyUser();
 		user.setId(SequenceGenerator.next());
-		user.setAccount("account"+random.nextInt(1000));
-		user.setPassword("123456");
+		//user.setAccount("account"+random.nextInt(1000));
+		user.setAccount("rrtgg");
+		user.setPassword(EncryptUtil.md5("rrtgg123456"));
 		user.setDescription("testdescription");
-		user.setType(Account.TYPE_PERSON_USER);
+		user.setType(Account.TYPE_COMPANY_USER);
 		user.setRole(Account.ROLE_NORMAL);
-		user.setState(Account.STATE_NEW);
+		user.setState(Account.STATE_CHECKED);
 		user.setCompanyName("testcompany");
 		user.setLegalPerson("legalperson");
 		user.setContactPerson("contact");
@@ -66,20 +68,21 @@ public class CompanyUserDaoTest extends AbstractJUnit4SpringContextTests{
 	@Test
 	public void testUpdateUser() {
 		CompanyUser user = new CompanyUser();
-		user.setAccount("account173");
-		user.setCompanyAddress("updateAddress");
-		user.setDistrictCode("3303");
-		user.setContactPhone("13111111111");
+		user.setAccount("rrtgg");
+//		user.setCompanyAddress("updateAddress");
+//		user.setDistrictCode("3303");
+//		user.setContactPhone("13111111111");
+		user.setPassword(EncryptUtil.md5("rrtgg123456"));
 		userDao.updateUser(user);
 	}
 
-	@Test
+	@Ignore
 	public void testSelectUser() {
 		List<CompanyUser> users = userDao.selectUser();
 		users.stream().forEach(System.out::println);
 	}
 
-	@Test
+	@Ignore
 	public void testSelectUserByAccount() {
 		CompanyUser user = userDao.selectUserByAccount("account257");
 		System.out.println(user);

@@ -18,6 +18,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.PersonUser;
+import com.rrt.adp.util.EncryptUtil;
 import com.rrt.adp.util.SequenceGenerator;
 
 @WebAppConfiguration
@@ -37,13 +38,14 @@ public class PersonUserDaoTest extends AbstractJUnit4SpringContextTests{
 		sqlProvider = new SqlProvider();
 	}
 
-	@Ignore
+	@Test
 	public void testInsertUser() {
 		PersonUser user = new PersonUser();
 		user.setId(SequenceGenerator.next());
 
-		user.setAccount("account"+random.nextInt(1000));
-		user.setPassword("123456");
+		//user.setAccount("account"+random.nextInt(1000));
+		user.setAccount("rrtgg");
+		user.setPassword(EncryptUtil.md5("rrtgg123456"));
 		user.setDescription("testdescription");
 		user.setType(Account.TYPE_PERSON_USER);
 		user.setRole(Account.ROLE_NORMAL);
@@ -75,13 +77,13 @@ public class PersonUserDaoTest extends AbstractJUnit4SpringContextTests{
 		userDao.updateUser(user);
 	}
 
-	@Test
+	@Ignore
 	public void testSelectUser() {
 		List<PersonUser> users = userDao.selectUser();
 		users.stream().forEach(System.out::println);
 	}
 
-	@Test
+	@Ignore
 	public void testSelectUserByAccount() {
 		PersonUser user = userDao.selectUserByAccount("account877");
 		System.out.println(user);		

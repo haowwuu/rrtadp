@@ -13,6 +13,7 @@ import com.rrt.adp.model.Account;
 import com.rrt.adp.model.CompanyUser;
 import com.rrt.adp.model.PersonUser;
 import com.rrt.adp.service.UserService;
+import com.rrt.adp.util.EncryptUtil;
 import com.rrt.adp.util.MessageUtil;
 import com.rrt.adp.util.RequestMessageContext;
 
@@ -45,7 +46,9 @@ public class UserServiceImpl implements UserService {
 			RequestMessageContext.setMsg(msgUtil.get("accoount.not.exist"));
 			return null;
 		}
-		if(user.getPassword().equals(account.getPassword())){
+		String pwd = EncryptUtil.md5(user.getPassword()+user.getToken());
+		if(pwd.equalsIgnoreCase(account.getPassword())){
+			user.setPassword(null);
 			return user;
 		}else{
 			RequestMessageContext.setMsg(msgUtil.get("password.incorrect"));
