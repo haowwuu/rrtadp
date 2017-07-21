@@ -2,11 +2,9 @@ package com.rrt.adp.dao;
 
 import static org.junit.Assert.*;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Random;
 
-import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.annotation.Resource;
 
 import org.junit.Before;
@@ -16,11 +14,13 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.PersonUser;
 import com.rrt.adp.util.SequenceGenerator;
 
+@WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:beans.xml")
 public class PersonUserDaoTest extends AbstractJUnit4SpringContextTests{
@@ -51,6 +51,7 @@ public class PersonUserDaoTest extends AbstractJUnit4SpringContextTests{
 		user.setName("test");
 		user.setNickName("testNick");
 		user.setPhone("131123456789");
+		user.setDistrictCode("3301");
 		user.setAddress("testAddress");
 		user.setEmail("email@email.test");
 		user.setIDCard("3301112001112111234");
@@ -67,9 +68,9 @@ public class PersonUserDaoTest extends AbstractJUnit4SpringContextTests{
 	@Ignore
 	public void testUpdateUser() {
 		PersonUser user = new PersonUser();
-		user.setAccount("123");
+		user.setAccount("account877");
 		user.setName("newnew");
-		
+		user.setDistrictCode("3302");
 		//System.out.println(sqlProvider.updateUser(user));
 		userDao.updateUser(user);
 	}
@@ -82,7 +83,7 @@ public class PersonUserDaoTest extends AbstractJUnit4SpringContextTests{
 
 	@Test
 	public void testSelectUserByAccount() {
-		PersonUser user = userDao.selectUserByAccount("account367");
+		PersonUser user = userDao.selectUserByAccount("account877");
 		System.out.println(user);		
 	}
 

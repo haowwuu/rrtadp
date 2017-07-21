@@ -1,5 +1,8 @@
 package com.rrt.adp.web.user;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -7,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.CompanyUser;
@@ -137,5 +141,23 @@ public class UserController {
 			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
 		}
 	}
+	 
+    @RequestMapping(value = "/upload.do", method = RequestMethod.POST)  
+    public String upload(String fileName, MultipartFile jarFile) {  
+        // 下面是测试代码  
+        System.out.println(fileName);  
+        String originalFilename = jarFile.getOriginalFilename();  
+        System.out.println(originalFilename);  
+        try {  
+            String string = new String(jarFile.getBytes(), "UTF-8");  
+            System.out.println(string);  
+        } catch (UnsupportedEncodingException e) {  
+            e.printStackTrace();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
+        // TODO 处理文件内容...  
+        return "OK";  
+    }  
 
 }

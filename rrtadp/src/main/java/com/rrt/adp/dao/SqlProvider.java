@@ -38,6 +38,9 @@ public class SqlProvider {
 		if(StringUtils.hasText(user.getEmail())){
 			sb.append(",email = #{email}");
 		}
+		if(StringUtils.hasText(user.getDistrictCode())){
+			sb.append(",district_code = #{districtCode}");
+		}
 		if(StringUtils.hasText(user.getAddress())){
 			sb.append(",address = #{address}");
 		}
@@ -82,8 +85,14 @@ public class SqlProvider {
 		if(StringUtils.hasText(user.getContactPerson())){
 			sb.append(",contact_person = #{contactPerson}");
 		}
+		if(StringUtils.hasText(user.getContactPhone())){
+			sb.append(",contact_phone = #{contactPhone}");
+		}
 		if(StringUtils.hasText(user.getOfficePhone())){
 			sb.append(",office_phone = #{officePhone}");
+		}
+		if(StringUtils.hasText(user.getDistrictCode())){
+			sb.append(",district_code = #{districtCode}");
 		}
 		if(StringUtils.hasText(user.getCompanyAddress())){
 			sb.append(",company_address = #{companyAddress}");

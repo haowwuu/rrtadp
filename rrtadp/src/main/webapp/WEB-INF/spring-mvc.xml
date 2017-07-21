@@ -18,6 +18,13 @@
 	<mvc:default-servlet-handler />
 
 	<mvc:annotation-driven></mvc:annotation-driven>
+	
+	<!-- 设置上传文件的最大尺寸为100MB -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize">
+			<value>102400000</value>
+		</property>
+	</bean>	
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

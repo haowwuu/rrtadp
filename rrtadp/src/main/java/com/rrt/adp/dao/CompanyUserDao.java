@@ -15,11 +15,11 @@ import com.rrt.adp.model.CompanyUser;
 public interface CompanyUserDao {
 	
 	@Insert("insert into user_company (id, create_time, update_time, account, password, description," +
-			"account_type, account_role, account_state, company_name, legal_person, contact_person, office_phone, " +
-			"company_address, certificate, certiticate_front_url, certificate_back_url)"+
+			"account_type, account_role, account_state, company_name, legal_person, contact_person, contact_phone, " +
+			"office_phone, district_code, company_address, certificate, certiticate_front_url, certificate_back_url)"+
 			"values (#{id}, #{createTime}, #{updateTime}, #{account}, #{password}, #{description}, " +
-			"#{type}, #{role}, #{state}, #{companyName}, #{legalPerson}, #{contactPerson}, #{officePhone}, " +
-			"#{companyAddress}, #{certificate}, #{certificateFrontPicUrl}, #{certificateBackPicUrl})")
+			"#{type}, #{role}, #{state}, #{companyName}, #{legalPerson}, #{contactPerson}, #{contactPhone}, " +
+			"#{officePhone}, #{districtCode}, #{companyAddress}, #{certificate}, #{certificateFrontPicUrl}, #{certificateBackPicUrl})")
 	int insertUser(CompanyUser user);
 	
 	@Delete("delete from user_company where account = #{account}")
@@ -42,7 +42,9 @@ public interface CompanyUserDao {
 		@Result(property = "companyName", column = "company_name"),
 		@Result(property = "legalPerson", column = "legal_person"),
 		@Result(property = "contactPerson", column = "contact_person"),
+		@Result(property = "contactPhone", column = "contact_phone"),
 		@Result(property = "officePhone", column = "office_phone"),
+		@Result(property = "districtCode", column = "district_code"),
 		@Result(property = "companyAddress", column = "company_address"),
 		@Result(property = "certificate", column = "certificate"),
 		@Result(property = "certificateFrontPicUrl", column = "certiticate_front_url"),
@@ -64,7 +66,9 @@ public interface CompanyUserDao {
 		@Result(property = "companyName", column = "company_name"),
 		@Result(property = "legalPerson", column = "legal_person"),
 		@Result(property = "contactPerson", column = "contact_person"),
+		@Result(property = "contactPhone", column = "contact_phone"),
 		@Result(property = "officePhone", column = "office_phone"),
+		@Result(property = "districtCode", column = "district_code"),
 		@Result(property = "companyAddress", column = "company_address"),
 		@Result(property = "certificate", column = "certificate"),
 		@Result(property = "certificateFrontPicUrl", column = "certiticate_front_url"),

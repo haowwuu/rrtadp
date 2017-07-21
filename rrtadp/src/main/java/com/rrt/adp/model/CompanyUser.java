@@ -5,7 +5,9 @@ public class CompanyUser extends Account{
 	private String companyName;
 	private String legalPerson;
 	private String contactPerson;
+	private String contactPhone;
 	private String officePhone;
+	private String districtCode;
 	private String companyAddress;
 	
 	private String certificate;
@@ -31,11 +33,23 @@ public class CompanyUser extends Account{
 	public void setContactPerson(String contactPerson) {
 		this.contactPerson = contactPerson;
 	}
+	public String getContactPhone() {
+		return contactPhone;
+	}
+	public void setContactPhone(String contactPhone) {
+		this.contactPhone = contactPhone;
+	}
 	public String getOfficePhone() {
 		return officePhone;
 	}
 	public void setOfficePhone(String officePhone) {
 		this.officePhone = officePhone;
+	}
+	public String getDistrictCode() {
+		return districtCode;
+	}
+	public void setDistrictCode(String districtCode) {
+		this.districtCode = districtCode;
 	}
 	public String getCompanyAddress() {
 		return companyAddress;
@@ -65,12 +79,15 @@ public class CompanyUser extends Account{
 	@Override
 	public String toString() {
 		return "CompanyUser [companyName=" + companyName + ", legalPerson=" + legalPerson + ", contactPerson="
-				+ contactPerson + ", officePhone=" + officePhone + ", companyAddress=" + companyAddress
-				+ ", certificate=" + certificate + ", certificateFrontPicUrl=" + certificateFrontPicUrl
-				+ ", certificateBackPicUrl=" + certificateBackPicUrl + ", getAccount()=" + getAccount()
+				+ contactPerson + ", contactPhone=" + contactPhone + ", officePhone=" + officePhone + ", districtCode="
+				+ districtCode + ", companyAddress=" + companyAddress + ", certificate=" + certificate
+				+ ", certificateFrontPicUrl=" + certificateFrontPicUrl + ", certificateBackPicUrl="
+				+ certificateBackPicUrl + ", isTypeLegal()=" + isTypeLegal() + ", isRoleLegal()=" + isRoleLegal()
+				+ ", isAdmin()=" + isAdmin() + ", isStateLegal()=" + isStateLegal() + ", getAccount()=" + getAccount()
 				+ ", getPassword()=" + getPassword() + ", getDescription()=" + getDescription() + ", getType()="
-				+ getType() + ", getRole()=" + getRole() + ", getState()=" + getState() + ", getId()=" + getId()
-				+ ", getCreateTime()=" + getCreateTime() + ", getUpdateTime()=" + getUpdateTime() + "]";
+				+ getType() + ", getRole()=" + getRole() + ", getState()=" + getState() + ", getToken()=" + getToken()
+				+ ", getId()=" + getId() + ", getCreateTime()=" + getCreateTime() + ", getUpdateTime()="
+				+ getUpdateTime() + "]";
 	}
 	
 }

@@ -16,10 +16,10 @@ public interface PersonUserDao {
 	
 	@Insert("insert into user_person (id, create_time, update_time, account, password, description," +
 			"account_type, account_role, account_state, user_name, nick_name, phone, email, " +
-			"address, id_card, id_card_front_url, id_card_back_url)"+
+			"district_code, address, id_card, id_card_front_url, id_card_back_url)"+
 			"values (#{id}, #{createTime}, #{updateTime}, #{account}, #{password}, #{description}, " +
 			"#{type}, #{role}, #{state}, #{name}, #{nickName}, #{phone}, #{email}, " +
-			"#{address}, #{IDCard}, #{IDCardFrontPicUrl}, #{IDCardBackPicUrl})")
+			"#{districtCode}, #{address}, #{IDCard}, #{IDCardFrontPicUrl}, #{IDCardBackPicUrl})")
 	int insertUser(PersonUser user);
 	
 	@Delete("delete from user_person where account = #{account}")
@@ -43,6 +43,7 @@ public interface PersonUserDao {
 		@Result(property = "nickName", column = "nick_name"),
 		@Result(property = "phone", column = "phone"),
 		@Result(property = "email", column = "email"),
+		@Result(property = "districtCode", column = "district_code"),
 		@Result(property = "address", column = "address"),
 		@Result(property = "IDCard", column = "id_card"),
 		@Result(property = "IDCardFrontPicUrl", column = "id_card_front_url"),
@@ -65,6 +66,7 @@ public interface PersonUserDao {
 		@Result(property = "nickName", column = "nick_name"),
 		@Result(property = "phone", column = "phone"),
 		@Result(property = "email", column = "email"),
+		@Result(property = "districtCode", column = "district_code"),
 		@Result(property = "address", column = "address"),
 		@Result(property = "IDCard", column = "id_card"),
 		@Result(property = "IDCardFrontPicUrl", column = "id_card_front_url"),

@@ -6,6 +6,7 @@ public class PersonUser extends Account {
 	private String nickName;
 	private String phone;
 	private String email;
+	private String districtCode;
 	private String address;
 	
 	private String IDCard;
@@ -38,6 +39,12 @@ public class PersonUser extends Account {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public String getDistrictCode() {
+		return districtCode;
+	}
+	public void setDistrictCode(String districtCode) {
+		this.districtCode = districtCode;
+	}
 	public String getAddress() {
 		return address;
 	}
@@ -66,11 +73,13 @@ public class PersonUser extends Account {
 	@Override
 	public String toString() {
 		return "PersonUser [name=" + name + ", nickName=" + nickName + ", phone=" + phone + ", email=" + email
-				+ ", address=" + address + ", IDCard=" + IDCard + ", IDCardFrontPicUrl=" + IDCardFrontPicUrl
-				+ ", IDCardBackPicUrl=" + IDCardBackPicUrl + ", getAccount()=" + getAccount() + ", getPassword()="
+				+ ", districtCode=" + districtCode + ", address=" + address + ", IDCard=" + IDCard
+				+ ", IDCardFrontPicUrl=" + IDCardFrontPicUrl + ", IDCardBackPicUrl=" + IDCardBackPicUrl
+				+ ", isTypeLegal()=" + isTypeLegal() + ", isRoleLegal()=" + isRoleLegal() + ", isAdmin()=" + isAdmin()
+				+ ", isStateLegal()=" + isStateLegal() + ", getAccount()=" + getAccount() + ", getPassword()="
 				+ getPassword() + ", getDescription()=" + getDescription() + ", getType()=" + getType() + ", getRole()="
-				+ getRole() + ", getState()=" + getState() + ", getId()=" + getId() + ", getCreateTime()="
-				+ getCreateTime() + ", getUpdateTime()=" + getUpdateTime() + "]";
+				+ getRole() + ", getState()=" + getState() + ", getToken()=" + getToken() + ", getId()=" + getId()
+				+ ", getCreateTime()=" + getCreateTime() + ", getUpdateTime()=" + getUpdateTime() + "]";
 	}
 	
 }

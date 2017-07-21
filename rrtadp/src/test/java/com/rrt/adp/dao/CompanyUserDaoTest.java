@@ -1,8 +1,6 @@
 package com.rrt.adp.dao;
 
 import static org.junit.Assert.*;
-
-import java.sql.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -15,11 +13,13 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.CompanyUser;
 import com.rrt.adp.util.SequenceGenerator;
 
+@WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:beans.xml")
 public class CompanyUserDaoTest extends AbstractJUnit4SpringContextTests{
@@ -48,7 +48,9 @@ public class CompanyUserDaoTest extends AbstractJUnit4SpringContextTests{
 		user.setCompanyName("testcompany");
 		user.setLegalPerson("legalperson");
 		user.setContactPerson("contact");
+		user.setContactPhone("13312345678");
 		user.setOfficePhone("0571-123456");
+		user.setDistrictCode("3302");
 		user.setCompanyAddress("companyaddress");
 		user.setCertificate("1231345");
 		user.setCertificateFrontPicUrl("www.id.front");
@@ -61,21 +63,23 @@ public class CompanyUserDaoTest extends AbstractJUnit4SpringContextTests{
 		userDao.deleteUser("account417");
 	}
 
-	@Ignore
+	@Test
 	public void testUpdateUser() {
 		CompanyUser user = new CompanyUser();
-		user.setAccount("account257");
+		user.setAccount("account173");
 		user.setCompanyAddress("updateAddress");
+		user.setDistrictCode("3303");
+		user.setContactPhone("13111111111");
 		userDao.updateUser(user);
 	}
 
-	@Ignore
+	@Test
 	public void testSelectUser() {
 		List<CompanyUser> users = userDao.selectUser();
 		users.stream().forEach(System.out::println);
 	}
 
-	@Ignore
+	@Test
 	public void testSelectUserByAccount() {
 		CompanyUser user = userDao.selectUserByAccount("account257");
 		System.out.println(user);
