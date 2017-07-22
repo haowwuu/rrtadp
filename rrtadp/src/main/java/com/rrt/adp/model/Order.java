@@ -2,7 +2,6 @@ package com.rrt.adp.model;
 
 public class Order extends DBModel{
 	
-	public static final String STATE_NEW = "N";
 	public static final String STATE_PAYED = "P";
 	public static final String STATE_BID_SUCCESS = "S";
 	public static final String STATE_BID_FAIL = "F";

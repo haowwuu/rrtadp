@@ -2,13 +2,14 @@ package com.rrt.adp.model;
 
 public class Advertisement extends DBModel{
 	
-	public static final String AD_TYPE_TEXT = "T";
-	public static final String AD_TYPE_PICTURE = "P";
-	public static final String AD_TYPE_VIDEO = "V";
-	public static final String AD_TYPE_MIX = "M";
+	public static final String TYPE_TEXT = "T";
+	public static final String TYPE_PICTURE = "P";
+	public static final String TYPE_VIDEO = "V";
+	public static final String YPE_MIX = "M";
 	
 	private String title;
 	private String type;
+	private String state;
 	private String content;
 	private String contentUrl;
 	private int timeInSecond;
@@ -29,6 +30,12 @@ public class Advertisement extends DBModel{
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 	public String getContent() {
 		return content;
@@ -57,10 +64,9 @@ public class Advertisement extends DBModel{
 
 	@Override
 	public String toString() {
-		return "Advertisement [title=" + title + ", type=" + type + ", content=" + content + ", contentUrl="
-				+ contentUrl + ", timeInSecond=" + timeInSecond + ", owner=" + owner + ", id=" + id + ", getId()="
-				+ getId() + ", getCreateTime()=" + getCreateTime() + ", getUpdateTime()=" + getUpdateTime() + "]";
+		return "Advertisement [title=" + title + ", type=" + type + ", state=" + state + ", content=" + content
+				+ ", contentUrl=" + contentUrl + ", timeInSecond=" + timeInSecond + ", owner=" + owner + ", id=" + id
+				+ ", getCreateTime()=" + getCreateTime() + ", getUpdateTime()=" + getUpdateTime() + "]";
 	}
-	
-	
+
 }

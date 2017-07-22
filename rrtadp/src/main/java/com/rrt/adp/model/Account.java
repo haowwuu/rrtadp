@@ -21,22 +21,12 @@ public class Account extends DBModel{
 	public static final String ROLE_NORMAL = "N";
 	private static final Set<String> ROLE_SET = new HashSet<>();
 	
-	public static final String STATE_NEW = "N";
-	public static final String STATE_CHECKED = "C";
-	public static final String STATE_LOCK = "L";
-	public static final String STATE_DELETE = "D";
-	private static final Set<String> STATE_SET= new HashSet<>();
 	static{
 		TYPE_SET.add(TYPE_COMPANY_USER);
 		TYPE_SET.add(TYPE_PERSON_USER);
 		
 		ROLE_SET.add(ROLE_ADMIN);
 		ROLE_SET.add(ROLE_NORMAL);
-		
-		STATE_SET.add(STATE_NEW);
-		STATE_SET.add(STATE_CHECKED);
-		STATE_SET.add(STATE_LOCK);
-		STATE_SET.add(STATE_DELETE);
 	}
 	
 	private String account;
@@ -63,9 +53,6 @@ public class Account extends DBModel{
 	}
 	public boolean isAdmin(){
 		return Account.ROLE_ADMIN.equals(getRole());
-	}
-	public static boolean isStateLegal(String state){
-		return STATE_SET.contains(state);
 	}
 	public boolean isStateLegal(){
 		return isStateLegal(getState());

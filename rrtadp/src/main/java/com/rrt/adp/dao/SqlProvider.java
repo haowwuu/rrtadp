@@ -1,8 +1,6 @@
 package com.rrt.adp.dao;
 
 import java.util.Date;
-
-import org.apache.ibatis.annotations.Result;
 import org.springframework.util.StringUtils;
 
 import com.rrt.adp.model.Advertisement;
@@ -204,6 +202,9 @@ public class SqlProvider {
 		}
 		if(StringUtils.hasText(ad.getType())){
 			sb.append(",type = #{type}");
+		}
+		if(StringUtils.hasText(ad.getState())){
+			sb.append(",state = #{state}");
 		}
 		if(StringUtils.hasText(ad.getContent())){
 			sb.append(",content = #{content}");

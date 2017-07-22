@@ -14,9 +14,9 @@ import com.rrt.adp.model.Advertisement;
 public interface AdvertisementDao {
 	
 	@Insert("insert into rrt_ad (id, create_time, update_time, title, type, content," +
-			"content_url, time_in_second, owner)"+
+			"state, content_url, time_in_second, owner)"+
 			"values (#{id}, #{createTime}, #{updateTime}, #{title}, #{type}, #{content}, " +
-			"#{contentUrl}, #{timeInSecond}, #{owner})")
+			"#{state}, #{contentUrl}, #{timeInSecond}, #{owner})")
 	int insertAd(Advertisement ad);
 	
 	@Delete("delete from rrt_ad where id = #{adId}")
@@ -32,6 +32,7 @@ public interface AdvertisementDao {
 		@Result(property = "updateTime", column = "update_time"),
 		@Result(property = "title", column = "title"), 
 	    @Result(property = "type", column = "type"),
+	    @Result(property = "state", column = "state"),
 	    @Result(property = "content", column = "content"),
 		@Result(property = "contentUrl", column = "content_url"),
 		@Result(property = "timeInSecond", column = "time_in_second"),
@@ -46,6 +47,7 @@ public interface AdvertisementDao {
 		@Result(property = "updateTime", column = "update_time"),
 		@Result(property = "title", column = "title"), 
 	    @Result(property = "type", column = "type"),
+	    @Result(property = "state", column = "state"),
 	    @Result(property = "content", column = "content"),
 		@Result(property = "contentUrl", column = "content_url"),
 		@Result(property = "timeInSecond", column = "time_in_second"),

@@ -11,6 +11,8 @@ public class MediaDevice extends DBModel {
 	public static final String STATUS_WORKING = "W";
 	public static final String STATUS_REPAIRING = "R";
 	
+	public static final String TYPE_SCREEN = "S";
+	
 	private String deviceType;
 	private String deviceStatus;
 	private float basePrice;
@@ -108,6 +110,15 @@ public class MediaDevice extends DBModel {
 	}
 	public void setOwner(String owner) {
 		this.owner = owner;
+	}
+
+	@Override
+	public String toString() {
+		return "MediaDevice [deviceType=" + deviceType + ", deviceStatus=" + deviceStatus + ", basePrice=" + basePrice
+				+ ", keyWords=" + keyWords + ", description=" + description + ", state=" + state + ", playTime="
+				+ playTime + ", playFrequency=" + playFrequency + ", lng=" + lng + ", lat=" + lat + ", districtCode="
+				+ districtCode + ", address=" + address + ", owner=" + owner + ", id=" + id + ", getCreateTime()="
+				+ getCreateTime() + ", getUpdateTime()=" + getUpdateTime() + "]";
 	}
 	
 }
