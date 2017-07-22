@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 			RequestMessageContext.setMsg(msgUtil.get("accoount.not.exist"));
 			return null;
 		}
-		String pwd = EncryptUtil.md5(user.getPassword()+user.getToken());
+		String pwd = EncryptUtil.md5(user.getPassword()+account.getToken());
 		if(pwd.equalsIgnoreCase(account.getPassword())){
 			user.setPassword(null);
 			return user;

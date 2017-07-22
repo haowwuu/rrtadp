@@ -38,7 +38,7 @@ public class PersonUserDaoTest extends AbstractJUnit4SpringContextTests{
 		sqlProvider = new SqlProvider();
 	}
 
-	@Test
+	@Ignore
 	public void testInsertUser() {
 		PersonUser user = new PersonUser();
 		user.setId(SequenceGenerator.next());
@@ -77,13 +77,13 @@ public class PersonUserDaoTest extends AbstractJUnit4SpringContextTests{
 		userDao.updateUser(user);
 	}
 
-	@Ignore
+	@Test
 	public void testSelectUser() {
 		List<PersonUser> users = userDao.selectUser();
 		users.stream().forEach(System.out::println);
 	}
 
-	@Ignore
+	@Test
 	public void testSelectUserByAccount() {
 		PersonUser user = userDao.selectUserByAccount("account877");
 		System.out.println(user);		

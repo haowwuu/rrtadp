@@ -6,7 +6,6 @@ import java.io.UnsupportedEncodingException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,8 +33,8 @@ public class UserController {
 	
 	@ApiOperation("用户登录")
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public RestResult login(@RequestBody Account account, HttpServletRequest request) {
-		System.out.println("sessionid" + request.getSession().getId());
+	public RestResult login(Account account, HttpServletRequest request) {
+		//System.out.println("sessionid" + request.getSession().getId());
 		Account retn = userService.login(account);
 		if(null!=retn){
 			RestSecurity.writeSession(retn, request);
@@ -47,7 +46,7 @@ public class UserController {
 	
 	@ApiOperation("个人用户注册")
 	@RequestMapping(value="/regist/person", method=RequestMethod.POST)
-	public RestResult registPersonUser(@RequestBody PersonUser user){
+	public RestResult registPersonUser(PersonUser user){
 		PersonUser retn = userService.registPersonUser(user);
 		if(null!=retn){
 			return RestResult.defaultSuccessResult(retn, msgUtil.get("regist.success"));
@@ -58,7 +57,7 @@ public class UserController {
 	
 	@ApiOperation("企业用户注册")
 	@RequestMapping(value="/regist/company", method=RequestMethod.POST)
-	public RestResult registCompanyUser(@RequestBody CompanyUser user) {
+	public RestResult registCompanyUser(CompanyUser user) {
 		CompanyUser retn = userService.registCompanyUser(user);
 		if(null!=retn){
 			return RestResult.defaultSuccessResult(retn, msgUtil.get("regist.success"));
@@ -69,7 +68,7 @@ public class UserController {
 	
 	@ApiOperation("用户审核，修改用户注册状态")
 	@RequestMapping(value="/audit", method=RequestMethod.POST)
-	public RestResult auditUser(@RequestBody Account account, HttpServletRequest request){
+	public RestResult auditUser(Account account, HttpServletRequest request){
 		if(!RestSecurity.isAdmin(request)){
 			return RestResult.defaultFailResult(msgUtil.get("permission.deny"));
 		}
@@ -118,7 +117,7 @@ public class UserController {
 	
 	@ApiOperation("更新个人用户信息")
 	@RequestMapping(value="/updatePersonUser", method=RequestMethod.POST)
-	public RestResult updatePersonUser(@RequestBody PersonUser user, HttpServletRequest request){
+	public RestResult updatePersonUser(PersonUser user, HttpServletRequest request){
 		if(!RestSecurity.isUserOwn(request)){
 			return RestResult.defaultFailResult(msgUtil.get("permission.deny"));
 		}
@@ -131,7 +130,7 @@ public class UserController {
 	
 	@ApiOperation("更新企业用户信息")
 	@RequestMapping(value="/updateCompanyUser", method=RequestMethod.POST)
-	public RestResult updateCompanyUser(@RequestBody CompanyUser user, HttpServletRequest request){
+	public RestResult updateCompanyUser(CompanyUser user, HttpServletRequest request){
 		if(!RestSecurity.isUserOwn(request)){
 			return RestResult.defaultFailResult(msgUtil.get("permission.deny"));
 		}

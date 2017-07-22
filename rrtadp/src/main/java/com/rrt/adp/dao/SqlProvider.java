@@ -1,9 +1,14 @@
 package com.rrt.adp.dao;
 
 import java.util.Date;
+
+import org.apache.ibatis.annotations.Result;
 import org.springframework.util.StringUtils;
 
+import com.rrt.adp.model.Advertisement;
 import com.rrt.adp.model.CompanyUser;
+import com.rrt.adp.model.MediaDevice;
+import com.rrt.adp.model.Order;
 import com.rrt.adp.model.PersonUser;
 
 
@@ -108,6 +113,112 @@ public class SqlProvider {
 		}
 		
 		sb.append(" where account = #{account}");
+		
+		return sb.toString();	
+	}
+	
+	
+	public String updateMediaDevice(MediaDevice device){
+		StringBuilder sb = new StringBuilder();
+		sb.append("update rrt_media_device set ");
+		device.setUpdateTime(new Date());
+		sb.append("update_time = #{updateTime}");
+		if(StringUtils.hasText(device.getDeviceType())){
+			sb.append(",device_type = #{deviceType}");
+		}
+		if(StringUtils.hasText(device.getDeviceStatus())){
+			sb.append(",device_status = #{deviceStatus}");
+		}
+		if(device.getBasePrice()>0){
+			sb.append(",base_price = #{basePrice}");
+		}
+		if(StringUtils.hasText(device.getKeyWords())){
+			sb.append(",key_words = #{keyWords}");
+		}
+		if(StringUtils.hasText(device.getDescription())){
+			sb.append(",description = #{description}");
+		}
+		if(StringUtils.hasText(device.getState())){
+			sb.append(",state = #{state}");
+		}
+		if(null!=device.getPlayTime()){
+			sb.append(",play_time = #{playTime}");
+		}
+		if(device.getPlayFrequency()>0){
+			sb.append(",play_frequency = #{playFrequency}");
+		}
+		if(device.getLng()>0){
+			sb.append(",lng = #{lng}");
+		}
+		if(device.getLat()>0){
+			sb.append(",lat = #{lat}");
+		}
+		if(StringUtils.hasText(device.getDistrictCode())){
+			sb.append(",district_code = #{districtCode}");
+		}
+		if(StringUtils.hasText(device.getAddress())){
+			sb.append(",address = #{address}");
+		}
+		if(StringUtils.hasText(device.getOwner())){
+			sb.append(",owner = #{owner}");
+		}
+		
+		sb.append(" where id = #{id}");
+		
+		return sb.toString();	
+	}
+	
+	public String updateOrder(Order order) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("update rrt_order set ");
+		order.setUpdateTime(new Date());
+		sb.append("update_time = #{updateTime}");
+		if(StringUtils.hasText(order.getAdId())){
+			sb.append(",ad_id = #{adId}");
+		}
+		if(StringUtils.hasText(order.getDeviceId())){
+			sb.append(",device_id = #{deviceId}");
+		}
+		if(order.getPrice()>0){
+			sb.append(",price = #{price}");
+		}
+		if(StringUtils.hasText(order.getState())){
+			sb.append(",state = #{state}");
+		}
+		if(StringUtils.hasText(order.getOwner())){
+			sb.append(",owner = #{owner}");
+		}
+		
+		sb.append(" where id = #{id}");
+		
+		return sb.toString();	
+	}
+	
+	public String updateAdvertisement(Advertisement ad) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("update rrt_ad set ");
+		ad.setUpdateTime(new Date());
+		sb.append("update_time = #{updateTime}");
+		if(StringUtils.hasText(ad.getTitle())){
+			sb.append(",title = #{title}");
+		}
+		if(StringUtils.hasText(ad.getType())){
+			sb.append(",type = #{type}");
+		}
+		if(StringUtils.hasText(ad.getContent())){
+			sb.append(",content = #{content}");
+		}
+		if(StringUtils.hasText(ad.getContentUrl())){
+			sb.append(",content_url = #{contentUrl}");
+		}
+		if(ad.getTimeInSecond()>0){
+			sb.append(",time_in_second = #{timeInSecond}");
+		}
+		if(StringUtils.hasText(ad.getOwner())){
+			sb.append(",owner = #{owner}");
+		}
+		
+		sb.append(" where id = #{id}");
 		
 		return sb.toString();	
 	}

@@ -30,4 +30,8 @@ public class SequenceGenerator {
 		return String.valueOf(l);
 	}
 	
+	public static String next(String prefix){
+		return prefix+next();
+	}
+	
 }
