@@ -75,4 +75,27 @@ public interface MediaDeviceDao {
 	})
 	List<MediaDevice> selectDeviceList();
 	
+	@Select("select * from rrt_media_device where owner = #{account}")
+	@Results({
+		@Result(property = "id", column = "id"),
+		@Result(property = "createTime", column = "create_time"),
+		@Result(property = "updateTime", column = "update_time"),
+	    @Result(property = "deviceType", column = "device_type"),
+		@Result(property = "deviceStatus", column = "device_status"),
+		@Result(property = "basePrice", column = "base_price"), 
+	    @Result(property = "keyWords", column = "key_words"),
+	    @Result(property = "description", column = "description"),
+		@Result(property = "state", column = "state"),
+		@Result(property = "playTime", column = "play_time"),
+		@Result(property = "playFrequency", column = "play_frequency"),
+		@Result(property = "lng", column = "lng"),
+		@Result(property = "lat", column = "lat"),
+		@Result(property = "districtCode", column = "district_code"),
+		@Result(property = "address", column = "address"),
+		@Result(property = "districtCode", column = "district_code"),
+		@Result(property = "address", column = "address"),
+		@Result(property = "owner", column = "owner"),
+	})
+	List<MediaDevice> selectUserDeviceList(String account);
+	
 }

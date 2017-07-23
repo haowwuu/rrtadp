@@ -1,11 +1,41 @@
 package com.rrt.adp.model;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 public class Advertisement extends DBModel{
 	
 	public static final String TYPE_TEXT = "T";
 	public static final String TYPE_PICTURE = "P";
 	public static final String TYPE_VIDEO = "V";
-	public static final String YPE_MIX = "M";
+	public static final String TYPE_MIX = "M";
+	private static final Set<String> TYPE_SET = new HashSet<>();
+	static{
+		TYPE_SET.add(TYPE_TEXT);
+		TYPE_SET.add(TYPE_PICTURE);
+		TYPE_SET.add(TYPE_VIDEO);
+		TYPE_SET.add(TYPE_MIX);
+	}
+	
+	public Map<String, Object> dictionary(){
+		Map<String, Object> dic = new HashMap<>();
+		Map<String, String> adType = new HashMap<>();
+		adType.put("text", TYPE_TEXT);
+		adType.put("picture", TYPE_PICTURE);
+		adType.put("video", TYPE_VIDEO);
+		adType.put("mix", TYPE_MIX);
+		dic.put("advertisement type", adType);
+		
+		Map<String, String> adState = new HashMap<>();
+		adState.put("new", STATE_NEW);
+		adState.put("checked", STATE_CHECKED);
+		adState.put("deleted", STATE_DELETE);
+		dic.put("advertisement stae", adState);
+		
+		return dic;
+	}
 	
 	private String title;
 	private String type;
@@ -14,6 +44,14 @@ public class Advertisement extends DBModel{
 	private String contentUrl;
 	private int timeInSecond;
 	private String owner;
+	
+	public boolean isTypeLegal(){
+		return TYPE_SET.contains(getType());
+	}
+	
+	public boolean isStateLegal(){
+		return isStateLegal(getState());
+	}
 	
 	public Advertisement() {
 		this.id = ADVERTISEMENT_ID_PREFIX+this.id;

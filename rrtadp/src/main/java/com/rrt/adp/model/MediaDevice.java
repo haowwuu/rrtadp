@@ -1,12 +1,11 @@
 package com.rrt.adp.model;
 
+import java.sql.Types;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MediaDevice extends DBModel {
-	
-	public static final String STATE_NEW = "N";
-	public static final String STATE_CHECKED = "C";
-	public static final String STATE_ILLEGAL = "I";
 	
 	public static final String STATUS_WORKING = "W";
 	public static final String STATUS_REPAIRING = "R";
@@ -31,6 +30,35 @@ public class MediaDevice extends DBModel {
 	
 	public MediaDevice() {
 		this.id = MEDIA_DEVICE_ID_PREFIX+this.id;
+	}
+	
+	public Map<String, Object> dictionary() {
+		Map<String, Object> dic = new HashMap<>();
+		Map<String, String> deviceType = new HashMap<>();
+		deviceType.put("device type", TYPE_SCREEN);
+		dic.put("media device type", deviceType);
+		
+		Map<String, String> deviceState = new HashMap<>();
+		deviceState.put("new", STATE_NEW);
+		deviceState.put("checked", STATE_CHECKED);
+		deviceState.put("deleted", STATE_DELETE);
+		dic.put("media device state", deviceState);
+		
+		Map<String, String> deviceStatus = new HashMap<>();
+		deviceStatus.put("working", STATUS_WORKING);
+		deviceStatus.put("repairing", STATUS_REPAIRING);
+		dic.put("media device status", deviceStatus);
+		return dic;
+	}
+	
+	public boolean isStatusLegal(){
+		return STATUS_REPAIRING.equals(getDeviceStatus())||STATUS_WORKING.equals(getDeviceStatus());
+	}
+	public boolean isTypeLegal(){
+		return TYPE_SCREEN.equals(getDeviceType());
+	}
+	public boolean isStateLegal(){
+		return isStateLegal(getState());
 	}
 	
 	public String getDeviceType() {

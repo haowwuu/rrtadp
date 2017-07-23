@@ -54,4 +54,19 @@ public interface AdvertisementDao {
 		@Result(property = "owner", column = "owner")
 	})
 	List<Advertisement> selectAdList();
+	
+	@Select("select * from rrt_ad where owner = #{account}")
+	@Results({
+		@Result(property = "id", column = "id"),
+	    @Result(property = "createTime", column = "create_time"),
+		@Result(property = "updateTime", column = "update_time"),
+		@Result(property = "title", column = "title"), 
+	    @Result(property = "type", column = "type"),
+	    @Result(property = "state", column = "state"),
+	    @Result(property = "content", column = "content"),
+		@Result(property = "contentUrl", column = "content_url"),
+		@Result(property = "timeInSecond", column = "time_in_second"),
+		@Result(property = "owner", column = "owner")
+	})
+	List<Advertisement> selectUserAdList(String account);
 }

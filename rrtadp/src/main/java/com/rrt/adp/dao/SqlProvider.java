@@ -183,8 +183,11 @@ public class SqlProvider {
 		if(StringUtils.hasText(order.getState())){
 			sb.append(",state = #{state}");
 		}
-		if(StringUtils.hasText(order.getOwner())){
-			sb.append(",owner = #{owner}");
+		if(StringUtils.hasText(order.getAdOwner())){
+			sb.append(",ad_owner = #{adOwner}");
+		}
+		if(StringUtils.hasText(order.getDeviceOwner())){
+			sb.append(",device_owner = #{deviceOwner}");
 		}
 		
 		sb.append(" where id = #{id}");

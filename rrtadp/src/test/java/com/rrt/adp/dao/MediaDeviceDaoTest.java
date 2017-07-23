@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Resource;
+import javax.print.attribute.standard.Media;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -72,17 +73,23 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 		deviceDao.updateDevice(device);
 	}
 
-	@Test
+	@Ignore
 	public void testSelectDevice() {
 		MediaDevice device = deviceDao.selectDevice("MD1500729361092");
 		System.out.println(device);
 				
 	}
 
-	@Test
+	@Ignore
 	public void testSelectDeviceList() {
 		List<MediaDevice> devcies = deviceDao.selectDeviceList();
 		devcies.stream().forEach(System.out::println);
+	}
+	
+	@Test
+	public void testSelectUserDeviceList() {
+		List<MediaDevice> devices = deviceDao.selectUserDeviceList("rrtgg");
+		devices.stream().forEach(System.out::println);
 	}
 
 }

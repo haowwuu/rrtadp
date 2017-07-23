@@ -19,5 +19,17 @@ public class MessageUtil {
 		
 		return env.getProperty(key, key);	
 	}
+	
+	public String get(String key, String param){
+		if(null==key){
+			return null;
+		}
+		String value = env.getProperty(key);
+		if(null==value){
+			return param + " " + key;
+		}else{
+			return String.format(value, param);
+		}
+	}
 
 }

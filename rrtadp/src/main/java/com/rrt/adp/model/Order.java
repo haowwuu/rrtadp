@@ -1,20 +1,60 @@
 package com.rrt.adp.model;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.hamcrest.core.Is;
+
 public class Order extends DBModel{
 	
 	public static final String STATE_PAYED = "P";
 	public static final String STATE_BID_SUCCESS = "S";
 	public static final String STATE_BID_FAIL = "F";
 	public static final String STATE_ILLEAGL = "I";
+	private static final Set<String> ORDER_STATE_SET = new HashSet<>();
+	static{
+		ORDER_STATE_SET.addAll(STATE_SET);
+		ORDER_STATE_SET.add(STATE_PAYED);
+		ORDER_STATE_SET.add(STATE_BID_SUCCESS);
+		ORDER_STATE_SET.add(STATE_BID_FAIL);
+		ORDER_STATE_SET.add(STATE_ILLEAGL);
+	}
 	
 	private String adId;
 	private String deviceId;
 	private float price;
 	private String state;
-	private String owner;
+	private String adOwner;
+	private String deviceOwner;
+	
+	private Advertisement advertisement;
+	private MediaDevice mediaDevice;
 	
 	public Order() {
 		this.id = ORDER_ID_PREFIX+this.id;
+	}
+	
+	public boolean isStateLegal(){
+		return ORDER_STATE_SET.contains(getState());
+	}
+	
+	public Map<String, Object> dictionary() {
+		Map<String, Object> dic = new HashMap<>();
+		
+		Map<String, String> orderState = new HashMap<>();
+		orderState.put("new", STATE_NEW);
+		orderState.put("checked", STATE_CHECKED);
+		orderState.put("deleted", STATE_DELETE);
+		orderState.put("payed", STATE_PAYED);
+		orderState.put("bid success", STATE_BID_SUCCESS);
+		orderState.put("bid fail", STATE_BID_FAIL);
+		orderState.put("illegal", STATE_ILLEAGL);
+		
+		dic.put("order state", orderState);
+		
+		return dic;
 	}
 	
 	public String getAdId() {
@@ -41,20 +81,40 @@ public class Order extends DBModel{
 	public void setState(String state) {
 		this.state = state;
 	}
-	public String getOwner() {
-		return owner;
+	public String getAdOwner() {
+		return adOwner;
 	}
-	public void setOwner(String owner) {
-		this.owner = owner;
+	public void setAdOwner(String adOwner) {
+		this.adOwner = adOwner;
+	}
+	public String getDeviceOwner() {
+		return deviceOwner;
+	}
+	public void setDeviceOwner(String deviceOwner) {
+		this.deviceOwner = deviceOwner;
+	}
+
+	public Advertisement getAdvertisement() {
+		return advertisement;
+	}
+
+	public void setAdvertisement(Advertisement advertisement) {
+		this.advertisement = advertisement;
+	}
+
+	public MediaDevice getMediaDevice() {
+		return mediaDevice;
+	}
+
+	public void setMediaDevice(MediaDevice mediaDevice) {
+		this.mediaDevice = mediaDevice;
 	}
 
 	@Override
 	public String toString() {
-		return "Order [adId=" + adId + ", deviceId=" + deviceId + ", price=" + price + ", state=" + state + ", owner="
-				+ owner + ", id=" + id + ", getId()=" + getId() + ", getCreateTime()=" + getCreateTime()
+		return "Order [adId=" + adId + ", deviceId=" + deviceId + ", price=" + price + ", state=" + state + ", adOwner="
+				+ adOwner + ", deviceOwner=" + deviceOwner + ", id=" + id + ", getCreateTime()=" + getCreateTime()
 				+ ", getUpdateTime()=" + getUpdateTime() + "]";
 	}
-	
-	
 	
 }

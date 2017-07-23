@@ -16,7 +16,7 @@ public class DBModel {
 	public static final String STATE_CHECKED = "C";
 	public static final String STATE_LOCK = "L";
 	public static final String STATE_DELETE = "D";
-	private static final Set<String> STATE_SET= new HashSet<>();
+	protected static final Set<String> STATE_SET= new HashSet<>();
 	static{
 		STATE_SET.add(STATE_NEW);
 		STATE_SET.add(STATE_CHECKED);

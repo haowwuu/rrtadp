@@ -1,4 +1,4 @@
-package com.rrt.adp.web.user;
+package com.rrt.adp.web.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.web.servlet.config.VelocityConfigurerBeanDefinitionParser;
 
 import com.google.common.util.concurrent.Service.State;
 import com.rrt.adp.model.Order;
@@ -32,7 +33,8 @@ public class OrderDaoTest extends AbstractJUnit4SpringContextTests {
 		order.setDeviceId("MD1500729361092");
 		order.setPrice(200);
 		order.setState(Order.STATE_NEW);
-		order.setOwner("rrtgg");
+		order.setAdOwner("rrtgg");
+		order.setDeviceOwner("admin");
 		orderDao.insertOrder(order);
 	}
 
@@ -46,18 +48,25 @@ public class OrderDaoTest extends AbstractJUnit4SpringContextTests {
 		Order order = new Order();
 		order.setId("OR1500735546969");
 		order.setState(Order.STATE_CHECKED);
+		order.setDeviceOwner("admin");
 		orderDao.updateOrder(order);
 	}
 
-	@Test
+	@Ignore
 	public void testSelectOrder() {
 		Order order = orderDao.selectOrder("OR1500735546969");
 		System.out.println(order);
 	}
 
-	@Test
+	@Ignore
 	public void testSelectOrderList() {
 		List<Order> orders = orderDao.selectOrderList();
+		orders.stream().forEach(System.out::println);
+	}
+	
+	@Test
+	public void testSelectUserOrder() {
+		List<Order> orders = orderDao.selectUserOrderList("rrtgg");
 		orders.stream().forEach(System.out::println);
 	}
 
