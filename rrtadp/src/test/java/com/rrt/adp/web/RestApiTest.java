@@ -36,7 +36,8 @@ import sun.reflect.generics.tree.VoidDescriptor;
 public class RestApiTest {
 	
 	//private String baseUrl = "http://183.129.184.212:8081/site/light.php/exinterface/";
-	private String baseUrl = "http://localhost:8080/rrtadp/";
+	//private String baseUrl = "http://localhost:8080/rrtadp/";s
+	private String baseUrl = "http://47.92.100.40/rrtadp/";
 	//private CloseableHttpClient httpclient = HttpClients.createDefault();
 	ObjectMapper jsonMapper = new ObjectMapper();
 	
@@ -59,7 +60,7 @@ public class RestApiTest {
 			response = httpclient.execute(httpPost);
 			HttpEntity entity = response.getEntity();
 		    retn = EntityUtils.toString(entity);
-		    //System.out.println(retn);
+		    System.out.println(retn);
 			int code = response.getStatusLine().getStatusCode();
 			assertTrue(code<300);
 		    
@@ -120,7 +121,7 @@ public class RestApiTest {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("account", "rrtgg");
 		String password = EncryptUtil.md5("rrtgg123456");
-		System.out.println(password );
+		//System.out.println(password );
 		password = EncryptUtil.md5(password+123);
 		params.put("password", password);
 		

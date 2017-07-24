@@ -19,6 +19,14 @@ public class Advertisement extends DBModel{
 		TYPE_SET.add(TYPE_MIX);
 	}
 	
+	private String title;
+	private String type;
+	private String state;
+	private String content;
+	private String contentUrl;
+	private int timeInSecond;
+	private String owner;
+	
 	public Map<String, Object> dictionary(){
 		Map<String, Object> dic = new HashMap<>();
 		Map<String, String> adType = new HashMap<>();
@@ -36,14 +44,6 @@ public class Advertisement extends DBModel{
 		
 		return dic;
 	}
-	
-	private String title;
-	private String type;
-	private String state;
-	private String content;
-	private String contentUrl;
-	private int timeInSecond;
-	private String owner;
 	
 	public boolean isTypeLegal(){
 		return TYPE_SET.contains(getType());

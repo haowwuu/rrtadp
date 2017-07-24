@@ -15,6 +15,7 @@ import com.rrt.adp.model.Account;
 import com.rrt.adp.model.CompanyUser;
 import com.rrt.adp.model.PersonUser;
 import com.rrt.adp.service.UserService;
+import com.rrt.adp.util.FileUtil;
 import com.rrt.adp.util.MessageUtil;
 import com.rrt.adp.util.RequestMessageContext;
 import com.rrt.adp.web.RestResult;
@@ -30,6 +31,8 @@ public class UserController {
 	private UserService userService;
 	@Resource
 	private MessageUtil msgUtil;
+	@Resource
+	private FileUtil fileUtil;
 	
 	@ApiOperation("用户登录")
 	@RequestMapping(value="/login", method=RequestMethod.POST)
@@ -46,8 +49,9 @@ public class UserController {
 	
 	@ApiOperation("个人用户注册")
 	@RequestMapping(value="/regist/person", method=RequestMethod.POST)
-	public RestResult registPersonUser(PersonUser user){
-		PersonUser retn = userService.registPersonUser(user);
+	public RestResult registPersonUser(PersonUser user, 
+			MultipartFile idFrontPicFile, MultipartFile idBackPicFile){
+		PersonUser retn = userService.registPersonUser(user, idFrontPicFile, idBackPicFile);
 		if(null!=retn){
 			return RestResult.defaultSuccessResult(retn, msgUtil.get("regist.success"));
 		}else{
@@ -57,8 +61,9 @@ public class UserController {
 	
 	@ApiOperation("企业用户注册")
 	@RequestMapping(value="/regist/company", method=RequestMethod.POST)
-	public RestResult registCompanyUser(CompanyUser user) {
-		CompanyUser retn = userService.registCompanyUser(user);
+	public RestResult registCompanyUser(CompanyUser user, 
+			MultipartFile certFrontPicFile, MultipartFile certBackPicFile) {
+		CompanyUser retn = userService.registCompanyUser(user, certFrontPicFile, certBackPicFile);
 		if(null!=retn){
 			return RestResult.defaultSuccessResult(retn, msgUtil.get("regist.success"));
 		}else{
@@ -157,6 +162,15 @@ public class UserController {
         }  
         // TODO 处理文件内容...  
         return "OK";  
+    }
+    
+    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)  
+    public String uploadFile(String fileName, MultipartFile jarFile) {  
+    	try{
+    		return fileUtil.uploadFile(fileName, jarFile.getBytes());
+    	}catch (Exception e) {
+			return e.getMessage();
+		}
     }  
 
 }

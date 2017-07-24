@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.hamcrest.core.Is;
-
 public class Order extends DBModel{
 	
 	public static final String STATE_PAYED = "P";

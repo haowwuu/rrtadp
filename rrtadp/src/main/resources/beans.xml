@@ -5,15 +5,15 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
 		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
-
+	
+	<context:property-placeholder location="classpath:config.properties"/>
+	
 	<context:component-scan base-package="com.rrt.adp">
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan>
-	
-	<context:property-placeholder location="classpath:config.properties"/>
 	
 	<bean id="rrtggDataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
     	<property name="driverClassName" value="${rrtgg.jdbc.driverClassName}"/>

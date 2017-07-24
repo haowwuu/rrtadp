@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Service;
+
 import com.rrt.adp.dao.AdvertisementDao;
 import com.rrt.adp.dao.MediaDeviceDao;
 import com.rrt.adp.dao.OrderDao;
@@ -15,6 +17,7 @@ import com.rrt.adp.service.OrderService;
 import com.rrt.adp.util.MessageUtil;
 import com.rrt.adp.util.RequestMessageContext;
 
+@Service
 public class OrderServiceImpl implements OrderService {
 	
 	@Resource

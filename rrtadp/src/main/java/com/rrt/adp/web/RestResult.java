@@ -50,15 +50,25 @@ public class RestResult {
 	public static RestResult defaultFailResult(Object data, String msg){
 		return new RestResult(CODE.RET_NO, msg, data);
 	}
+	public static RestResult defaultSuccessResult(Object data){
+		return new RestResult(CODE.RET_OK, "success", data);
+	}
 	
+	public static RestResult defaultFailResult(Object data){
+		return new RestResult(CODE.RET_NO, "fail", data);
+	}
 	public static RestResult defaultSuccessResult(String msg){
 		return defaultSuccessResult(null, msg);
 	}
-	
 	public static RestResult defaultFailResult(String msg){
 		return defaultFailResult(null, msg);
 	}
-
+	public static RestResult defaultSuccessResult(){
+		return defaultSuccessResult(null, "success");
+	}
+	public static RestResult defaultFailResult(){
+		return defaultFailResult(null, "fail");
+	}
 
 	public CODE getCode() {
 		return code;
