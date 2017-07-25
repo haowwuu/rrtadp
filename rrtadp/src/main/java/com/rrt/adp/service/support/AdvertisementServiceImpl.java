@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitterReturnValueHandler;
 
 import com.rrt.adp.dao.AdvertisementDao;
 import com.rrt.adp.model.Account;
@@ -59,6 +60,17 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 			return adDao.selectUserAdList(account.getAccount());
 		}
 		return null;
+	}
+	
+	@Override
+	public List<Advertisement> getAdList(Advertisement ad, Account account){
+		if(null==ad||null==account){
+			return null;
+		}
+		if(!account.isAdmin()){
+			ad.setState(Advertisement.STATE_CHECKED);
+		}
+		return adDao.selectAdList();
 	}
 
 	@Override

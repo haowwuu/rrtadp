@@ -10,7 +10,7 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
   
-  	<filter>
+  	<!-- <filter>
 		<filter-name>htmlFilter</filter-name>
 		<filter-class>com.rrt.adp.web.filter.PageFilter</filter-class>
 		<init-param>
@@ -25,7 +25,7 @@
 	<filter-mapping>
 		<filter-name>htmlFilter</filter-name>
 		<url-pattern>*.html</url-pattern>
-	</filter-mapping>
+	</filter-mapping> -->
   
   <servlet>
     <servlet-name>springDispatcherServlet</servlet-name>

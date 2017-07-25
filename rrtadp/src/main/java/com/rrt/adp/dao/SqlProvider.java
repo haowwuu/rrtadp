@@ -115,6 +115,40 @@ public class SqlProvider {
 		return sb.toString();	
 	}
 	
+	public String selectMediaDevice(MediaDevice device){
+		StringBuilder sb = new StringBuilder();
+		sb.append("select * from rrt_media_device where 1");
+		if(StringUtils.hasText(device.getDeviceType())){
+			sb.append(" and device_type = #{deviceType}");
+		}
+		if(StringUtils.hasText(device.getDeviceStatus())){
+			sb.append(" and device_status = #{deviceStatus}");
+		}
+		if(device.getBasePrice()>0){
+			sb.append(" and base_price < #{basePrice}");
+		}
+		if(StringUtils.hasText(device.getKeyWords())){
+			sb.append(" and key_words like %#{keyWords}%");
+		}
+		if(StringUtils.hasText(device.getState())){
+			sb.append(" and state = #{state}");
+		}
+		if(device.getLng()>0&&device.getLat()>0){
+			//sb.append(" and lng = #{lng}");
+		}
+		if(StringUtils.hasText(device.getDistrictCode())){
+			sb.append(" and district_code = #{districtCode}");
+		}
+		if(StringUtils.hasText(device.getAddress())){
+			sb.append(" and address like %#{address}%");
+		}
+		if(StringUtils.hasText(device.getOwner())){
+			sb.append(" and owner = #{owner}");
+		}
+		
+		return sb.toString();
+	}
+	
 	
 	public String updateMediaDevice(MediaDevice device){
 		StringBuilder sb = new StringBuilder();

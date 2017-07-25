@@ -13,6 +13,8 @@ public interface AdvertisementService {
 	
 	List<Advertisement> getUserAdList(Account account);
 	
+	List<Advertisement> getAdList(Advertisement ad, Account account);
+	
 	boolean updateAd(Advertisement ad, Account account);
 	
 	boolean deleteAd(String adId, Account account);
