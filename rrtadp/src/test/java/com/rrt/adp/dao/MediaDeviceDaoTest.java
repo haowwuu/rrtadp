@@ -40,7 +40,7 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 	@Ignore
 	public void testInsertDevice() {
 		MediaDevice device = new MediaDevice();
-		device.setDeviceType("T");
+		device.setDeviceType(MediaDevice.TYPE_SCREEN);
 		device.setDeviceStatus(MediaDevice.STATUS_WORKING);
 		device.setBasePrice(100);
 		device.setKeyWords("key1,key2,key3");

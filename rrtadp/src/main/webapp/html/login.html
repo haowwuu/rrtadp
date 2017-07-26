@@ -6,13 +6,14 @@
 <link href="css/style.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" src="js/jquery.js"></script>
 <script src="js/cloud.js" type="text/javascript"></script>
+<script src="js/jquery.md5.js" type="text/javascript"></script>
 
 <script language="javascript">
 	$(function(){
     $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
 	$(window).resize(function(){  
     $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
-    })  
+    }) 	
 });  
 </script> 
 
@@ -44,9 +45,9 @@
     <div class="loginbox">
     
     <ul>
-    <li><input name="" type="text" class="loginuser" value="admin" onclick="JavaScript:this.value=''"/></li>
-    <li><input name="" type="password" class="loginpwd" value="密码" onclick="JavaScript:this.value=''"/></li>
-    <li><input name="" type="button" class="loginbtn" value="登录"  onclick="javascript:window.location='main.html'"  /><label><input name="" type="checkbox" value="" checked="checked" />记住密码</label><label><a href="#">忘记密码？</a></label></li>
+    <li><input id="account" name="" type="text" class="loginuser" value="rrtgg" onclick="JavaScript:this.value=''"/></li>
+    <li><input id="password" name="" type="password" class="loginpwd" value="密码" onclick="JavaScript:this.value=''"/></li>
+    <li><input name="" type="button" class="loginbtn" value="登录" onclick="login.login();" /><label><input name="" type="checkbox" value="" checked="checked" />记住密码</label><label><a href="#">忘记密码？</a></label></li>
     </ul>
     
     
@@ -57,8 +58,39 @@
     
     
     <div class="loginbm">Copyright @ 2017 RRTGG Systems Incorporated<a href="#">人人投广告</a> </div>
-	
     
+	<script type="text/javascript">
+		
+    	 var login = {
+			type:"P",
+			login:function(){
+				var account = $("#account").val();
+				var password = $("#password").val();
+				var token = new Date().getTime();
+				var password = $.md5($.md5(account+password)+token);
+	    		var _this = this;
+	    		$.ajax({
+	    			type:"post",
+	    			url:"user/login",
+	    			dataType:"json",
+	    			data:{
+	    				account:account,
+	    				password:password,
+	    				token:token,
+	    				type:_this.type
+	    			},
+	    			success:function(data){
+	    				if(data.code==="0"){
+	    					window.location='main.html';
+	    				}else{
+	    					alert(data.message);
+	    				}
+	    			}
+	    		})
+			}
+		}
+    	
+    </script>
 </body>
 
 </html>
