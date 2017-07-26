@@ -1,0 +1,350 @@
+<!doctype html>
+<html>
+  <head>
+    
+    <title>人人投广告管理平台</title>
+	<meta charset="utf-8">
+	<meta http-equiv="keywords" content="dsp,contents,service">
+	<meta http-equiv="description" content="dsp main page">
+	<meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	
+	<link rel="shortcut icon" href="resources/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="resources/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="css/dsp.css" />
+	
+	
+	<script type="text/javascript" src="js/jquery-1.12.3.js"></script>
+	
+	<script type="text/javascript" src="js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+	<script type="text/javascript" src="js/dataTables.bootstrap.min.js"></script>	
+	<script type="text/javascript" src="js/jquery-ui.js"></script>
+	<script type="text/javascript" src="js/include.js"></script>
+	<script type="text/javascript" src="js/dsp.js"></script>
+  </head>
+  
+  <body>
+ 
+  	<div class="container">
+  		<div id="modal" class="modal fade in" >
+  			<div class="modal-dialog modal-content" style="margin-top:12%; width:800px;">
+		  		<div class="modal-header" style="background-color: #428bca; padding: 10px 10px;">
+		  			<!-- <button class="close" style="padding: 0 10px 20px 10px;" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>  -->
+		  			<!-- <h4>application title</h4> -->
+		  		</div>
+		  		<div class="modal-body container-fluid">
+		  			<form id="applicationForm" class="form-horizontal" role="form">
+		  				<div class="col-sm-6" style="padding-left:0">
+				            <div class="form-group has-feedback">
+				            	<label for="appName" class="col-sm-4 control-label">应用名称：</label>
+			                	<div class="col-sm-8 rf-no-padding"> 
+			                		<input type="text" class="hidden" name="appId">            
+			                    	<input type="text" class="form-control" name="appName" regx="^\S{2,25}$" title="应用名称:2-25个字符组成">
+			                	</div>    
+				            </div>
+				            <div class="form-group has-feedback">
+				            	<label for="appAddress" class="col-sm-4 control-label">应用地址：</label>
+			                	<div class="col-sm-8 rf-no-padding">          
+			                    	<input type="text" class="form-control" name="appAddress" regx="^\S{2,50}$" title="应用地址:2-50个字符组成">
+			                	</div>    
+				            </div>
+				            <div class="form-group has-feedback">
+				            	<label for="description" class="col-sm-4 control-label">应用描述：</label>
+			                	<div class="col-sm-8 rf-no-padding">          
+			                    	<input type="text" class="form-control" name="description" regx="^[\S\s]{0,100}$" title="应用描述:最多100个字符组成">
+			                	</div>    
+				            </div>
+				            <div class="form-group has-feedback" name="appKeyDiv">
+				            	<label for="appKey" class="col-sm-4 control-label">应用标识：</label>
+			                	<div class="col-sm-8 rf-no-padding">          
+			                    	<input type="text" readonly="readonly" class="form-control" name="appKey" >
+			                	</div>    
+				            </div>
+			            </div>
+			            <div class="col-sm-6">
+				           
+				            <div class="form-group has-feedback">
+				            	<label for="appAdmin" class="col-sm-4 control-label">管理员：</label>
+			                	<div class="col-sm-8 rf-no-padding">          
+			                    	<input type="text" class="form-control" name="appAdmin" regx="^\S{1,10}$" title="管理员:1-10个字符组成">
+			                	</div>    
+				            </div>
+				            <div class="form-group has-feedback">
+				            	<label for="adminEmail" class="col-sm-4 control-label">管理员邮箱：</label>
+			                	<div class="col-sm-8 rf-no-padding">          
+			                    	<input type="text" class="form-control" name="adminEmail" regx="^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$" title="请填写Email">
+			                	</div>    
+				            </div>
+				            <div class="form-group has-feedback">
+				            	<label for="adminTel" class="col-sm-4 control-label">管理员电话：</label>
+			                	<div class="col-sm-8 rf-no-padding">          
+			                    	<input type="text" class="form-control" name="adminTel" regx="^[0-9-]{3,12}$" title="请填写联系电话">
+			                	</div>    
+				            </div>
+				            <div class="form-group has-feedback" id="appSecretDiv" name="appSecretDiv">
+				            	<label for="appSecret" class="col-sm-4 control-label">应用秘钥：</label>
+			                	<div class="col-sm-8 rf-no-padding">          
+			                    	<input type="text" readonly="readonly" class="form-control" name="appSecret" >
+			                	</div>    
+				            </div>
+			            </div>
+		  			</form>
+		  		</div>
+		  		<div class="modal-footer" style="padding:5px 15px;">
+		  			<button name="submit" class="btn btn-primary">保存</button>
+		  			<button class="btn btn-default" data-dismiss="modal">取消</button>
+		  		</div>
+	  		</div>
+  		</div>
+  	</div>
+  	
+  	<div id="contents" class="container-fluid">
+	  	<div class="panel panel-default">
+	  		<div class="panel-body">
+		  		<div class="input-group" class="col-md-5"> 
+		            <span class="input-group-addon">搜索</span> 
+		            <input id="searchInput" type="text" class="form-control" placeholder="查询接口"> 
+		        </div> 
+	  		</div>
+		</div>
+	  	
+	    <div class="table-responsive">
+	   		<h4><strong>秘钥分配表</strong></h4>
+	    	<table id="applicationTable" class="table table-striped table-bordered"  >
+	    		<thead>
+	    			<tr>
+	    				<th class="col-md-2" >应用名称</th>
+		    			<!-- <th class="col-md-3" >应用标识</th> -->
+		    			<!-- <th class="col-md-2" >应用秘钥</th> -->
+		    			<th class="col-md-3" style="min-width:150px;">应用地址</th>
+		    			
+		    			<th class="col-md-4" >描述</th>
+		    		</tr>
+	    		</thead>
+	    		<tbody>
+	    			
+	    		</tbody>
+	    	</table>
+	    </div>
+	   
+    </div>
+	
+    <script type="text/javascript">
+    	
+    	$(function(){
+			$("#navItem li[name='keys']").addClass('active'); 
+			$("#searchInput").keyup( function() {
+				$("#applicationTable").DataTable().draw();
+				$("#quantityTable").DataTable().draw();
+			});
+			
+			application.table.on('xhr', function () {
+			    quantity.autoComplete(); 
+			});
+				
+    	});
+    	
+    	$.fn.dataTable.ext.search.push(
+			function( settings, data, dataIndex ) {
+				var search = $("#searchInput").val();
+				for(i in data){
+					if(data[i].indexOf(search)>=0){
+						return true;
+					}
+				}
+				return false;
+			}
+		);
+		
+    	var application={
+    		table: $("#applicationTable").DataTable({
+    			"bAutoWidth": false,
+    			"ajax": "app/query",
+    			"columnDefs": [
+                	{	                          
+                    	"defaultContent": "",
+                        "targets": "_all"
+                   	},
+                    {
+                    	"targets" : 1,
+						"render" : function(data, type,row) {
+							var id = '"' + row.appId + '"';
+							var r = JSON.stringify(row);
+							var html = "<span class='opt-td'>"+row.appAddress+"</span> <div class='opt-show'> ";
+							html += "<span onclick='application.dataModal("+ r + ")'  class='btn btn-default btn-xs'>查看</span>";
+							html += "<span onclick='application.addModal();'             class='btn btn-default btn-xs'>新增</span>";
+							html += "<span onclick='application.updateModal("+ r + ")' class='btn btn-default btn-xs'>编辑</span>";
+							html += "<span onclick='application.deleteModal("+ r + ")' class='btn btn-default btn-xs'>删除</span></div>";
+							return html;
+                    	}
+                    }
+                ],	      
+    			"columns":[
+    				{"data":"appName"},
+    				/* {"data":"appKey"}, */
+    				/* {"data":"appSecret"}, */
+    				{"data":"appAddress"},
+    				{"data":"description"}
+    			],
+    			"bStateSave": true,
+    			"oLanguage": {
+					"sLengthMenu": "每页显示 _MENU_ 条记录",
+				    "sZeroRecords": "<p>对不起，查询不到任何相关数据</p> <span onclick='application.addModal();' class='btn btn-default btn-xs'>新增</span>",
+				    "sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
+				    "sInfoEmtpy": "找不到相关数据",
+				    "sInfoFiltered": "数据表中共为 _MAX_ 条记录)",
+				    "sProcessing": "正在加载中...",
+				    "sSearch": "搜索",
+				    "sUrl": "", 
+				    "oPaginate": {
+				    	"sFirst":    "第一页",
+				        "sPrevious": " 上一页 ",
+				        "sNext":     " 下一页 ",
+				        "sLast":     " 最后一页 "
+				     }
+				}, 
+				"aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+				"bInfo": false,
+				"bFilter": true,  //l-每页显示数量 f-过滤输入  t-表单Table i-信息  p-翻页 r-pRocessing
+				"sDom": '<"top"i>rt<"bottom"pl><"clear">',
+    		}),
+    		reload:function(){
+    			this.table.ajax.reload();
+	    	},
+	    	showKeySecret:function(v){
+	    		var display, visibility;
+	    		if(v){
+	    			display="block"; 
+	    			visibility="hidden";
+	    		}else{
+	    			display="none"; 
+	    			visibility="visible";
+	    		}
+	    		$("#applicationForm div[name='appKeyDiv']").css("display", display);
+	    		$("#applicationForm div[name='appSecretDiv']").css("display", display);
+	    		$("#modal button[name='submit']").css("visibility", visibility);
+	    	},
+	    	dataModal:function(row){
+	    		this.showKeySecret(true);
+	    		for(var p in row){   
+	    			$("#applicationForm input[name="+p+"]").val(row[p]);
+	    		} 	
+	    		$("#modal").modal('show');
+	    	},
+	    	getVal:function(formId){
+	    		var app={};
+	    		var form = $(formId).serializeArray();
+	    		for(var input in form){
+	    			if(form[input].value){
+	    				app[form[input].name]=form[input].value;
+	    			}
+	    		}
+	    		return app;
+	    	},
+	    	addModal:function(){
+	    		$("#applicationForm input").val('');
+	    		this.showKeySecret(false);
+	    		$("#modal button[name='submit']").attr("onclick","application.add()");
+	    		$("#modal").modal('show');
+	    	},
+	    	add:function(){
+	    		var v = this.validate("#applicationForm");
+	    		if(!v){
+	    			return;
+	    		}
+	    		$.ajax({
+	    			type:"post",
+	    			url:"app/add",
+	    			dataType:"json",
+	    			data:v,
+	    			success:function(data){
+	    				application.reload();
+	    				$("#modal").modal('hide');
+	    			}
+	    		})
+	    	},
+	    	updateModal:function(row){
+	    		this.showKeySecret(false);
+	    		for(var p in row){   
+	    			$("#applicationForm input[name="+p+"]").val(row[p]);
+	    		}
+	    		$("#modal button[name='submit']").attr("onclick","application.update()");
+	    		$("#modal").modal('show');
+	    	},
+	    	update:function(){
+	    		var v = this.validate("#applicationForm");
+	    		if(!v){
+	    			return;
+	    		}
+	    		$.ajax({
+	    			type:"post",
+	    			url:"app/update",
+	    			dataType:"json",
+	    			data:v,
+	    			success:function(data){
+	    				application.reload();
+	    				$("#modal").modal('hide');
+	    			}
+	    		});
+	    	},
+	    	deleteModal:function(row){
+	    		$("#confirmModal .confirm-content").html(row.appName+"-"+row.appAddress);
+	    		$("#confirmModal button[name='submit']").attr("onclick","application.deleteApp("+row.appId+")");
+	    		$("#confirmModal").modal('show');
+	    	},
+	    	deleteApp:function(id){
+	    		$.post("app/delete", {appId:id}, function(data){
+    				application.reload();
+    				quantity.reload();
+    				$("#confirmModal").modal('hide');
+	    		}, "json");
+	    	},
+	    	validate:function(formId){
+	    		var v = {};
+	    		var inputs = $(formId + " input");
+	    		for(var i=0; i<inputs.length; i++){
+	    			var obj = inputs[i];
+	    			if(!obj){
+	    				continue;
+	    			}
+	    			var obj = inputs[i];
+	    			var name = $(obj).attr('name');
+	    			var regx = $(obj).attr('regx');
+	    			var val = $(obj).val();
+	    			if(name==="appName"){
+	    				var data = this.table.ajax.json().data;
+			    		for(var e in data){
+			    			if(data[e].appName===val){
+			    				var id = $(formId + " input[name='appId']").val();
+			    				if(data[e].appId!==id){
+			    					$(obj).tooltip().tooltip( "option", "content", "应用名称已存在" );
+				    				$(obj).tooltip().tooltip("open");
+				    				return false;
+			    				}
+			    			}
+			    		}
+			    		$(obj).tooltip().tooltip( "destroy" );
+	    			}
+	    			if(regx){
+	    				var p = new RegExp(regx);
+	    				if(!p.test(val)){
+	    					$(obj).tooltip().tooltip("open");
+	    					return false;
+	    				}
+	    			}
+	    			
+	    			v[name]=val;
+	    		}
+	    		return v;
+	    	}
+    	}
+    
+    </script>
+    
+  </body>
+</html>

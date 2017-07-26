@@ -1,0 +1,343 @@
+@charset "utf-8";
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#hero-slider > div.col-md-3 > ul > li {
+	width:100px;
+}
+
+#tabLeft > a {
+	width:100px;
+	
+}
+
+#hero-slider {
+	text-align: left;
+	background-color: #F8F8F8;
+	border: 1px solid #ccc;
+	width: 100%;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 5px;
+	margin: 0 auto;
+	font-family: arial;
+	*position:relative;
+    *left:0;
+    *top:0;
+    height: auto;
+}
+
+#tabLeft{
+	width: auto;
+	min-width: 200px;
+}
+
+#hero-slider > div.mask{
+	width: auto;
+}
+
+#hero-slider .mask {
+	border-left: 3px solid #dedede;
+	padding: 5px 5px;
+	background-color: #F8F8F6;
+	height: 99%;
+	width: auto;
+	margin: 5px 5px 5px 5px;
+	overflow:auto;
+}
+
+#hero-slider .mask p {
+	font-weight: bold;
+	padding: 10px 20px;
+	margin: 10px 20px;
+}
+
+#hero-slider .mask h3 {
+	text-align: center;
+	font-size: 25px;
+	padding: 15px 25px;
+	text-shadow: 0 0 1px #999;
+	font-weight: bold;
+	border-bottom: 1px solid #F8F8F8;
+	border-bottom-style: outset;
+}
+
+
+#hero-slider .mask p1 {
+	font: 12px "MicroSoft YaHei", "Courier New", "Andale Mono", monospace;
+	padding: 10px 20px;
+	border: 1px solid #ccc;
+	color: #333;
+	background-color: #F8F8F8;
+	line-height: 20px;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+	border-radius: 3px;
+	margin: 20px 40px;
+}
+
+#hero-slider .panel {
+	width: auto;
+	height: auto;
+	float: center;
+}
+
+#hero-slider ul {
+	padding: 5px 5px 0 5px;
+	list-style: none;
+	width: 100%;
+	margin-bottom: 1px;
+
+}
+
+#tabLeft > ul > h4 > a{
+	font-weight: bold;
+	width: auto;
+	font-size: 14px;
+	color: #111111;
+    text-decoration:none;
+    word-wrap:break-word; 
+}
+
+.panel-collapse a{
+    margin: 5px 0;
+    font-size: 13px;
+    font-weight: bold;
+    color: #262626;
+    height: 20px;
+    line-height: 22px;
+    text-decoration: none;
+    padding: 0px 0px 0px 2px;
+}
+
+#hero-slider ul li {
+	width: 100%;
+	padding: 0px 0px 0px 12px;
+	color: #2f2f2f;
+	background-color: #F8F8F8;
+}
+
+#hero-slider ul li  .active {
+	background-color: #bebebe;
+	width:100%;
+}
+
+.panel h3 {
+	align: center;
+	padding: 15px 0 0 0;
+	color: #000000;
+}
+
+.panel p {
+	color: #666;
+}
+
+.clear {
+	clear: both
+}
+
+.collapsed .portal_arrow {
+    border-top-color:transparent;
+    border-left-color: #aaa;
+    margin: 0 -3px 0 -9px;
+}
+
+.portal_arrow {
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-top-color: #aaa;
+    border-left-color: transparent;
+    display: inline-block;
+    margin: 0 0 -4px -12px;
+    font-size: 1px;
+    line-height: 0;
+    
+}
+
+ #sigAlgPanel { 
+    height: auto; 
+    background: #fff; 
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+
+ }
+
+ #sandboxPanel { 
+    height: auto; 
+    background: #fff; 
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+ } 
+
+table > tbody > tr  > td  > a:link { 
+    color:#000000; 
+    text-decoration:none; 
+} 
+
+ table > tbody > tr  > td  >a:visited { 
+    color:#000000; 
+    text-decoration:none; 
+} 
+
+table > tbody > tr  > td  >a:hover { 
+    color:#b0bed9; 
+    text-decoration:none; 
+} 
+
+
+table > tbody > tr  > td  >a:active { 
+    color:#FFFFFF; 
+    text-decoration:none; 
+} 
+
+/* 沙盒功能页面相关的CSS： */
+.des {
+    text-align: center;
+    background-color: #ffffff;
+    padding: 5px;
+    font-size: 95%;
+    margin-bottom: .5em;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.manual li b {
+    font-weight: bold;
+}
+
+.manual li {
+    margin-top: 10px;
+    list-style: none;
+}
+
+ol {
+    display: block;
+    list-style-type: decimal;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 12px;
+}
+
+.frm_control_group label {
+    margin-right: 38px;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+}
+
+
+.frm_controls {
+    overflow: hidden;
+    display: inline-block;
+}
+
+.frm_input_box {
+    display: inline-block;
+    zoom: 1;
+    line-height: 30px;
+    vertical-align: middle;
+    border: 1px solid #b3b3b3;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.15);
+    -webkit-border-radius: 3px;
+    background-color: #fff;
+}
+
+.red {
+    color: red;
+}
+
+.name {
+    display: inline-block;
+    zoom: 1;
+    width: 125px;
+}
+
+.inputDiv .tips {
+    display: block;
+    margin-left: 139px;
+    color: #a3a3a3;
+}
+
+.inputDiv select, .inputDiv input[type="text"], .inputDiv input[type="file"] {
+    width: 250px;
+}
+
+.resultContainer, .content {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    color: #333;
+    background-color: #ffffff;
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+
+.frm_tips {
+    display: inline-block;
+    zoom: 1;
+    margin-left: 5px;
+}
+
+#submit {
+    margin-left: 139px;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    color: rgb(0, 0, 0);
+    font-size: 14px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    margin-top: 6px;
+    box-shadow: rgb(221, 222, 219) 0px 1px 1px;
+    overflow: visible;
+    padding: 0px 40px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(190, 190, 190);
+    border-image: initial;
+    border-radius: 3px;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(248, 248, 248)), color-stop(0.1, rgb(241, 241, 241)), color-stop(0.5, rgb(228, 228, 228)), color-stop(0.9, rgb(215, 215, 215)), to(rgb(213, 213, 213)), to(rgb(213, 213, 213)));
+}
+
+#returnTitle {
+	font-weight: bold;
+}
+
+#ReturnMessages {
+	
+	background-color: #ccc;
+    text-align: center;
+	height: auto;
+}
+
+/* 沙盒模型涉及的CSS */
+#sigAlgPanel > h2 {
+	line-height: 1.6;
+    font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53",Arial,sans-serif;
+    color: #222;
+    font-size: 14px;
+}
+
+#signature {
+    margin:2px 18px 3px 4px;
+    padding:2px 4px 3px 4px;
+}
+
+#hero-slider > div.col-md-3 > ul > li:nth-child(1) > a,
+#hero-slider > div.col-md-3 > ul > li:nth-child(2) > a,
+#hero-slider > div.col-md-3 > ul > li:nth-child(3) > a {
+    margin: 0 0 0 -20px;
+    width: 180px;
+    color: #222;
+}

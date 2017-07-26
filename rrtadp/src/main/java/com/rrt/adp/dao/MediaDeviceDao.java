@@ -143,6 +143,6 @@ public interface MediaDeviceDao {
 		@Result(property = "address", column = "address"),
 		@Result(property = "owner", column = "owner"),
 	})
-	List<MediaDevice> selectDeviceList(MediaDevice device);
+	List<MediaDevice> selectTargetDeviceList(MediaDevice device);
 	
 }

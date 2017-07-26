@@ -11,6 +11,8 @@ public interface MediaDeviceService {
 	
 	List<MediaDevice> getUserMediaDevcieList(Account account);
 	
+	List<MediaDevice> getMediaDevcieList(MediaDevice device, Account account);
+	
 	boolean updateMediaDevice(MediaDevice device, Account account);
 	
 	boolean deleteMediaDevice(String deviceId, Account account);

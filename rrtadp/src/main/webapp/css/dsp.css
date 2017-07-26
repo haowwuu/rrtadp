@@ -1,0 +1,156 @@
+@CHARSET "UTF-8";
+#serviceContentTable
+{
+    table-layout:fixed;
+    word-wrap:break-word;
+}
+#serviceContentTable th{
+	text-align:center;
+}
+.dataTables_length{
+	margin-top:10px;
+}
+.opt-show{
+	display:none;
+}
+.opt-td{
+	display:block;
+}
+.title{
+	font-size: 24px;
+}
+#navItem{
+	float:right;
+	margin-right:0;
+}
+.container-fluid{
+	max-width:1024px;
+	margin：0 auto;
+	padding-left:15px;
+	padding-right:15px;
+}
+
+footer{
+    color: #eee;
+    padding-top:60px;
+}
+
+footer .text-center{
+	padding-top:5px;
+	padding-top:5px;
+}
+
+.half-height{
+    min-height: 30px;
+}
+
+#serviceContentTable td:last-child{
+	max-height:50px;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#serviceContentTable td:last-child:hover{
+	white-space: normal; 
+}
+table td:hover .opt-td{
+	display:none;
+}
+table td:hover .opt-show{
+	display:block;
+}
+.rf-no-padding{
+	padding-right:0;
+	padding-left:0;
+}
+.rf-no-margin{
+	margin-right:0;
+	margin-right:0
+}
+
+.plot-container {
+	box-sizing: border-box;
+	width: 850px;
+	height: 450px;
+	padding: 20px 15px 15px 15px;
+	margin: 15px auto 30px auto;
+	border: 1px solid #ddd;
+	background: #fff;
+	background: linear-gradient(#f6f6f6 0, #fff 50px);
+	background: -o-linear-gradient(#f6f6f6 0, #fff 50px);
+	background: -ms-linear-gradient(#f6f6f6 0, #fff 50px);
+	background: -moz-linear-gradient(#f6f6f6 0, #fff 50px);
+	background: -webkit-linear-gradient(#f6f6f6 0, #fff 50px);
+	box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+	-o-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+	-ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+	-webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.plot-placeholder {
+	width: 100%;
+	height: 100%;
+	font-size: 14px;
+	line-height: 1.2em;
+}
+
+.plot-header{
+	width: 850px;
+	margin: 15px auto 5px auto;
+}
+
+.login-panel, .logout-panel{
+	display: block;
+	z-index: 99;
+	position: absolute;
+	left:15px;
+	top: 50px; 
+	background-color:#ddd;
+}
+.login-panel{
+	width:300px;
+	height:200px;
+}
+.logout-panel{
+	width:90px;
+	height:60px;
+}
+
+.login-panel > div{
+	padding-top:20px;
+}
+
+.default-padding-round{
+	padding:5px;
+}
+
+#navItem li:hover > div{
+	display:block;
+}
+#navItem li > div{
+	display:none;
+}
+
+
+.logout-panel li{
+	list-style-type: none;
+	padding-top:5px;
+	padding-bottom:5px;
+	background-color:#ddd;
+	text-align: center;
+	cursor:pointer;
+}
+.logout-panel li:hover{
+	background-color:#ccc;
+}
+.logout-panel li:first-child{
+	border-bottom: 1px solid black;
+}
+.logout-panel li a{
+	color:black;
+}
+
+.publish-tooltip{
+	max-width:440px;
+}

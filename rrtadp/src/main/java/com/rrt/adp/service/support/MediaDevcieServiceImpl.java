@@ -68,6 +68,17 @@ public class MediaDevcieServiceImpl implements MediaDeviceService {
 		}
 		return null;
 	}
+	
+	@Override
+	public List<MediaDevice> getMediaDevcieList(MediaDevice device, Account account) {
+		if(null==device||null==account){
+			return null;
+		}
+		if(!account.isAdmin()){
+			device.setState(MediaDevice.STATE_CHECKED);
+		}
+		return deviceDao.selectTargetDeviceList(device);
+	}
 
 	@Override
 	public boolean updateMediaDevice(MediaDevice device, Account account) {
