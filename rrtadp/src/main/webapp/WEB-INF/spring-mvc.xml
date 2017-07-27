@@ -14,6 +14,7 @@
 			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan> -->
 	
+	<mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"/>
   	<mvc:resources location="/html/" mapping="*.html"/>
  	<mvc:resources location="/css/" mapping="/css/*"/>  
  	<mvc:resources location="/js/" mapping="/js/*"/>

@@ -26,11 +26,11 @@ public class AdvertisementControllerTest {
 		RestTemplate restTemplate = new RestTemplate();  
 		FileSystemResource frontPic = new FileSystemResource(new File("F:\\2.jpg"));
         MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();  
-        form.add("title", "adttiel0");
+        form.add("title", "adttiel1");
         form.add("type", "T");
         form.add("content", "adcontent");
         form.add("adFile", frontPic);
-        form.add("token", "D2F57AC0A0C50CAF1823CF1584CFB78C");
+        form.add("token", "9D4F16C0209408986E9BE2BC05F3CD1E");
         String result = restTemplate.postForObject(baseUrl+"/ad/new", form, String.class);  
         System.out.println(result);
 	}

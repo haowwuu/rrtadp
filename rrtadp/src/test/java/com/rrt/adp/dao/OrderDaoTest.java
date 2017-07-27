@@ -13,9 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.web.servlet.config.VelocityConfigurerBeanDefinitionParser;
 
-import com.google.common.util.concurrent.Service.State;
 import com.rrt.adp.model.Order;
 
 @WebAppConfiguration
@@ -26,7 +24,7 @@ public class OrderDaoTest extends AbstractJUnit4SpringContextTests {
 	@Resource
 	private OrderDao orderDao;
 	
-	@Test
+	@Ignore
 	public void testInsertOrder() {
 		Order order = new Order();
 		order.setAdId("AD1500731358736");
@@ -43,7 +41,7 @@ public class OrderDaoTest extends AbstractJUnit4SpringContextTests {
 		fail("Not yet implemented");
 	}
 
-	@Test
+	@Ignore
 	public void testUpdateOrder() {
 		Order order = new Order();
 		order.setId("OR1500735546969");
@@ -64,10 +62,18 @@ public class OrderDaoTest extends AbstractJUnit4SpringContextTests {
 		orders.stream().forEach(System.out::println);
 	}
 	
-	@Test
+	@Ignore
 	public void testSelectUserOrder() {
 		List<Order> orders = orderDao.selectUserOrderList("rrtgg");
 		orders.stream().forEach(System.out::println);
+	}
+	
+	@Test
+	public void testUpdataBid(){
+		List<String> list = orderDao.selectBidDevice();
+		list.stream().forEach(System.out::println);
+		orderDao.updateDeviceBidSuccess("abc");
+		orderDao.updateDeviceBidFail();
 	}
 
 }

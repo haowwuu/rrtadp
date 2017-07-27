@@ -14,4 +14,7 @@ public interface OrderService {
 	boolean updateOrder(Order order, Account account);
 	
 	boolean deleteOrder(String orderId, Account account);
+	
+	void bid();
+	
 }

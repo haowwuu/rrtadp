@@ -50,16 +50,11 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 	
 	@Override
 	public List<Advertisement> getUserAdList(Account account) {
-		if(null==account){
+		if(null==account||null==account.getAccount()){
 			return null;
 		}
-		if(account.isAdmin()){
-			return adDao.selectAdList();
-		}
-		if(null!=account.getAccount()){
-			return adDao.selectUserAdList(account.getAccount());
-		}
-		return null;
+		
+		return adDao.selectUserAdList(account.getAccount());
 	}
 	
 	@Override
@@ -70,7 +65,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 		if(!account.isAdmin()){
 			ad.setState(Advertisement.STATE_CHECKED);
 		}
-		return adDao.selectAdList();
+		return adDao.selectAdList(ad);
 	}
 
 	@Override

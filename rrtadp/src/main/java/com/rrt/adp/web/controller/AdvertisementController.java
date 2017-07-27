@@ -38,10 +38,17 @@ public class AdvertisementController {
 	}
 	
 	@ApiOperation("获取个人广告列表")
-	@RequestMapping(value="/list", method=RequestMethod.GET)
+	@RequestMapping(value="/my", method=RequestMethod.GET)
 	public RestResult getUserAdList(HttpServletRequest request){
 		Account account = RestSecurity.getSessionAccount(request);
 		return RestResult.defaultSuccessResult(adService.getUserAdList(account));
+	}
+	
+	@ApiOperation("根据条件获取广告列表")
+	@RequestMapping(value="/list", method=RequestMethod.GET)
+	public RestResult geAdList(Advertisement ad, HttpServletRequest request){
+		Account account = RestSecurity.getSessionAccount(request);
+		return RestResult.defaultSuccessResult(adService.getAdList(ad, account));
 	}
 	
 	@ApiOperation("更新广告信息、状态")

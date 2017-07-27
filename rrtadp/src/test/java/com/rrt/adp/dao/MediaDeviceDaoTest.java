@@ -44,6 +44,7 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 		device.setDeviceStatus(MediaDevice.STATUS_WORKING);
 		device.setBasePrice(100);
 		device.setKeyWords("key1,key2,key3");
+		device.setName("中文名");
 		device.setDescription("description");
 		device.setState(MediaDevice.STATE_NEW);
 		device.setPlayTime(new Date());
@@ -80,13 +81,27 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 				
 	}
 
-	@Ignore
+	@Test
 	public void testSelectDeviceList() {
-		List<MediaDevice> devcies = deviceDao.selectDeviceList();
+		MediaDevice device = new MediaDevice();
+		/*device.setDeviceType(MediaDevice.TYPE_SCREEN);
+		device.setDeviceStatus(MediaDevice.STATUS_WORKING);
+		device.setBasePrice(100);
+		device.setKeyWords("key1");
+		device.setDescription("description");
+		device.setState(MediaDevice.STATE_NEW);
+		device.setPlayTime(new Date());
+		device.setPlayFrequency(10);
+		device.setLng(120.123f);
+		device.setLat(30.456f);
+		device.setDistrictCode("330104");
+		device.setAddress("address somewhere");
+		device.setOwner("rrtgg");*/
+		List<MediaDevice> devcies = deviceDao.selectDeviceList(device);
 		devcies.stream().forEach(System.out::println);
 	}
 	
-	@Test
+	@Ignore
 	public void testSelectUserDeviceList() {
 		List<MediaDevice> devices = deviceDao.selectUserDeviceList("rrtgg");
 		devices.stream().forEach(System.out::println);

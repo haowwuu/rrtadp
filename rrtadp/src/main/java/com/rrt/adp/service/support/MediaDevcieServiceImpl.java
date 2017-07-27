@@ -38,35 +38,14 @@ public class MediaDevcieServiceImpl implements MediaDeviceService {
 		deviceDao.insertDevice(device);
 		return true;
 	}
-	
-	private boolean checkDevice(MediaDevice device){
-		if(!device.isStatusLegal()){
-			RequestMessageContext.setMsg(msgUtil.get("parameter.illegal","deviceStatus"));
-			return false;
-		}
-		if(!device.isStateLegal()){
-			RequestMessageContext.setMsg(msgUtil.get("parameter.illegal","state"));
-			return false;
-		}
-		if(!device.isTypeLegal()){
-			RequestMessageContext.setMsg(msgUtil.get("parameter.illegal", "deviceType"));
-			return false;
-		}
-		return true;
-	}
 
 	@Override
 	public List<MediaDevice> getUserMediaDevcieList(Account account) {
-		if(null==account){
+		if(null==account||null!=account.getAccount()){
 			return null;
 		}
-		if(account.isAdmin()){
-			return deviceDao.selectDeviceList();
-		}
-		if(null!=account.getAccount()){
-			return deviceDao.selectUserDeviceList(account.getAccount());
-		}
-		return null;
+		
+		return deviceDao.selectUserDeviceList(account.getAccount());
 	}
 	
 	@Override
@@ -77,7 +56,7 @@ public class MediaDevcieServiceImpl implements MediaDeviceService {
 		if(!account.isAdmin()){
 			device.setState(MediaDevice.STATE_CHECKED);
 		}
-		return deviceDao.selectTargetDeviceList(device);
+		return deviceDao.selectDeviceList(device);
 	}
 
 	@Override

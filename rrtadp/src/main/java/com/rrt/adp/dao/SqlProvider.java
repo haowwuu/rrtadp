@@ -2,7 +2,6 @@ package com.rrt.adp.dao;
 
 import java.util.Date;
 import org.springframework.util.StringUtils;
-
 import com.rrt.adp.model.Advertisement;
 import com.rrt.adp.model.CompanyUser;
 import com.rrt.adp.model.MediaDevice;
@@ -125,10 +124,15 @@ public class SqlProvider {
 			sb.append(" and device_status = #{deviceStatus}");
 		}
 		if(device.getBasePrice()>0){
-			sb.append(" and base_price < #{basePrice}");
+			sb.append(" and base_price <= #{basePrice}");
 		}
 		if(StringUtils.hasText(device.getKeyWords())){
-			sb.append(" and key_words like %#{keyWords}%");
+			device.setKeyWords("%"+device.getKeyWords()+"%");
+			sb.append(" and key_words like #{keyWords}");
+		}
+		if(StringUtils.hasText(device.getName())){
+			device.setName("%"+device.getName()+"%");
+			sb.append(", and name like #{name}");
 		}
 		if(StringUtils.hasText(device.getState())){
 			sb.append(" and state = #{state}");
@@ -140,7 +144,8 @@ public class SqlProvider {
 			sb.append(" and district_code = #{districtCode}");
 		}
 		if(StringUtils.hasText(device.getAddress())){
-			sb.append(" and address like %#{address}%");
+			device.setAddress("%"+device.getAddress()+"%");
+			sb.append(" and address like #{address}");
 		}
 		if(StringUtils.hasText(device.getOwner())){
 			sb.append(" and owner = #{owner}");
@@ -166,6 +171,9 @@ public class SqlProvider {
 		}
 		if(StringUtils.hasText(device.getKeyWords())){
 			sb.append(",key_words = #{keyWords}");
+		}
+		if(StringUtils.hasText(device.getName())){
+			sb.append(",name = #{name}");
 		}
 		if(StringUtils.hasText(device.getDescription())){
 			sb.append(",description = #{description}");
@@ -227,6 +235,31 @@ public class SqlProvider {
 		sb.append(" where id = #{id}");
 		
 		return sb.toString();	
+	}
+	
+	public String selectAdvertisement(Advertisement ad){
+		StringBuilder sb = new StringBuilder();
+		sb.append("select * from rrt_ad where 1");
+		if(StringUtils.hasText(ad.getTitle())){
+			ad.setTitle("%"+ad.getType()+"%");
+			sb.append(" and title like #{title}");
+		}
+		if(StringUtils.hasText(ad.getType())){
+			sb.append(" and type = #{type}");
+		}
+		if(StringUtils.hasText(ad.getState())){
+			sb.append(" and state = #{state}");
+		}
+		if(StringUtils.hasText(ad.getContent())){
+			ad.setContent("%"+ad.getContent()+"%");
+			sb.append(" and content like #{content}");
+		}
+		
+		if(StringUtils.hasText(ad.getOwner())){
+			sb.append(" and owner = #{owner}");
+		}
+		//System.out.println(sb.toString());
+		return sb.toString();
 	}
 	
 	public String updateAdvertisement(Advertisement ad) {

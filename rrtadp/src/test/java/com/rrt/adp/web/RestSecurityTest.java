@@ -13,7 +13,7 @@ import com.google.common.cache.CacheBuilder;
 public class RestSecurityTest {
 	
 	private static Cache<String, String> sessionCache = 
-			CacheBuilder.newBuilder().expireAfterAccess(1, TimeUnit.SECONDS).build();
+			CacheBuilder.newBuilder().expireAfterAccess(100, TimeUnit.SECONDS).build();
 	@Before
 	public void setUp() throws Exception {
 	}

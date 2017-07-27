@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 
 import com.rrt.adp.model.Order;
@@ -24,6 +25,9 @@ public interface OrderDao {
 	
 	@UpdateProvider(type=SqlProvider.class, method="updateOrder")
 	int updateOrder(Order order);
+	
+	@Update("")
+	int updateOrderBid(Order order);
 	
 	@Select("select * from rrt_order where id = #{orderId}")
 	@Results({ 
@@ -66,4 +70,14 @@ public interface OrderDao {
 		@Result(property = "deviceOwner", column = "device_owner")
 	})
 	List<Order> selectUserOrderList(String account);
+	
+	@Select("select DISTINCT device_id  from rrt_order WHERE create_time > DATE_SUB(NOW(), INTERVAL 1 DAY)")
+	List<String> selectBidDevice();
+	@Update("update rrt_order set state = 'S' "
+			+ "WHERE device_id = #{deviceId} and state = 'N' or state = 'C' order by price DESC LIMIT 20")
+	int updateDeviceBidSuccess(String deviceId);
+	
+	@Update("update rrt_order set state = 'F' "
+			+ "WHERE state = 'N' or state = 'C' and create_time > DATE_SUB(NOW(), INTERVAL 10 DAY)")
+	int updateDeviceBidFail();
 }

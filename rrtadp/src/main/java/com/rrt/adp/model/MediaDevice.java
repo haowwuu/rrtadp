@@ -17,6 +17,7 @@ public class MediaDevice extends DBModel {
 	private float basePrice;
 	
 	private String keyWords;
+	private String name;
 	private String description;
 	private String state;
 	private Date playTime;
@@ -85,6 +86,12 @@ public class MediaDevice extends DBModel {
 	public void setKeyWords(String keyWords) {
 		this.keyWords = keyWords;
 	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public String getDescription() {
 		return description;
 	}
@@ -143,10 +150,10 @@ public class MediaDevice extends DBModel {
 	@Override
 	public String toString() {
 		return "MediaDevice [deviceType=" + deviceType + ", deviceStatus=" + deviceStatus + ", basePrice=" + basePrice
-				+ ", keyWords=" + keyWords + ", description=" + description + ", state=" + state + ", playTime="
-				+ playTime + ", playFrequency=" + playFrequency + ", lng=" + lng + ", lat=" + lat + ", districtCode="
-				+ districtCode + ", address=" + address + ", owner=" + owner + ", id=" + id + ", getCreateTime()="
-				+ getCreateTime() + ", getUpdateTime()=" + getUpdateTime() + "]";
+				+ ", keyWords=" + keyWords + ", name=" + name + ", description=" + description + ", state=" + state
+				+ ", playTime=" + playTime + ", playFrequency=" + playFrequency + ", lng=" + lng + ", lat=" + lat
+				+ ", districtCode=" + districtCode + ", address=" + address + ", owner=" + owner + ", id=" + id
+				+ ", getCreateTime()=" + getCreateTime() + ", getUpdateTime()=" + getUpdateTime() + "]";
 	}
-	
+
 }

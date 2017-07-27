@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.rrt.adp.dao.AdvertisementDao;
@@ -19,6 +22,8 @@ import com.rrt.adp.util.RequestMessageContext;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(OrderServiceImpl.class);
 	
 	@Resource
 	private OrderDao orderDao;
@@ -109,6 +114,17 @@ public class OrderServiceImpl implements OrderService {
 		order.setId(orderId);
 		order.setState(Order.STATE_DELETE);
 		return updateOrder(order, account);
+	}
+
+	@Scheduled(cron="0 0 17 * * ?")
+	@Override
+	public void bid() {
+		List<String> deviceList = orderDao.selectBidDevice();
+		for(String device:deviceList){
+			orderDao.updateDeviceBidSuccess(device);
+		}
+		orderDao.updateDeviceBidFail();
+		LOGGER.error("info message, report the bid procedure has proceeded");
 	}
 
 }

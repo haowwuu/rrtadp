@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 
 import com.rrt.adp.model.Advertisement;
@@ -40,7 +41,7 @@ public interface AdvertisementDao {
 	})
 	Advertisement selectAd(String adId);
 	
-	@Select("select * from rrt_ad")
+	@SelectProvider(type=SqlProvider.class, method="selectAdvertisement")
 	@Results({
 		@Result(property = "id", column = "id"),
 	    @Result(property = "createTime", column = "create_time"),
@@ -53,7 +54,7 @@ public interface AdvertisementDao {
 		@Result(property = "timeInSecond", column = "time_in_second"),
 		@Result(property = "owner", column = "owner")
 	})
-	List<Advertisement> selectAdList();
+	List<Advertisement> selectAdList(Advertisement ad);
 	
 	@Select("select * from rrt_ad where owner = #{account}")
 	@Results({

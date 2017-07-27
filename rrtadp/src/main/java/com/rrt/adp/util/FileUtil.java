@@ -51,13 +51,13 @@ public class FileUtil {
 		String mfileName = mfile.getOriginalFilename();
 		if(null==fileName){
 			fileName = mfileName;
-		}else{
+		}/*else{
 			int idx = mfileName.indexOf(".");
 			if(idx>=0){
 				String subfix = mfileName.substring(idx);
 				fileName += subfix;
 			}
-		}
+		}*/
 		byte[] contents = new byte[0];
 		try{
 			contents =  mfile.getBytes();

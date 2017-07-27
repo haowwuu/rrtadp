@@ -27,6 +27,7 @@ import sun.reflect.generics.tree.VoidDescriptor;
 @ContextConfiguration(locations = "classpath:beans.xml")*/
 public class FileUploadTest {
 	
+	private String basicUrl = UserControllerTest.baseUrl;
 	@Resource
 	private FileUtil fileUtil;
 	//http://blog.csdn.net/mhmyqn/article/details/26395743
@@ -35,9 +36,9 @@ public class FileUploadTest {
 	}
 
 	
-	@Test
+	@Ignore
 	public void testUpload() throws Exception {
-		String url = "http://127.0.0.1:8080/rrtadp/user/uploadFile";
+		String url = basicUrl + "user/uploadFile";
 		//String filePath = "C:\\Users\\MikanMu\\Desktop\\test.txt";
 		String filePath = "F:\\2.jpg";
 
@@ -55,6 +56,24 @@ public class FileUploadTest {
 	public void testFileUpload() {
 		String retn = fileUtil.uploadFile("abc", "test".getBytes());
 		System.out.println(retn);
+	}
+	
+	@Test
+	public void testUploadFileIndex() throws Exception {
+		String url = basicUrl + "/file/upload";
+		//String filePath = "C:\\Users\\MikanMu\\Desktop\\test.txt";
+		String filePath = "F:\\2.jpg";
+
+		RestTemplate rest = new RestTemplate();
+		FileSystemResource resource = new FileSystemResource(new File(filePath));
+		MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
+		param.add("file", resource);
+		param.add("id", "id001");
+		param.add("index", "2");
+		param.add("token", "9DFCEC050DCEF9A94738C75739968D06");
+
+		String string = rest.postForObject(url, param, String.class);
+		System.out.println(string);
 	}
 
 }

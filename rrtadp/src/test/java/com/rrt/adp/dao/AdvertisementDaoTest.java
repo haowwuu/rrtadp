@@ -53,7 +53,7 @@ public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
 		fail("Not yet implemented");
 	}
 
-	@Test
+	@Ignore
 	public void testUpdateAd() {
 		Advertisement advertisement = new Advertisement();
 		advertisement.setId("AD1500731358736");
@@ -62,7 +62,7 @@ public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
 		advertisementDao.updateAd(advertisement);
 	}
 
-	@Test
+	@Ignore
 	public void testSelectAd() {
 		Advertisement advertisement = advertisementDao.selectAd("AD1500731358736");
 		System.out.println(advertisement);
@@ -70,7 +70,14 @@ public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
 
 	@Test
 	public void testSelectAdList() {
-		List<Advertisement> ads = advertisementDao.selectAdList();
+		Advertisement advertisement = new Advertisement();
+		advertisement.setTitle("ad-title");
+		advertisement.setType(Advertisement.TYPE_TEXT);
+		advertisement.setState(Advertisement.STATE_NEW);
+		advertisement.setContent("ad-content");
+	
+		advertisement.setOwner("rrtgg");
+		List<Advertisement> ads = advertisementDao.selectAdList(advertisement);
 		ads.stream().forEach(System.out::println);
 	}
 

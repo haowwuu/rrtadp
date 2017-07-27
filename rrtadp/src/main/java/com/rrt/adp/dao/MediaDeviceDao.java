@@ -17,10 +17,10 @@ import com.rrt.adp.model.MediaDevice;
 public interface MediaDeviceDao {
 	
 	@Insert("insert into rrt_media_device (id, create_time, update_time, device_type, device_status, " +
-			"base_price, key_words, description, state, play_time, play_frequency, lng, lat, " +
+			"base_price, key_words, name, description, state, play_time, play_frequency, lng, lat, " +
 			"district_code, address, owner)"+
 			"values (#{id}, #{createTime}, #{updateTime}, #{deviceType}, #{deviceStatus}, " +
-			"#{basePrice}, #{keyWords}, #{description}, #{state}, #{playTime}, #{playFrequency}, #{lng}, #{lat}, " +
+			"#{basePrice}, #{keyWords}, #{name}, #{description}, #{state}, #{playTime}, #{playFrequency}, #{lng}, #{lat}, " +
 			"#{districtCode}, #{address}, #{owner})")
 	int insertDevice(MediaDevice device);
 	
@@ -39,6 +39,7 @@ public interface MediaDeviceDao {
 		@Result(property = "deviceStatus", column = "device_status"),
 		@Result(property = "basePrice", column = "base_price"), 
 	    @Result(property = "keyWords", column = "key_words"),
+	    @Result(property = "name", column = "name"),
 	    @Result(property = "description", column = "description"),
 		@Result(property = "state", column = "state"),
 		@Result(property = "playTime", column = "play_time"),
@@ -49,32 +50,9 @@ public interface MediaDeviceDao {
 		@Result(property = "address", column = "address"),
 		@Result(property = "districtCode", column = "district_code"),
 		@Result(property = "address", column = "address"),
-		@Result(property = "owner", column = "owner"),
+		@Result(property = "owner", column = "owner")
 	})
 	MediaDevice selectDevice(@Param("deviceId") String deviceId);
-	
-	@Select("select * from rrt_media_device")
-	@Results({
-		@Result(property = "id", column = "id"),
-		@Result(property = "createTime", column = "create_time"),
-		@Result(property = "updateTime", column = "update_time"),
-	    @Result(property = "deviceType", column = "device_type"),
-		@Result(property = "deviceStatus", column = "device_status"),
-		@Result(property = "basePrice", column = "base_price"), 
-	    @Result(property = "keyWords", column = "key_words"),
-	    @Result(property = "description", column = "description"),
-		@Result(property = "state", column = "state"),
-		@Result(property = "playTime", column = "play_time"),
-		@Result(property = "playFrequency", column = "play_frequency"),
-		@Result(property = "lng", column = "lng"),
-		@Result(property = "lat", column = "lat"),
-		@Result(property = "districtCode", column = "district_code"),
-		@Result(property = "address", column = "address"),
-		@Result(property = "districtCode", column = "district_code"),
-		@Result(property = "address", column = "address"),
-		@Result(property = "owner", column = "owner"),
-	})
-	List<MediaDevice> selectDeviceList();
 	
 	@Select("select * from rrt_media_device where owner = #{account}")
 	@Results({
@@ -85,6 +63,7 @@ public interface MediaDeviceDao {
 		@Result(property = "deviceStatus", column = "device_status"),
 		@Result(property = "basePrice", column = "base_price"), 
 	    @Result(property = "keyWords", column = "key_words"),
+	    @Result(property = "name", column = "name"),
 	    @Result(property = "description", column = "description"),
 		@Result(property = "state", column = "state"),
 		@Result(property = "playTime", column = "play_time"),
@@ -95,32 +74,9 @@ public interface MediaDeviceDao {
 		@Result(property = "address", column = "address"),
 		@Result(property = "districtCode", column = "district_code"),
 		@Result(property = "address", column = "address"),
-		@Result(property = "owner", column = "owner"),
+		@Result(property = "owner", column = "owner")
 	})
 	List<MediaDevice> selectUserDeviceList(String account);
-	
-	@Select("select * from rrt_media_device where state = 'C'")
-	@Results({
-		@Result(property = "id", column = "id"),
-		@Result(property = "createTime", column = "create_time"),
-		@Result(property = "updateTime", column = "update_time"),
-	    @Result(property = "deviceType", column = "device_type"),
-		@Result(property = "deviceStatus", column = "device_status"),
-		@Result(property = "basePrice", column = "base_price"), 
-	    @Result(property = "keyWords", column = "key_words"),
-	    @Result(property = "description", column = "description"),
-		@Result(property = "state", column = "state"),
-		@Result(property = "playTime", column = "play_time"),
-		@Result(property = "playFrequency", column = "play_frequency"),
-		@Result(property = "lng", column = "lng"),
-		@Result(property = "lat", column = "lat"),
-		@Result(property = "districtCode", column = "district_code"),
-		@Result(property = "address", column = "address"),
-		@Result(property = "districtCode", column = "district_code"),
-		@Result(property = "address", column = "address"),
-		@Result(property = "owner", column = "owner"),
-	})
-	List<MediaDevice> selectCheckedDeviceList();
 	
 	@SelectProvider(type=SqlProvider.class, method="selectMediaDevice")
 	@Results({
@@ -131,6 +87,7 @@ public interface MediaDeviceDao {
 		@Result(property = "deviceStatus", column = "device_status"),
 		@Result(property = "basePrice", column = "base_price"), 
 	    @Result(property = "keyWords", column = "key_words"),
+	    @Result(property = "name", column = "name"),
 	    @Result(property = "description", column = "description"),
 		@Result(property = "state", column = "state"),
 		@Result(property = "playTime", column = "play_time"),
@@ -141,8 +98,8 @@ public interface MediaDeviceDao {
 		@Result(property = "address", column = "address"),
 		@Result(property = "districtCode", column = "district_code"),
 		@Result(property = "address", column = "address"),
-		@Result(property = "owner", column = "owner"),
+		@Result(property = "owner", column = "owner")
 	})
-	List<MediaDevice> selectTargetDeviceList(MediaDevice device);
+	List<MediaDevice> selectDeviceList(MediaDevice device);
 	
 }
