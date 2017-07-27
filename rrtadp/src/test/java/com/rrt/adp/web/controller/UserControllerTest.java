@@ -17,8 +17,8 @@ import com.rrt.adp.util.EncryptUtil;
 
 public class UserControllerTest {
 	
-	//public static String baseUrl = "http://localhost:8080/rrtadp/";
-	public static String baseUrl = "http://47.92.100.40/rrtadp/";
+	public static String baseUrl = "http://localhost:8080/rrtadp/";
+	//public static String baseUrl = "http://47.92.100.40/rrtadp/";
 	public static String token = null;
 
 	@Before

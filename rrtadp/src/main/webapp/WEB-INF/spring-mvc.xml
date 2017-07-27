@@ -24,7 +24,7 @@
 
 	<mvc:default-servlet-handler />
 
-	<mvc:annotation-driven></mvc:annotation-driven>
+	<mvc:annotation-driven conversion-service="conversionService"></mvc:annotation-driven>
 	
 	<!-- 设置上传文件的最大尺寸为100MB -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -32,6 +32,16 @@
 			<value>102400000</value>
 		</property>
 	</bean>	
+	
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <ref bean="dateConverter"/>
+            </set>
+        </property>
+    </bean>
+    <!-- 第一步:  创建自定义日期转换规则 -->   
+    <bean id="dateConverter" class="com.rrt.adp.web.DateConverter"/>
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

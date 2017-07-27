@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class AdvertisementControllerTest {
 
-	private String baseUrl = "http://47.92.100.40/rrtadp/";
+	private String baseUrl = UserControllerTest.baseUrl;
 	//private String baseUrl = "http://localhost:8080/rrtadp/";
 	@Before
 	public void setUp() throws Exception {
