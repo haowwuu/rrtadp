@@ -24,8 +24,8 @@
 	<script type="text/javascript" src="js/bootstrap.js"></script>
 	<script type="text/javascript" src="js/dataTables.bootstrap.min.js"></script>	
 	<script type="text/javascript" src="js/jquery-ui.js"></script>
-	<script type="text/javascript" src="js/include.js"></script>
-	<script type="text/javascript" src="js/dsp.js"></script>
+	<!-- <script type="text/javascript" src="js/include.js"></script> -->
+	<!-- <script type="text/javascript" src="js/dsp.js"></script> -->
   </head>
   
   <body>
@@ -114,16 +114,17 @@
 		</div>
 	  	
 	    <div class="table-responsive">
-	   		<h4><strong>秘钥分配表</strong></h4>
+	   		<h4><strong>平台用户</strong></h4>
 	    	<table id="applicationTable" class="table table-striped table-bordered"  >
 	    		<thead>
 	    			<tr>
-	    				<th class="col-md-2" >应用名称</th>
-		    			<!-- <th class="col-md-3" >应用标识</th> -->
-		    			<!-- <th class="col-md-2" >应用秘钥</th> -->
-		    			<th class="col-md-3" style="min-width:150px;">应用地址</th>
-		    			
-		    			<th class="col-md-4" >描述</th>
+	    				<th class="col-md-2" >账号</th>
+		    			<th class="col-md-3" >名称</th>
+		    			<!-- <th class="col-md-3" style="min-width:150px;">应用地址</th> -->
+		    			<th class="col-md-4" >电话</th>
+		    			<th class="col-md-4" >邮箱</th>
+		    			<th class="col-md-4" style="min-width:100px;">身份证号</th>
+		    			<th class="col-md-4" style="min-width:50px;">状态</th>
 		    		</tr>
 	    		</thead>
 	    		<tbody>
@@ -137,16 +138,9 @@
     <script type="text/javascript">
     	
     	$(function(){
-			$("#navItem li[name='keys']").addClass('active'); 
 			$("#searchInput").keyup( function() {
 				$("#applicationTable").DataTable().draw();
-				$("#quantityTable").DataTable().draw();
 			});
-			
-			application.table.on('xhr', function () {
-			    quantity.autoComplete(); 
-			});
-				
     	});
     	
     	$.fn.dataTable.ext.search.push(
@@ -164,12 +158,37 @@
     	var application={
     		table: $("#applicationTable").DataTable({
     			"bAutoWidth": false,
-    			"ajax": "app/query",
+    			//"ajax": "user/personUerList",
+    			"ajax":{
+    				"url":"user/personUserList",
+    				"contentType": "application/json",
+    				"data":function(d){
+    					console.log(d);
+    					return d.data;
+    				}
+    			},
     			"columnDefs": [
                 	{	                          
                     	"defaultContent": "",
                         "targets": "_all"
                    	},
+                   	{
+                   		"targets" : 5,
+						"render" : function(data, type, row) {
+							if("N"==data){
+								var id = '"' + row.account + '"';
+								var html = "<span class='opt-td'>新用户</span> <div class='opt-show'> ";
+								html += "<span onclick='application.updateState("+ id + ")' class='btn btn-default btn-xs'>审核通过</span></div>";
+								return html;
+								//return "新用户";
+							}
+							if("C"==data){
+								return "已审核";
+							}
+							return data;
+						}
+                   	}
+                	/* ,
                     {
                     	"targets" : 1,
 						"render" : function(data, type,row) {
@@ -182,14 +201,15 @@
 							html += "<span onclick='application.deleteModal("+ r + ")' class='btn btn-default btn-xs'>删除</span></div>";
 							return html;
                     	}
-                    }
+                    } */
                 ],	      
     			"columns":[
-    				{"data":"appName"},
-    				/* {"data":"appKey"}, */
-    				/* {"data":"appSecret"}, */
-    				{"data":"appAddress"},
-    				{"data":"description"}
+    				{"data":"account"},
+    				{"data":"name"},
+    				{"data":"phone"},
+    				{"data":"email"},
+    				{"data":"IDCard"},
+    				{"data":"state"}
     			],
     			"bStateSave": true,
     			"oLanguage": {
@@ -289,6 +309,22 @@
 	    			success:function(data){
 	    				application.reload();
 	    				$("#modal").modal('hide');
+	    			}
+	    		});
+	    	},
+	    	updateState:function(account){
+	    		$.ajax({
+	    			type:"post",
+	    			url:"user/audit",
+	    			dataType:"json",
+	    			data:{
+	    				account:account,
+	    				state:"C",
+	    				type:"P"
+	    			},
+	    			success:function(data){
+	    				application.reload();
+	    				//$("#modal").modal('hide');
 	    			}
 	    		});
 	    	},

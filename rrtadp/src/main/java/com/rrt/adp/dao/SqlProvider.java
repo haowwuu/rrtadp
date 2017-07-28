@@ -28,6 +28,9 @@ public class SqlProvider {
 		if(StringUtils.hasText(user.getRole())){
 			sb.append(",account_role = #{role}");
 		}
+		if(StringUtils.hasText(user.getState())){
+			sb.append(",account_state = #{state}");
+		}
 		if(StringUtils.hasText(user.getName())){
 			sb.append(",user_name = #{name}");
 		}
@@ -77,6 +80,9 @@ public class SqlProvider {
 		}
 		if(StringUtils.hasText(user.getRole())){
 			sb.append(",account_role = #{role}");
+		}
+		if(StringUtils.hasText(user.getState())){
+			sb.append(",account_state = #{state}");
 		}
 		if(StringUtils.hasText(user.getCompanyName())){
 			sb.append(",company_name = #{companyName}");

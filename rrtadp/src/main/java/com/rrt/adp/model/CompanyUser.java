@@ -14,6 +14,15 @@ public class CompanyUser extends Account{
 	private String certificateFrontPicUrl;
 	private String certificateBackPicUrl;
 	
+    public CompanyUser() {
+		super();
+	}
+    
+	public CompanyUser(Account account) {
+		super(account.getAccount(), account.getPassword(), 
+				account.getDescription(), account.getType(), 
+				account.getRole(), account.getState());
+	}
 	
 	public String getCompanyName() {
 		return companyName;

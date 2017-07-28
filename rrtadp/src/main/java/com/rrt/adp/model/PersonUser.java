@@ -15,6 +15,16 @@ public class PersonUser extends Account {
 	private String IDCardBackPicUrl;
 	
 	
+	public PersonUser() {
+		super();
+	}
+	
+	public PersonUser(Account account) {
+		super(account.getAccount(), account.getPassword(), 
+				account.getDescription(), account.getType(), 
+				account.getRole(), account.getState());
+	}
+	
 	public String getName() {
 		return name;
 	}

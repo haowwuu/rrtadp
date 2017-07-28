@@ -24,10 +24,8 @@
 	margin-right:0;
 }
 .container-fluid{
-	max-width:1024px;
 	margin：0 auto;
-	padding-left:15px;
-	padding-right:15px;
+	padding:15px;
 }
 
 footer{

@@ -39,6 +39,23 @@ public class Account extends DBModel{
 	private String role;
 	private String state;
 	
+	
+	
+	public Account() {
+		super();
+	}
+
+	public Account(String account, String password,
+			String description, String type, String role, String state) {
+		super();
+		this.account = account;
+		this.password = password;
+		this.description = description;
+		this.type = type;
+		this.role = role;
+		this.state = state;
+	}
+	
 	public static boolean isTypeLegal(String type){
 		return TYPE_SET.contains(type);
 	}

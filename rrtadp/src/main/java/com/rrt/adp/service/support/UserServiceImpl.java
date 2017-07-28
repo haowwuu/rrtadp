@@ -151,9 +151,9 @@ public class UserServiceImpl implements UserService {
 		account.setRole(null);
 		account.setPassword(null);
 		if(Account.TYPE_PERSON_USER.equals(account.getType())){
-			personUserDao.updateUser((PersonUser)account);
+			personUserDao.updateUser(new PersonUser(account));
 		}else if(Account.TYPE_COMPANY_USER.equals(account.getType())){
-			companyUserDao.updateUser((CompanyUser)account);
+			companyUserDao.updateUser(new CompanyUser(account));
 		}else{
 			RequestMessageContext.setMsg(msgUtil.get("accout.type.illegal"));
 			return false;

@@ -97,7 +97,7 @@ public class UserController {
 	}
 	
 	@ApiOperation("获取个人用户列表")
-	@RequestMapping(value="/personUerList", method=RequestMethod.GET)
+	@RequestMapping(value="/personUserList", method=RequestMethod.GET)
 	public RestResult getPersonUserList(HttpServletRequest request){
 		if(!RestSecurity.isAdmin(request)){
 			return RestResult.defaultFailResult(msgUtil.get("permission.deny"));
@@ -145,32 +145,5 @@ public class UserController {
 			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
 		}
 	}
-	 
-    @RequestMapping(value = "/upload.do", method = RequestMethod.POST)  
-    public String upload(String fileName, MultipartFile jarFile) {  
-        // 下面是测试代码  
-        System.out.println(fileName);  
-        String originalFilename = jarFile.getOriginalFilename();  
-        System.out.println(originalFilename);  
-        try {  
-            String string = new String(jarFile.getBytes(), "UTF-8");  
-            System.out.println(string);  
-        } catch (UnsupportedEncodingException e) {  
-            e.printStackTrace();  
-        } catch (IOException e) {  
-            e.printStackTrace();  
-        }  
-        // TODO 处理文件内容...  
-        return "OK";  
-    }
-    
-    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)  
-    public String uploadFile(String fileName, MultipartFile jarFile) {  
-    	try{
-    		return fileUtil.uploadFile(fileName, jarFile.getBytes());
-    	}catch (Exception e) {
-			return e.getMessage();
-		}
-    }  
 
 }
