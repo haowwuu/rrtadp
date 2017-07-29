@@ -6,15 +6,16 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitterReturnValueHandler;
 
 import com.rrt.adp.dao.AdvertisementDao;
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.Advertisement;
+import com.rrt.adp.model.DBModel;
 import com.rrt.adp.service.AdvertisementService;
 import com.rrt.adp.util.FileUtil;
 import com.rrt.adp.util.MessageUtil;
 import com.rrt.adp.util.RequestMessageContext;
+import com.rrt.adp.util.SequenceGenerator;
 
 @Service
 public class AdvertisementServiceImpl implements AdvertisementService {
@@ -31,6 +32,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 		if(null==ad||null==account){
 			return null;
 		}
+		ad.setId(DBModel.ADVERTISEMENT_ID_PREFIX+SequenceGenerator.next());
 		ad.setState(Advertisement.STATE_NEW);
 		ad.setOwner(account.getAccount());
 		if(!ad.isTypeLegal()){

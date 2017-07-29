@@ -1,6 +1,5 @@
 package com.rrt.adp.model;
 
-import java.sql.Types;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;

@@ -14,11 +14,13 @@ import com.rrt.adp.dao.MediaDeviceDao;
 import com.rrt.adp.dao.OrderDao;
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.Advertisement;
+import com.rrt.adp.model.DBModel;
 import com.rrt.adp.model.MediaDevice;
 import com.rrt.adp.model.Order;
 import com.rrt.adp.service.OrderService;
 import com.rrt.adp.util.MessageUtil;
 import com.rrt.adp.util.RequestMessageContext;
+import com.rrt.adp.util.SequenceGenerator;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -40,6 +42,7 @@ public class OrderServiceImpl implements OrderService {
 		if(null==order||null==account||null==account.getAccount()){
 			return false;
 		}
+		order.setId(DBModel.ORDER_ID_PREFIX+SequenceGenerator.next());
 		if(null==order.getAdId()){
 			RequestMessageContext.setMsg(msgUtil.get("parameter.null", "adId"));
 			return false;

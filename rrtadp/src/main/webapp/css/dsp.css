@@ -152,3 +152,12 @@ table td:hover .opt-show{
 .publish-tooltip{
 	max-width:440px;
 }
+
+#contents .panel-body img{
+	padding-bottom:15px;
+}
+
+#contents .input-group{
+	max-width:300px;
+	float:right;
+}

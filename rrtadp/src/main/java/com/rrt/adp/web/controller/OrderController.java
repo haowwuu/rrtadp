@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rrt.adp.model.Account;
-import com.rrt.adp.model.Advertisement;
 import com.rrt.adp.model.Order;
 import com.rrt.adp.service.OrderService;
+import com.rrt.adp.util.MessageUtil;
 import com.rrt.adp.util.RequestMessageContext;
 import com.rrt.adp.web.RestResult;
 import com.rrt.adp.web.RestSecurity;
@@ -23,6 +23,9 @@ public class OrderController {
 	
 	@Resource
 	private OrderService orderService;
+	@Resource
+	private MessageUtil msgUtil;
+		
 	
 	@ApiOperation("新建订单")
 	@RequestMapping(value="/new", method=RequestMethod.POST)
@@ -68,6 +71,17 @@ public class OrderController {
 			return RestResult.defaultSuccessResult();
 		}else{
 			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+		}
+	}
+	
+	@ApiOperation("开始订单竞价")
+	@RequestMapping(value="/bid", method=RequestMethod.POST)
+	public RestResult bidOrder(HttpServletRequest request){
+		if(RestSecurity.isAdmin(request)){
+			orderService.bid();
+			return RestResult.defaultSuccessResult();
+		}else{
+			return RestResult.defaultFailResult(msgUtil.get("permission.deny"));
 		}
 	}
 

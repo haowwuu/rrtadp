@@ -7,10 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.rrt.adp.dao.MediaDeviceDao;
 import com.rrt.adp.model.Account;
+import com.rrt.adp.model.DBModel;
 import com.rrt.adp.model.MediaDevice;
 import com.rrt.adp.service.MediaDeviceService;
 import com.rrt.adp.util.MessageUtil;
 import com.rrt.adp.util.RequestMessageContext;
+import com.rrt.adp.util.SequenceGenerator;
 
 @Service
 public class MediaDevcieServiceImpl implements MediaDeviceService {
@@ -25,6 +27,7 @@ public class MediaDevcieServiceImpl implements MediaDeviceService {
 		if(null==device||null==account){
 			return false;
 		}
+		device.setId(DBModel.MEDIA_DEVICE_ID_PREFIX+SequenceGenerator.next());
 		device.setState(MediaDevice.STATE_NEW);
 		device.setOwner(account.getAccount());
 		if(!device.isStatusLegal()){

@@ -51,6 +51,7 @@ public class UserController {
 	@RequestMapping(value="/regist/person", method=RequestMethod.POST)
 	public RestResult registPersonUser(PersonUser user, 
 			MultipartFile idFrontPicFile, MultipartFile idBackPicFile){
+		System.out.println(user);
 		PersonUser retn = userService.registPersonUser(user, idFrontPicFile, idBackPicFile);
 		if(null!=retn){
 			return RestResult.defaultSuccessResult(retn, msgUtil.get("regist.success"));
@@ -89,11 +90,9 @@ public class UserController {
 	
 	@ApiOperation("删除用户")
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
-	public RestResult deleteUser(String account, HttpServletRequest request){
-		Account user = new Account();
-		user.setAccount(account);
-		user.setState(Account.STATE_DELETE);
-		return auditUser(user, request);
+	public RestResult deleteUser(Account account, HttpServletRequest request){
+		account.setState(Account.STATE_DELETE);
+		return auditUser(account, request);
 	}
 	
 	@ApiOperation("获取个人用户列表")
@@ -123,9 +122,11 @@ public class UserController {
 	@ApiOperation("更新个人用户信息")
 	@RequestMapping(value="/updatePersonUser", method=RequestMethod.POST)
 	public RestResult updatePersonUser(PersonUser user, HttpServletRequest request){
-		if(!RestSecurity.isUserOwn(request)){
+		if(!RestSecurity.isUserOwn(request)&&!RestSecurity.isAdmin(request)){
+			System.out.println(RestSecurity.getSessionAccount(request));
 			return RestResult.defaultFailResult(msgUtil.get("permission.deny"));
 		}
+		System.out.println(user);
 		if(userService.updatePersonUser(user)){
 			return RestResult.defaultSuccessResult("success");
 		}else{
@@ -136,7 +137,7 @@ public class UserController {
 	@ApiOperation("更新企业用户信息")
 	@RequestMapping(value="/updateCompanyUser", method=RequestMethod.POST)
 	public RestResult updateCompanyUser(CompanyUser user, HttpServletRequest request){
-		if(!RestSecurity.isUserOwn(request)){
+		if(!RestSecurity.isUserOwn(request)&&!RestSecurity.isAdmin(request)){
 			return RestResult.defaultFailResult(msgUtil.get("permission.deny"));
 		}
 		if(userService.updateCompanyUser(user)){

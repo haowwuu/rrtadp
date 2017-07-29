@@ -8,9 +8,9 @@ import com.rrt.adp.util.SequenceGenerator;
 
 public class DBModel {
 	
-	protected static final String ADVERTISEMENT_ID_PREFIX = "AD";
-	protected static final String MEDIA_DEVICE_ID_PREFIX = "MD";
-	protected static final String ORDER_ID_PREFIX = "OR";
+	public static final String ADVERTISEMENT_ID_PREFIX = "AD";
+	public static final String MEDIA_DEVICE_ID_PREFIX = "MD";
+	public static final String ORDER_ID_PREFIX = "OR";
 	
 	public static final String STATE_NEW = "N";
 	public static final String STATE_CHECKED = "C";

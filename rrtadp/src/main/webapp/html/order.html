@@ -56,52 +56,34 @@
 		  			<form id="applicationForm" class="form-horizontal" role="form" enctype="multipart/form-data">
 		  				<div class="col-sm-6" style="padding-left:0">
 				            <div class="form-group has-feedback">
-				            	<label for="id" class="col-sm-4 control-label">编号：</label>
+				            	<label for="id" class="col-sm-4 control-label">订单编号：</label>
 			                	<div class="col-sm-8 rf-no-padding"> 
 			                		<input type="text" class="hidden" name="appId">            
 			                    	<input type="text" class="form-control" name="id" regx="^\S{2,25}$" title="应用名称:2-25个字符组成">
 			                	</div>    
 				            </div>
 				            <div class="form-group has-feedback">
-				            	<label for="basePrice" class="col-sm-4 control-label">底价：</label>
+				            	<label for="adId" class="col-sm-4 control-label">广告编号：</label>
 			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="text" class="form-control" name="basePrice" regx="^\S{2,50}$" title="应用地址:2-50个字符组成">
+			                    	<input type="text" class="form-control" name="adId" regx="^\S{2,50}$" title="应用地址:2-50个字符组成">
 			                	</div>    
 				            </div>
-				            <div class="form-group has-feedback">
-				            	<label for="playTime" class="col-sm-4 control-label">播放时间：</label>
-			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="text" class="form-control" name="playTime" regx="^[\S\s]{0,100}$" title="应用描述:最多100个字符组成">
-			                	</div>    
-				            </div>
-				            <div class="form-group has-feedback" >
-				            	<label for="address" class="col-sm-4 control-label">所在地：</label>
-			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="text" class="form-control" name="address" >
-			                	</div>    
-				            </div>
+
 			            </div>
 			            <div class="col-sm-6">
 				           
 				            <div class="form-group has-feedback">
-				            	<label for="name" class="col-sm-4 control-label">名称：</label>
+				            	<label for="price" class="col-sm-4 control-label">竞拍价格：</label>
 			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="text" class="form-control" name="name" regx="^\S{1,10}$" title="管理员:1-10个字符组成">
+			                    	<input type="text" class="form-control" name="price" regx="^\S{1,10}$" title="管理员:1-10个字符组成">
 			                	</div>    
 				            </div>
 				            <div class="form-group has-feedback">
-				            	<label for="keyWords" class="col-sm-4 control-label">设备标签：</label>
+				            	<label for="deviceId" class="col-sm-4 control-label">设备编号：</label>
 			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="text" class="form-control" name="keyWords" regx="^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$" title="请填写Email">
+			                    	<input type="text" class="form-control" name="deviceId" regx="^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$" title="请填写Email">
 			                	</div>    
 				            </div>
-				            <div class="form-group has-feedback">
-				            	<label for="playFrequency" class="col-sm-4 control-label">播放频次：</label>
-			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="text" class="form-control" name="playFrequency" regx="^[0-9-]{3,12}$" title="请填写联系电话">
-			                	</div>    
-				            </div>
-				            
 			            </div>
 		  			</form>
 		  		</div>
@@ -117,7 +99,8 @@
 	  	<div class="panel panel-default">
 	  		<div class="panel-body">
 		    	<ul class="toolbar">
-		        <li class="click" onclick="application.addModal()"><span><img src="images/t01.png" /></span>添加</li>
+		       <!--  <li class="click" onclick="application.addModal()"><span><img src="images/t01.png" /></span>添加</li> -->
+		        <li class="click" onclick="application.bid()"><span><img src="images/t01.png" /></span>开始竞价</li>
 		        <li class="click" onclick="application.updateModal()"><span><img src="images/t02.png" /></span>修改</li>
 		        <li class="click" onclick="application.deleteModal()"><span><img src="images/t03.png" /></span>删除</li>
 		        <li class="click" onclick="application.updateState()"><span><img src="images/t04.png" /></span>审核通过</li>
@@ -136,19 +119,13 @@
 	    	<table id="applicationTable" class="table table-striped table-bordered"  >
 	    		<thead>
 	    			<tr>
-	    				<th class="col-md-2" >编号</th>
-		    			<th class="col-md-3" >名称</th>
+	    				<th class="col-md-2" >订单编号</th>
+		    			<th class="col-md-3" >广告编号</th>
 		    			<!-- <th class="col-md-3" style="min-width:150px;">应用地址</th> -->
-		    			<th class="col-md-4" >设备类型</th>
-		    			<th class="col-md-4" >设备状态</th>
-		    			<th class="col-md-4" style="min-width:30px;">底价</th>
-		    			<th class="col-md-4" >标签</th>
-		    			
-		    			<th class="col-md-4" style="min-width:80px;" >播放时间</th>
-		    			<th class="col-md-4" style="min-width:80px;" >播放频次</th>
-		    			<th class="col-md-4" style="min-width:80px;" >所在地区</th>
-		    			<th class="col-md-4" style="min-width:80px;">拥有者</th>
-		    			<th class="col-md-4" style="min-width:80px;">审核状态</th>
+		    			<th class="col-md-4" >设备编号</th>
+		    			<th class="col-md-4" >竞拍价格</th>
+		    			<th class="col-md-4" style="min-width:100px;">下单时间</th>
+		    			<th class="col-md-4" style="min-width:50px;">订单状态</th>
 		    		</tr>
 	    		</thead>
 	    		<tbody>
@@ -186,7 +163,7 @@
     			"bAutoWidth": false,
     			//"ajax": "user/personUerList",
     			"ajax":{
-    				"url":"device/list",
+    				"url":"order/my",
     				"contentType": "application/json",
     				"data":function(d){
     					console.log(d);
@@ -199,10 +176,10 @@
                         "targets": "_all"
                    	},
                    	{
-                   		"targets" : 10,
+                   		"targets" : 5,
 						"render" : function(data, type, row) {
 							if("N"==data){
-								return "新设备";
+								return "新订单";
 							}
 							if("C"==data){
 								return "已审核";
@@ -210,26 +187,11 @@
 							if("D"==data){
 								return "已删除";
 							}
-							return data;
-						}
-                   	},
-                   	{
-                   		"targets" : 2,
-						"render" : function(data, type, row) {
 							if("S"==data){
-								return "广告屏";
+								return "竞价成功";
 							}
-							return data;
-						}
-                   	},
-                   	{
-                   		"targets" : 3,
-						"render" : function(data, type, row) {
-							if("W"==data){
-								return "运行中";
-							}
-							if("R"==data){
-								return "维修中";
+							if("F"==data){
+								return "竞价失败";
 							}
 							return data;
 						}
@@ -237,15 +199,10 @@
                 ],	      
     			"columns":[
     				{"data":"id"},
-    				{"data":"name"},
-    				{"data":"deviceType"},
-    				{"data":"deviceStatus"},
-    				{"data":"basePrice"},
-    				{"data":"keyWords"},
-    				{"data":"playTime"},
-    				{"data":"playFrequency"},
-    				{"data":"address"},
-    				{"data":"owner"},
+    				{"data":"adId"},
+    				{"data":"deviceId"},
+    				{"data":"price"},
+    				{"data":"createTime"},
     				{"data":"state"}
     			],
     			"bStateSave": true,
@@ -314,11 +271,12 @@
 	    		if(!v){
 	    			return;
 	    		}
-	    		v.deviceStatus = "W";
-	    		v.deviceType = "S";
+	    		if(v.password){
+	    			v.password = $.md5(v.account+v.password);
+	    		}
 	    		$.ajax({
 	    			type:"post",
-	    			url:"device/new",
+	    			url:"order/new",
 	    			dataType:"json",
 	    			data:v,
 	    			success:function(data){
@@ -343,7 +301,7 @@
 	    		}
 	    		$.ajax({
 	    			type:"post",
-	    			url:"device/update",
+	    			url:"order/update",
 	    			dataType:"json",
 	    			data:v,
 	    			success:function(data){
@@ -355,11 +313,11 @@
 	    	updateState:function(){
 	    		$.ajax({
 	    			type:"post",
-	    			url:"device/update",
+	    			url:"order/update",
 	    			dataType:"json",
 	    			data:{
 	    				id:application.rowid,
-	    				state:"C"
+	    				state:"C",
 	    			},
 	    			success:function(data){
 	    				application.reload();
@@ -368,13 +326,13 @@
 	    		});
 	    	},
 	    	deleteModal:function(){
-	    		console.log(application.account);
+	    		console.log(application.rowid);
 	    		$("#confirmModal .confirm-content").html(application.rowid);
 	    		$("#confirmModal button[name='submit']").attr("onclick","application.deleteApp()");
 	    		$("#confirmModal").modal('show'); 
 	    	},
 	    	deleteApp:function(){
-	    		$.post("device/delete", {deviceId:application.rowid}, function(data){
+	    		$.post("order/delete", {orderId:application.rowid}, function(data){
     				application.reload();
     				$("#confirmModal").modal('hide');
 	    		}, "json");
@@ -394,8 +352,8 @@
 	    		}
 	    		return v;
 	    	},
-	    	test:function(){
-	    		console.log("test");
+	    	bid:function(){
+	    		$.post("order/bid");
 	    	}
     	}
     	

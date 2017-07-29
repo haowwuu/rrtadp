@@ -43,7 +43,7 @@ public interface OrderDao {
 	})
 	Order selectOrder(String orderId);
 	
-	@Select("select * from rrt_order")
+	@Select("select * from rrt_order order by create_time desc")
 	@Results({ 
 		@Result(property = "id", column = "id"),
 	    @Result(property = "createTime", column = "create_time"),
@@ -57,7 +57,7 @@ public interface OrderDao {
 	})
 	List<Order> selectOrderList();
 	
-	@Select("select * from rrt_order where ad_owner = #{account} or device_owner = #{account}")
+	@Select("select * from rrt_order where ad_owner = #{account} or device_owner = #{account} order by create_time desc")
 	@Results({ 
 		@Result(property = "id", column = "id"),
 	    @Result(property = "createTime", column = "create_time"),

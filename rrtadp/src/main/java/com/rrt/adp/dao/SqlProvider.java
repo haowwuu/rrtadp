@@ -144,7 +144,7 @@ public class SqlProvider {
 			sb.append(" and state = #{state}");
 		}
 		if(device.getLng()>0&&device.getLat()>0){
-			//sb.append(" and lng = #{lng}");
+			sb.append(" and abs(lng - #{lng}) < 0.035 and abs(lat - #{lat}) < 0.035");
 		}
 		if(StringUtils.hasText(device.getDistrictCode())){
 			sb.append(" and district_code = #{districtCode}");
