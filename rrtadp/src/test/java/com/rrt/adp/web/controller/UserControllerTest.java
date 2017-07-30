@@ -17,8 +17,8 @@ import com.rrt.adp.util.EncryptUtil;
 
 public class UserControllerTest {
 	
-	public static String baseUrl = "http://localhost:8080/rrtadp/";
-	//public static String baseUrl = "http://47.92.100.40/rrtadp/";
+	//public static String baseUrl = "http://localhost:8080/rrtadp/";
+	public static String baseUrl = "http://47.92.100.40/rrtadp/";
 	public static String token = null;
 
 	@Before
@@ -26,7 +26,7 @@ public class UserControllerTest {
 	}
 
 	//token=9FFCE962640718F2956BAB499048C6E3
-	@Test
+	@Ignore
 	public void testLogin() {
 		Account account = new Account();
 		account.setAccount("rrtgg");
@@ -44,17 +44,18 @@ public class UserControllerTest {
         System.out.println(result);
 	}
 
-	@Ignore
+	@Test
 	public void testRegistPersonUser() {
 		RestTemplate restTemplate = new RestTemplate();  
 		FileSystemResource frontPic = new FileSystemResource(new File("F:\\2.jpg"));
 		FileSystemResource backtPic = new FileSystemResource(new File("F:\\2.jpg"));
         MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();  
-        form.add("account", "pictest");
-        form.add("password", EncryptUtil.md5("pictest123456"));
+        form.add("account", "testididc");
+        form.add("password", EncryptUtil.md5("testididc123456"));
         form.add("type", "P");
-        form.add("idFrontPicFile", frontPic);
-        form.add("idBackPicFile", backtPic);
+        form.add("IDCard", "301233245567365676");
+       // form.add("idFrontPicFile", frontPic);
+       // form.add("idBackPicFile", backtPic);
         String result = restTemplate.postForObject(baseUrl+"/user/regist/person", form, String.class);  
         System.out.println(result);
 	}

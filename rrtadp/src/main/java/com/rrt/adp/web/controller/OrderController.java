@@ -45,12 +45,12 @@ public class OrderController {
 		return RestResult.defaultSuccessResult(orderService.getUserOrderList(account));
 	}
 	
-	/*@ApiOperation("根据条件获取订单列表")
-	@RequestMapping(value="/list", method=RequestMethod.GET)
-	public RestResult getOrderList(Order order, HttpServletRequest request){
+	@ApiOperation("根据订单编号获取订单详细信息")
+	@RequestMapping(value="/get", method=RequestMethod.GET)
+	public RestResult getOrderList(String orderId, HttpServletRequest request){
 		Account account = RestSecurity.getSessionAccount(request);
-		return RestResult.defaultSuccessResult(orderService.getOrderList(order, account));
-	}*/
+		return RestResult.defaultSuccessResult(orderService.getOrder(orderId, account));
+	}
 	
 	@ApiOperation("更新订单信息、状态")
 	@RequestMapping(value="/update", method=RequestMethod.POST)

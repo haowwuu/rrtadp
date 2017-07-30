@@ -46,7 +46,7 @@
 	</div>
 	
   	<div class="container">
-  		<div id="modal" class="modal fade in" style="z-index:80;">
+  		<div id="modal" class="modal fade in" >
   			<div class="modal-dialog modal-content" style="margin-top:5%; width:800px;">
 		  		<div class="modal-header" style="background-color: #428bca; padding: 10px 10px;">
 		  			<!-- <button class="close" style="padding: 0 10px 20px 10px;" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>  -->
@@ -56,40 +56,74 @@
 		  			<form id="applicationForm" class="form-horizontal" role="form" enctype="multipart/form-data">
 		  				<div class="col-sm-6" style="padding-left:0">
 				            <div class="form-group has-feedback">
-				            	<label for="id" class="col-sm-4 control-label">编号：</label>
+				            	<label for="account" class="col-sm-4 control-label">账号：</label>
 			                	<div class="col-sm-8 rf-no-padding"> 
 			                		<input type="text" class="hidden" name="appId">            
-			                    	<input type="text" class="form-control" name="id" regx="^\S{2,25}$" title="应用名称:2-25个字符组成">
+			                    	<input type="text" class="form-control" name="account" regx="^\S{2,25}$" title="应用名称:2-25个字符组成">
 			                	</div>    
 				            </div>
 				            <div class="form-group has-feedback">
-				            	<label for="basePrice" class="col-sm-4 control-label">底价：</label>
+				            	<label for="companyName" class="col-sm-4 control-label">企业名称：</label>
 			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="text" class="form-control" name="basePrice" regx="^\S{2,50}$" title="应用地址:2-50个字符组成">
-			                	</div>    
-				            </div>			           
-				            <div class="form-group has-feedback" >
-				            	<label for="address" class="col-sm-4 control-label">所在地：</label>
-			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="text" class="form-control" name="address" >
+			                    	<input type="text" class="form-control" name="companyName" regx="^\S{2,50}$" title="应用地址:2-50个字符组成">
 			                	</div>    
 				            </div>
+				            <div class="form-group has-feedback">
+				            	<label for="contactPerson" class="col-sm-4 control-label">联系人：</label>
+			                	<div class="col-sm-8 rf-no-padding">          
+			                    	<input type="text" class="form-control" name="contactPerson" regx="^[\S\s]{0,100}$" title="应用描述:最多100个字符组成">
+			                	</div>    
+				            </div>
+				            <div class="form-group has-feedback" >
+				            	<label for="officePhone" class="col-sm-4 control-label">办公电话：</label>
+			                	<div class="col-sm-8 rf-no-padding">          
+			                    	<input type="text" class="form-control" name="officePhone" >
+			                	</div>    
+				            </div>
+				            <div class="form-group has-feedback" >
+				            	<label for="certificate" class="col-sm-4 control-label">企业证书号：</label>
+			                	<div class="col-sm-8 rf-no-padding">          
+			                    	<input type="text" class="form-control" name="certificate" >
+			                	</div>    
+				            </div>
+				           
 			            </div>
 			            <div class="col-sm-6">
 				           
 				            <div class="form-group has-feedback">
-				            	<label for="name" class="col-sm-4 control-label">名称：</label>
+				            	<label for="password" class="col-sm-4 control-label">密码：</label>
 			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="text" class="form-control" name="name" regx="^\S{1,10}$" title="管理员:1-10个字符组成">
+			                    	<input type="password" class="form-control" name="password" regx="^\S{1,10}$" title="管理员:1-10个字符组成">
 			                	</div>    
 				            </div>
 				            <div class="form-group has-feedback">
-				            	<label for="keyWords" class="col-sm-4 control-label">设备标签：</label>
+				            	<label for="legalPerson" class="col-sm-4 control-label">企业法人：</label>
 			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="text" class="form-control" name="keyWords">
+			                    	<input type="text" class="form-control" name="legalPerson" regx="^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$" title="请填写Email">
 			                	</div>    
 				            </div>
-				            
+				            <div class="form-group has-feedback">
+				            	<label for="contactPhone" class="col-sm-4 control-label">联系电话：</label>
+			                	<div class="col-sm-8 rf-no-padding">          
+			                    	<input type="text" class="form-control" name="contactPhone" regx="^[0-9-]{3,12}$" title="请填写联系电话">
+			                	</div>    
+				            </div>
+				            <div class="form-group has-feedback" >
+				            	<label for="companyAddress" class="col-sm-4 control-label">公司地址：</label>
+			                	<div class="col-sm-8 rf-no-padding">          
+			                    	<input type="text" class="form-control" name="companyAddress" >
+			                	</div>    
+				            </div>
+				           
+				            <div class="form-group has-feedback" >
+				            	<label for="IDCardFrontPicUrl" class="col-sm-4 control-label">证书图片：</label>
+			                	<div class="col-sm-4 rf-no-padding"> 
+			                	    <input type="file" style="border:none;" class="form-control" name="certFrontPicFile" >
+			                	</div>
+			                	<div class="col-sm-4 rf-no-padding">          
+			                    	<input type="file" style="border:none;" class="form-control" name="certBackPicFile" >
+			                	</div>       
+				            </div>
 			            </div>
 		  			</form>
 		  		</div>
@@ -109,7 +143,6 @@
 		        <li class="click" onclick="application.updateModal()"><span><img src="images/t02.png" /></span>修改</li>
 		        <li class="click" onclick="application.deleteModal()"><span><img src="images/t03.png" /></span>删除</li>
 		        <li class="click" onclick="application.updateState()"><span><img src="images/t04.png" /></span>审核通过</li>
-		        <li class="click" onclick="application.bid()"><span><img src="images/t05.png" /></span>竞价</li>
 		       <!--  <li class="click" onclick="application.dataModal()"><span><img src="images/t04.png" /></span>查看</li> -->
 		        </ul>
 
@@ -125,19 +158,16 @@
 	    	<table id="applicationTable" class="table table-striped table-bordered"  >
 	    		<thead>
 	    			<tr>
-	    				<th class="col-md-2" >编号</th>
-		    			<th class="col-md-3" >名称</th>
+	    				<th class="col-md-2" >账号</th>
+		    			<th class="col-md-3" >企业名称</th>
 		    			<!-- <th class="col-md-3" style="min-width:150px;">应用地址</th> -->
-		    			<th class="col-md-4" >设备类型</th>
-		    			<th class="col-md-4" >设备状态</th>
-		    			<th class="col-md-4" style="min-width:30px;">底价</th>
-		    			<th class="col-md-4" >标签</th>
-		    			
-		    			<!-- <th class="col-md-4" style="min-width:80px;" >播放时间</th>
-		    			<th class="col-md-4" style="min-width:80px;" >播放频次</th> -->
-		    			<th class="col-md-4" style="min-width:180px;" >所在地区</th>
-		    			<th class="col-md-4" style="min-width:80px;">拥有者</th>
-		    			<th class="col-md-4" style="min-width:80px;">审核状态</th>
+		    			<th class="col-md-4" >企业法人</th>
+		    			<th class="col-md-4" >企业联系人</th>
+		    			<th class="col-md-4" style="min-width:100px;">联系电话</th>
+		    			<th class="col-md-4" style="min-width:50px;">办公电话</th>
+		    			<th class="col-md-4" style="min-width:50px;">公司地址</th>
+		    			<th class="col-md-4" style="min-width:50px;">企业证书</th>
+		    			<th class="col-md-4" style="min-width:50px;">审核状态</th>
 		    		</tr>
 	    		</thead>
 	    		<tbody>
@@ -154,7 +184,6 @@
 			$("#searchInput").keyup( function() {
 				$("#applicationTable").DataTable().draw();
 			});
-			application.autoComplete();
     	});
     	
     	$.fn.dataTable.ext.search.push(
@@ -176,7 +205,7 @@
     			"bAutoWidth": false,
     			//"ajax": "user/personUerList",
     			"ajax":{
-    				"url":"device/list",
+    				"url":"user/companyUserList",
     				"contentType": "application/json",
     				"data":function(d){
     					console.log(d);
@@ -192,7 +221,7 @@
                    		"targets" : 8,
 						"render" : function(data, type, row) {
 							if("N"==data){
-								return "新设备";
+								return "新用户";
 							}
 							if("C"==data){
 								return "已审核";
@@ -202,38 +231,17 @@
 							}
 							return data;
 						}
-                   	},
-                   	{
-                   		"targets" : 2,
-						"render" : function(data, type, row) {
-							if("S"==data){
-								return "广告屏";
-							}
-							return data;
-						}
-                   	},
-                   	{
-                   		"targets" : 3,
-						"render" : function(data, type, row) {
-							if("W"==data){
-								return "运行中";
-							}
-							if("R"==data){
-								return "维修中";
-							}
-							return data;
-						}
                    	}
                 ],	      
     			"columns":[
-    				{"data":"id"},
-    				{"data":"name"},
-    				{"data":"deviceType"},
-    				{"data":"deviceStatus"},
-    				{"data":"basePrice"},
-    				{"data":"keyWords"},
-    				{"data":"address"},
-    				{"data":"owner"},
+    				{"data":"account"},
+    				{"data":"companyName"},
+    				{"data":"legalPerson"},
+    				{"data":"contactPerson"},
+    				{"data":"contactPhone"},
+    				{"data":"officePhone"},
+    				{"data":"companyAddress"},
+    				{"data":"certificate"},
     				{"data":"state"}
     			],
     			"bStateSave": true,
@@ -302,11 +310,12 @@
 	    		if(!v){
 	    			return;
 	    		}
-	    		v.deviceStatus = "W";
-	    		v.deviceType = "S";
+	    		if(v.password){
+	    			v.password = $.md5(v.account+v.password);
+	    		}
 	    		$.ajax({
 	    			type:"post",
-	    			url:"device/new",
+	    			url:"user/regist/company",
 	    			dataType:"json",
 	    			data:v,
 	    			success:function(data){
@@ -316,15 +325,16 @@
 	    		})
 	    	},
 	    	updateModal:function(){
-	    		if(!application.rowid){
+	    		var row = application.row;
+	    		if(!row||!row.account){
 	    			return;
 	    		}
-	    		var row = application.row;
 	    		this.showKeySecret(false);
 	    		for(var p in row){   
 	    			$("#applicationForm input[name="+p+"]").val(row[p]);
 	    		}
 	    		$("#modal button[name='submit']").attr("onclick","application.update()");
+	    		$("#applicationForm input[name=password]").val("");
 	    		$("#modal").modal('show');
 	    	},
 	    	update:function(){
@@ -334,7 +344,7 @@
 	    		}
 	    		$.ajax({
 	    			type:"post",
-	    			url:"device/update",
+	    			url:"user/updateCompanyUser",
 	    			dataType:"json",
 	    			data:v,
 	    			success:function(data){
@@ -349,11 +359,12 @@
 	    		}
 	    		$.ajax({
 	    			type:"post",
-	    			url:"device/update",
+	    			url:"user/audit",
 	    			dataType:"json",
 	    			data:{
-	    				id:application.rowid,
-	    				state:"C"
+	    				account:application.rowid,
+	    				state:"C",
+	    				type:"C"
 	    			},
 	    			success:function(data){
 	    				application.reload();
@@ -365,13 +376,12 @@
 	    		if(!application.rowid){
 	    			return;
 	    		}
-	    		console.log(application.account);
 	    		$("#confirmModal .confirm-content").html(application.rowid);
 	    		$("#confirmModal button[name='submit']").attr("onclick","application.deleteApp()");
 	    		$("#confirmModal").modal('show'); 
 	    	},
 	    	deleteApp:function(){
-	    		$.post("device/delete", {deviceId:application.rowid}, function(data){
+	    		$.post("user/delete", {account:application.rowid, type:"C"}, function(data){
     				application.reload();
     				$("#confirmModal").modal('hide');
 	    		}, "json");
@@ -393,17 +403,6 @@
 	    	},
 	    	test:function(){
 	    		console.log("test");
-	    	},
-	    	autoComplete:function(){
-	    		$("#applicationForm input[name='keyWords']").autocomplete({
-					  source: [ "白领", "精英", "工人", "学生" ],
-					  minLength:0
-				}).focus(function() {
-				    $(this).autocomplete("search", $(this).val());
-				}); 
-	    	},
-	    	bid:function(){
-	    		$.post("order/bid");
 	    	}
     	}
     	
@@ -415,7 +414,7 @@
  	            $(this).addClass('selected');
  	        }
  	        var data = $('#applicationTable').DataTable().row('.selected').data();
- 	        application.rowid = data.id;
+ 	        application.rowid = data.account;
  	        application.row = data;
  	        console.log(data);
  	    });

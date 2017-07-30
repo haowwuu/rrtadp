@@ -83,6 +83,10 @@ public class UserServiceImpl implements UserService {
 				}
 				user.setIDCardBackPicUrl(backUrl);
 			}
+			if(null!=companyUserDao.selectUserByAccount(user.getAccount())){
+				RequestMessageContext.setMsg(msgUtil.get("account.exist"));
+				return null;
+			}
 			try{
 				personUserDao.insertUser(user);
 			}catch (DataIntegrityViolationException e) {
@@ -113,6 +117,10 @@ public class UserServiceImpl implements UserService {
 					return null;
 				}
 				user.setCertificate(backUrl);
+			}
+			if(null!=personUserDao.selectUserByAccount(user.getAccount())){
+				RequestMessageContext.setMsg(msgUtil.get("account.exist"));
+				return null;
 			}
 			try {
 				companyUserDao.insertUser(user);

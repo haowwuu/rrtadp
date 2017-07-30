@@ -98,16 +98,15 @@
   	<div id="contents" class="container-fluid">
 	  	<div class="panel panel-default">
 	  		<div class="panel-body">
-		    	<ul class="toolbar">
-		       <!--  <li class="click" onclick="application.addModal()"><span><img src="images/t01.png" /></span>添加</li> -->
+		    	<!-- <ul class="toolbar">
+		        <li class="click" onclick="application.addModal()"><span><img src="images/t01.png" /></span>添加</li>
 		        <li class="click" onclick="application.bid()"><span><img src="images/t01.png" /></span>开始竞价</li>
 		        <li class="click" onclick="application.updateModal()"><span><img src="images/t02.png" /></span>修改</li>
-		        <li class="click" onclick="application.deleteModal()"><span><img src="images/t03.png" /></span>删除</li>
+		        <li class="click" onclick="application.deleteModal()"><span><img src="images/t03.png" /></span>删除</li> 
 		        <li class="click" onclick="application.updateState()"><span><img src="images/t04.png" /></span>审核通过</li>
-		       <!--  <li class="click" onclick="application.dataModal()"><span><img src="images/t04.png" /></span>查看</li> -->
-		        </ul>
+		        </ul> -->
 
-		  		<div class="input-group" class="col-md-4"> 
+		  		<div class="input-group" class="col-md-6"> 
 		            <span class="input-group-addon">搜索</span> 
 		            <input id="searchInput" type="text" class="form-control" > 
 		        </div> 
@@ -157,7 +156,7 @@
 		);
 		
     	var application={
-    		rowid:"",
+    		rowid:null,
     		row:{},
     		table: $("#applicationTable").DataTable({
     			"bAutoWidth": false,
@@ -286,6 +285,9 @@
 	    		})
 	    	},
 	    	updateModal:function(){
+	    		if(!application.rowid){
+	    			return;
+	    		}
 	    		var row = application.row;
 	    		this.showKeySecret(false);
 	    		for(var p in row){   
@@ -311,6 +313,9 @@
 	    		});
 	    	},
 	    	updateState:function(){
+	    		if(!application.rowid){
+	    			return;
+	    		}
 	    		$.ajax({
 	    			type:"post",
 	    			url:"order/update",
@@ -326,6 +331,9 @@
 	    		});
 	    	},
 	    	deleteModal:function(){
+	    		if(!application.rowid){
+	    			return;
+	    		}
 	    		console.log(application.rowid);
 	    		$("#confirmModal .confirm-content").html(application.rowid);
 	    		$("#confirmModal button[name='submit']").attr("onclick","application.deleteApp()");

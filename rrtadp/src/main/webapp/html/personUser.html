@@ -81,9 +81,9 @@
 			                	</div>    
 				            </div>
 				            <div class="form-group has-feedback" >
-				            	<label for="IDcard" class="col-sm-4 control-label">身份证号：</label>
+				            	<label for="IDCard" class="col-sm-4 control-label">身份证号：</label>
 			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="text" class="form-control" name="IDcard" >
+			                    	<input type="text" class="form-control" name="IDCard" >
 			                	</div>    
 				            </div>
 				           
@@ -163,8 +163,9 @@
 		    			<!-- <th class="col-md-3" style="min-width:150px;">应用地址</th> -->
 		    			<th class="col-md-4" >电话</th>
 		    			<th class="col-md-4" >邮箱</th>
+		    			<th class="col-md-4" style="min-width:100px;">联系地址</th>
 		    			<th class="col-md-4" style="min-width:100px;">身份证号</th>
-		    			<th class="col-md-4" style="min-width:50px;">状态</th>
+		    			<th class="col-md-4" style="min-width:50px;">审核状态</th>
 		    		</tr>
 	    		</thead>
 	    		<tbody>
@@ -196,7 +197,7 @@
 		);
 		
     	var application={
-    		rowid:"",
+    		rowid:null,
     		row:{},
     		table: $("#applicationTable").DataTable({
     			"bAutoWidth": false,
@@ -215,7 +216,7 @@
                         "targets": "_all"
                    	},
                    	{
-                   		"targets" : 5,
+                   		"targets" : 6,
 						"render" : function(data, type, row) {
 							if("N"==data){
 								return "新用户";
@@ -235,6 +236,7 @@
     				{"data":"name"},
     				{"data":"phone"},
     				{"data":"email"},
+    				{"data":"address"},
     				{"data":"idcard"},
     				{"data":"state"}
     			],
@@ -320,10 +322,15 @@
 	    	},
 	    	updateModal:function(){
 	    		var row = application.row;
+	    		if(!row||!row.account){
+	    			return;
+	    		}
 	    		this.showKeySecret(false);
 	    		for(var p in row){   
 	    			$("#applicationForm input[name="+p+"]").val(row[p]);
 	    		}
+	    		$("#applicationForm input[name=IDCard]").val(row.idcard);
+	    		$("#applicationForm input[name=password]").val("");
 	    		$("#modal button[name='submit']").attr("onclick","application.update()");
 	    		$("#modal").modal('show');
 	    	},
@@ -344,6 +351,9 @@
 	    		});
 	    	},
 	    	updateState:function(){
+	    		if(!application.rowid){
+	    			return;
+	    		}
 	    		$.ajax({
 	    			type:"post",
 	    			url:"user/audit",
@@ -360,7 +370,9 @@
 	    		});
 	    	},
 	    	deleteModal:function(){
-	    		console.log(application.account);
+	    		if(!application.rowid){
+	    			return;
+	    		}
 	    		$("#confirmModal .confirm-content").html(application.rowid);
 	    		$("#confirmModal button[name='submit']").attr("onclick","application.deleteApp()");
 	    		$("#confirmModal").modal('show'); 

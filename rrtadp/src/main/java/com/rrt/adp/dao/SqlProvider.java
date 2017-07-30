@@ -138,13 +138,13 @@ public class SqlProvider {
 		}
 		if(StringUtils.hasText(device.getName())){
 			device.setName("%"+device.getName()+"%");
-			sb.append(", and name like #{name}");
+			sb.append(" and name like #{name}");
 		}
 		if(StringUtils.hasText(device.getState())){
 			sb.append(" and state = #{state}");
 		}
 		if(device.getLng()>0&&device.getLat()>0){
-			sb.append(" and abs(lng - #{lng}) < 0.035 and abs(lat - #{lat}) < 0.035");
+			sb.append(" and abs(lng - #{lng}) < 0.03 and abs(lat - #{lat}) < 0.03");
 		}
 		if(StringUtils.hasText(device.getDistrictCode())){
 			sb.append(" and district_code = #{districtCode}");
@@ -247,7 +247,7 @@ public class SqlProvider {
 		StringBuilder sb = new StringBuilder();
 		sb.append("select * from rrt_ad where 1");
 		if(StringUtils.hasText(ad.getTitle())){
-			ad.setTitle("%"+ad.getType()+"%");
+			ad.setTitle("%"+ad.getTitle()+"%");
 			sb.append(" and title like #{title}");
 		}
 		if(StringUtils.hasText(ad.getType())){

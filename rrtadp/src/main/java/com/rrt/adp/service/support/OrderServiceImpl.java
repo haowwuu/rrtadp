@@ -80,11 +80,25 @@ public class OrderServiceImpl implements OrderService {
 		}else{
 			orders = orderDao.selectUserOrderList(account.getAccount());
 		}
-		for(Order order:orders){
+		return orders;
+	}
+	
+	@Override
+	public Order getOrder(String orderId, Account account) {
+		if(null==orderId||null==account||null==account.getAccount()){
+			return null;
+		}
+		Order order = null;
+		if(account.isAdmin()){
+			order = orderDao.selectOrder(orderId);
+		}else{
+			order = orderDao.selectUserOrder(orderId, account.getAccount());
+		}
+		if(null!=order){
 			order.setAdvertisement(adDao.selectAd(order.getAdId()));
 			order.setMediaDevice(deviceDao.selectDevice(order.getDeviceId()));
 		}
-		return orders;
+		return order;
 	}
 
 	@Override

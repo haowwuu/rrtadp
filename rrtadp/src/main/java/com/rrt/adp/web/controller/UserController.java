@@ -1,7 +1,8 @@
 package com.rrt.adp.web.controller;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -51,13 +52,23 @@ public class UserController {
 	@RequestMapping(value="/regist/person", method=RequestMethod.POST)
 	public RestResult registPersonUser(PersonUser user, 
 			MultipartFile idFrontPicFile, MultipartFile idBackPicFile){
-		System.out.println(user);
 		PersonUser retn = userService.registPersonUser(user, idFrontPicFile, idBackPicFile);
 		if(null!=retn){
 			return RestResult.defaultSuccessResult(retn, msgUtil.get("regist.success"));
 		}else{
 			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
 		}
+	}
+	
+	public static Map<String, String> getRequestParameterMap(HttpServletRequest request){
+		Map<String, String> pMap = new HashMap<String, String>();
+		Enumeration<String> enm = request.getParameterNames();
+		while (enm.hasMoreElements()) {
+			String pName = (String) enm.nextElement();
+			String pValue = request.getParameter(pName);
+			pMap.put(pName, pValue);
+		}
+		return pMap;
 	}
 	
 	@ApiOperation("企业用户注册")
@@ -123,10 +134,8 @@ public class UserController {
 	@RequestMapping(value="/updatePersonUser", method=RequestMethod.POST)
 	public RestResult updatePersonUser(PersonUser user, HttpServletRequest request){
 		if(!RestSecurity.isUserOwn(request)&&!RestSecurity.isAdmin(request)){
-			System.out.println(RestSecurity.getSessionAccount(request));
 			return RestResult.defaultFailResult(msgUtil.get("permission.deny"));
 		}
-		System.out.println(user);
 		if(userService.updatePersonUser(user)){
 			return RestResult.defaultSuccessResult("success");
 		}else{

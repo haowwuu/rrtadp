@@ -23,7 +23,7 @@ public class MediaDeviceControllerTest {
         MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();  
         form.add("deviceType", "S");
         form.add("deviceStatus", "W");
-        form.add("name", "newDevice");
+        form.add("name", "newDevicennn");
         //form.add("adFile", frontPic);
         form.add("keyWords", "白领");
         form.add("districeCode", "330102");
@@ -34,7 +34,7 @@ public class MediaDeviceControllerTest {
         form.add("playTime", "2018-09-07 00:00:00");
         form.add("playFrequency", 11);
         
-        form.add("token", "09EC27CD220868ACF17F4CB693F71B9A");
+        form.add("token", "8A23CDB0A4DC07108613F01658BF2D38");
         String result = restTemplate.postForObject(baseUrl+"/device/new", form, String.class);  
         System.out.println(result);
 	}

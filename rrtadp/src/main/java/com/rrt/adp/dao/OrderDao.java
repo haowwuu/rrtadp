@@ -43,6 +43,20 @@ public interface OrderDao {
 	})
 	Order selectOrder(String orderId);
 	
+	@Select("select * from rrt_order where id = #{arg0} and ( ad_owner = #{arg1} or device_owner = #{arg1} )")
+	@Results({ 
+		@Result(property = "id", column = "id"),
+	    @Result(property = "createTime", column = "create_time"),
+		@Result(property = "updateTime", column = "update_time"),
+		@Result(property = "adId", column = "ad_id"), 
+	    @Result(property = "deviceId", column = "device_id"),
+	    @Result(property = "price", column = "price"),
+		@Result(property = "state", column = "state"),
+		@Result(property = "adOwner", column = "ad_owner"),
+		@Result(property = "deviceOwner", column = "device_owner")
+	})
+	Order selectUserOrder(String orderId, String account);
+	
 	@Select("select * from rrt_order order by create_time desc")
 	@Results({ 
 		@Result(property = "id", column = "id"),

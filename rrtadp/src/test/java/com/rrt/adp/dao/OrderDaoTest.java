@@ -63,17 +63,22 @@ public class OrderDaoTest extends AbstractJUnit4SpringContextTests {
 	}
 	
 	@Ignore
-	public void testSelectUserOrder() {
+	public void testSelectUserOrderList() {
 		List<Order> orders = orderDao.selectUserOrderList("rrtgg");
 		orders.stream().forEach(System.out::println);
 	}
 	
-	@Test
+	@Ignore
 	public void testUpdataBid(){
 		List<String> list = orderDao.selectBidDevice();
 		list.stream().forEach(System.out::println);
 		orderDao.updateDeviceBidSuccess("abc");
 		orderDao.updateDeviceBidFail();
+	}
+	
+	@Test
+	public void testSelectUserOrder(){
+		System.out.println(orderDao.selectUserOrder("OR1500815056870", "admin0"));
 	}
 
 }
