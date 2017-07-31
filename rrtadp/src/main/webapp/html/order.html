@@ -194,6 +194,12 @@
 							}
 							return data;
 						}
+                   	},
+                   	{
+                   		"targets" : 4,
+						"render" : function(data, type, row) {
+							return application.unix2date(data);
+						}
                    	}
                 ],	      
     			"columns":[
@@ -362,7 +368,26 @@
 	    	},
 	    	bid:function(){
 	    		$.post("order/bid");
-	    	}
+	    	},
+	    	unix2date: function(unixTime) {
+                var time = new Date(unixTime);
+                var format = function(v){
+                	if(v<10){
+                		v = "0"+v;
+                	}
+                	return v;
+                }
+                var ymdhis = "";
+                ymdhis += time.getUTCFullYear() + "-";
+                ymdhis += format(time.getUTCMonth()+1) + "-";
+                ymdhis += format(time.getUTCDate());
+                
+                ymdhis += " " + format(time.getUTCHours()) + ":";
+                ymdhis += format(time.getUTCMinutes()) + ":";
+                ymdhis += format(time.getUTCSeconds());
+                
+                return ymdhis;
+            }
     	}
     	
     	$('#applicationTable tbody').on('click', 'tr', function(){

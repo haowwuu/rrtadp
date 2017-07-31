@@ -401,35 +401,37 @@
 	    	test:function(){
 	    		console.log("test");
 	    	},
+	    	adtype:[
+	    		{label:"文字", value:"T"},
+	    		{label:"图片", value:"P"},
+	    		{label:"视频", value:"V"},
+	    		{label:"其他", value:"M"}
+	    	],
 	    	/* autoComplete:function(){
 	    		$("#applicationForm input[name='type']").autocomplete({
-					  source: [ "文字", "图片", "视频", "其他" ],
+					  //source: [ "文字", "图片", "视频", "其他" ],
+					  source: application.adtype,
 					  minLength:0
-				}).focus(function() {
-				    $(this).autocomplete("search", $(this).val());
+				}).focus(function(event, ui) {
+				   // $(this).autocomplete("search", $(this).val());
+				    $("#applicationForm input[name='type']").val(ui.item.lable);
+					return false;
 				}); 
-	    	} */
-	    	autoComplete:function(){
-	    		$("#applicationForm input[name='type']").autocomplete({
-			    	source: [ "文字", "图片", "视频", "其他" ],
+	    	}  */
+	        autoComplete:function(){
+	        	var obj = $("#applicationForm input[name='type']");
+	    		obj.autocomplete({
+			    	source: application.adtype,
 					minLength:0,
 					focus:function(event, ui){
-						$("#applicationForm input[name='type']").val(ui.item.lable);
+						obj.val(ui.item.value);
 						return false;
 					},
 			        select: function( event, ui ) {
-			        	if(this.value=="文字"){
-			        		this.value="T";
-			        	}else if(this.value == "图片"){
-			        		this.value="P";
-			        	}else if(this.value == "视频"){
-			        		this.value="V";
-			        	}else{
-			        		this.value="M";
-			        	}
+			        	obj.val(ui.item.value);
 			            return false;
 			        }  
-				}) 
+				})  
 	    	}
     	}
     	

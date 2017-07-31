@@ -25,6 +25,12 @@ $(function(){
 			$(this).next('ul').slideDown();
 		}
 	});
+	$.get("user/session", function(data){
+		if(data.code==0&&!data.data.admin){
+			//$("dd .adminOnly").hide();
+			$("#adminonly").hide();
+		}
+	}, "json");
 })	
 </script>
 
@@ -76,7 +82,7 @@ $(function(){
     </dd>  
     
     
-    <dd><div class="title"><span><img src="images/leftico04.png" /></span>用户管理</div>
+    <dd id="adminonly" class="adminOnly"><div class="title"><span><img src="images/leftico04.png" /></span>用户管理</div>
     <ul class="menuson">
         <li><cite></cite><a href="personUser.html" target="rightFrame">个人用户</a><i></i></li>
         <li><cite></cite><a href="companyUser.html" target="rightFrame">企业用户</a><i></i></li>

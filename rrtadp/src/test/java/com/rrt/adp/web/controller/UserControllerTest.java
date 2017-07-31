@@ -44,7 +44,7 @@ public class UserControllerTest {
         System.out.println(result);
 	}
 
-	@Test
+	@Ignore
 	public void testRegistPersonUser() {
 		RestTemplate restTemplate = new RestTemplate();  
 		FileSystemResource frontPic = new FileSystemResource(new File("F:\\2.jpg"));
@@ -57,6 +57,22 @@ public class UserControllerTest {
        // form.add("idFrontPicFile", frontPic);
        // form.add("idBackPicFile", backtPic);
         String result = restTemplate.postForObject(baseUrl+"/user/regist/person", form, String.class);  
+        System.out.println(result);
+	}
+	
+	@Test
+	public void testRegistCompanyUser() {
+		RestTemplate restTemplate = new RestTemplate();  
+		FileSystemResource frontPic = new FileSystemResource(new File("Users/wuhao/Pictures/logo.png"));
+		FileSystemResource backtPic = new FileSystemResource(new File("Users/wuhao/Pictures/logo.png"));
+        MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();  
+        form.add("account", "testcompanypic1232131");
+        form.add("password", EncryptUtil.md5("testcompanypic123456"));
+        form.add("type", "C");
+        form.add("certificate", "1233245567365676");
+        form.add("certFrontPicFile", frontPic);
+        form.add("certBackPicFile", backtPic);
+        String result = restTemplate.postForObject(baseUrl+"/user/regist/company", form, String.class);  
         System.out.println(result);
 	}
 
