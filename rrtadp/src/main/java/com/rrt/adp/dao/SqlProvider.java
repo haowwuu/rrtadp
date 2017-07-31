@@ -123,6 +123,9 @@ public class SqlProvider {
 	public String selectMediaDevice(MediaDevice device){
 		StringBuilder sb = new StringBuilder();
 		sb.append("select * from rrt_media_device where 1");
+		if(null==device){
+			return sb.toString();
+		}
 		if(StringUtils.hasText(device.getDeviceType())){
 			sb.append(" and device_type = #{deviceType}");
 		}
@@ -246,6 +249,9 @@ public class SqlProvider {
 	public String selectAdvertisement(Advertisement ad){
 		StringBuilder sb = new StringBuilder();
 		sb.append("select * from rrt_ad where 1");
+		if(null==ad){
+			return sb.toString();
+		}
 		if(StringUtils.hasText(ad.getTitle())){
 			ad.setTitle("%"+ad.getTitle()+"%");
 			sb.append(" and title like #{title}");

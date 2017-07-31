@@ -41,6 +41,9 @@ public class AdvertisementController {
 	@RequestMapping(value="/my", method=RequestMethod.GET)
 	public RestResult getUserAdList(HttpServletRequest request){
 		Account account = RestSecurity.getSessionAccount(request);
+		if(RestSecurity.isAdmin(request)){
+			return RestResult.defaultSuccessResult(adService.getAdList(null, account));
+		}
 		return RestResult.defaultSuccessResult(adService.getUserAdList(account));
 	}
 	

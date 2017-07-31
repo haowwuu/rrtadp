@@ -178,7 +178,7 @@
     			"bAutoWidth": false,
     			//"ajax": "user/personUerList",
     			"ajax":{
-    				"url":"ad/list",
+    				"url":"ad/my",
     				"contentType": "application/json",
     				"data":function(d){
     					console.log(d);
@@ -401,13 +401,35 @@
 	    	test:function(){
 	    		console.log("test");
 	    	},
-	    	autoComplete:function(){
+	    	/* autoComplete:function(){
 	    		$("#applicationForm input[name='type']").autocomplete({
 					  source: [ "文字", "图片", "视频", "其他" ],
 					  minLength:0
 				}).focus(function() {
 				    $(this).autocomplete("search", $(this).val());
 				}); 
+	    	} */
+	    	autoComplete:function(){
+	    		$("#applicationForm input[name='type']").autocomplete({
+			    	source: [ "文字", "图片", "视频", "其他" ],
+					minLength:0,
+					focus:function(event, ui){
+						$("#applicationForm input[name='type']").val(ui.item.lable);
+						return false;
+					},
+			        select: function( event, ui ) {
+			        	if(this.value=="文字"){
+			        		this.value="T";
+			        	}else if(this.value == "图片"){
+			        		this.value="P";
+			        	}else if(this.value == "视频"){
+			        		this.value="V";
+			        	}else{
+			        		this.value="M";
+			        	}
+			            return false;
+			        }  
+				}) 
 	    	}
     	}
     	

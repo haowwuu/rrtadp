@@ -38,6 +38,9 @@ public class MediaDeviceController {
 	@RequestMapping(value="/my", method=RequestMethod.GET)
 	public RestResult getUserDeviceList(HttpServletRequest request){
 		Account account = RestSecurity.getSessionAccount(request);
+		if(RestSecurity.isAdmin(request)){
+			return RestResult.defaultSuccessResult(deviceService.getMediaDevcieList(null, account));
+		}
 		return RestResult.defaultSuccessResult(deviceService.getUserMediaDevcieList(account));
 	}
 	

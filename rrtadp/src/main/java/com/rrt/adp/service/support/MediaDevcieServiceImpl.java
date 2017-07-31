@@ -44,7 +44,7 @@ public class MediaDevcieServiceImpl implements MediaDeviceService {
 
 	@Override
 	public List<MediaDevice> getUserMediaDevcieList(Account account) {
-		if(null==account||null!=account.getAccount()){
+		if(null==account||null==account.getAccount()){
 			return null;
 		}
 		
@@ -53,10 +53,13 @@ public class MediaDevcieServiceImpl implements MediaDeviceService {
 	
 	@Override
 	public List<MediaDevice> getMediaDevcieList(MediaDevice device, Account account) {
-		if(null==device||null==account){
+		if(null==account){
 			return null;
 		}
 		if(!account.isAdmin()){
+			if(null==device){
+				device = new MediaDevice();
+			}
 			device.setState(MediaDevice.STATE_CHECKED);
 		}
 		return deviceDao.selectDeviceList(device);

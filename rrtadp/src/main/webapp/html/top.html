@@ -12,6 +12,11 @@ $(function(){
 		$(".nav li a.selected").removeClass("selected")
 		$(this).addClass("selected");
 	})	
+	$.get("user/session", function(data){
+		if(data.code==0){
+			$("#sessionUser").html(data.data.account);
+		}
+	}, "json");
 })	
 </script>
 
@@ -41,7 +46,7 @@ $(function(){
     </ul>
      
     <div class="user">
-    <span>admin</span>
+    <span id="sessionUser">admin</span>
     <i>消息</i>
     <b>5</b>
     </div>    

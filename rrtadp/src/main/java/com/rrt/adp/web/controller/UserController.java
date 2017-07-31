@@ -155,5 +155,16 @@ public class UserController {
 			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
 		}
 	}
+	
+	@ApiOperation("获取session")
+	@RequestMapping(value="/session", method=RequestMethod.GET)
+	public RestResult getUserSession(HttpServletRequest request){
+		Account account = RestSecurity.getSessionAccount(request);
+		if(null==account){
+			return RestResult.defaultFailResult();
+		}else{
+			return RestResult.defaultSuccessResult(account);
+		}		
+	}
 
 }
