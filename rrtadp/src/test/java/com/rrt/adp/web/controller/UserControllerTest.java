@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import com.rrt.adp.model.Account;
 import com.rrt.adp.util.EncryptUtil;
 
+
 public class UserControllerTest {
 	
 	//public static String baseUrl = "http://localhost:8080/rrtadp/";
@@ -26,7 +27,7 @@ public class UserControllerTest {
 	}
 
 	//token=9FFCE962640718F2956BAB499048C6E3
-	@Ignore
+	@Test
 	public void testLogin() {
 		Account account = new Account();
 		account.setAccount("rrtgg");
@@ -50,26 +51,26 @@ public class UserControllerTest {
 		FileSystemResource frontPic = new FileSystemResource(new File("F:\\2.jpg"));
 		FileSystemResource backtPic = new FileSystemResource(new File("F:\\2.jpg"));
         MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();  
-        form.add("account", "testididc");
-        form.add("password", EncryptUtil.md5("testididc123456"));
+        form.add("account", "testuserpic");
+        form.add("password", EncryptUtil.md5("testuserpic123456"));
         form.add("type", "P");
         form.add("IDCard", "301233245567365676");
-       // form.add("idFrontPicFile", frontPic);
-       // form.add("idBackPicFile", backtPic);
+        form.add("idFrontPicFile", frontPic);
+        form.add("idBackPicFile", backtPic);
         String result = restTemplate.postForObject(baseUrl+"/user/regist/person", form, String.class);  
         System.out.println(result);
 	}
 	
-	@Test
+	@Ignore
 	public void testRegistCompanyUser() {
 		RestTemplate restTemplate = new RestTemplate();  
-		FileSystemResource frontPic = new FileSystemResource(new File("Users/wuhao/Pictures/logo.png"));
-		FileSystemResource backtPic = new FileSystemResource(new File("Users/wuhao/Pictures/logo.png"));
+		FileSystemResource frontPic = new FileSystemResource(new File("F:\\2.jpg"));
+		FileSystemResource backtPic = new FileSystemResource(new File("F:\\2.jpg"));
         MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();  
-        form.add("account", "testcompanypic1232131");
+        form.add("account", "testcompanypic4");
         form.add("password", EncryptUtil.md5("testcompanypic123456"));
         form.add("type", "C");
-        form.add("certificate", "1233245567365676");
+        form.add("certificate", "12332455");
         form.add("certFrontPicFile", frontPic);
         form.add("certBackPicFile", backtPic);
         String result = restTemplate.postForObject(baseUrl+"/user/regist/company", form, String.class);  
