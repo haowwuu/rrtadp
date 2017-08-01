@@ -70,8 +70,8 @@ public class UserControllerTest {
         form.add("password", EncryptUtil.md5("testcompanypic123456"));
         form.add("type", "C");
         form.add("certificate", "1233245567365676");
-        form.add("certFrontPicFile", frontPic);
-        form.add("certBackPicFile", backtPic);
+       // form.add("certFrontPicFile", frontPic);
+        //form.add("certBackPicFile", backtPic);
         String result = restTemplate.postForObject(baseUrl+"/user/regist/company", form, String.class);  
         System.out.println(result);
 	}
