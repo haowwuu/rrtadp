@@ -41,14 +41,9 @@ public class UserServiceImpl implements UserService {
 			RequestMessageContext.setMsg(msgUtil.get("account.null"));
 			return null;
 		}
-		Account user = null;
-		if(Account.TYPE_PERSON_USER.equals(account.getType())){
-			user = personUserDao.selectUserByAccount(account.getAccount());
-		}else if(Account.TYPE_COMPANY_USER.equals(account.getType())){
+		Account user = personUserDao.selectUserByAccount(account.getAccount());
+		if(null==user){
 			user = companyUserDao.selectUserByAccount(account.getAccount());
-		}else{
-			RequestMessageContext.setMsg(msgUtil.get("accout.type.illegal"));
-			return null;
 		}
 		if(null==user||!Account.STATE_CHECKED.equals(user.getState())){
 			RequestMessageContext.setMsg(msgUtil.get("accoount.not.exist"));
@@ -105,18 +100,18 @@ public class UserServiceImpl implements UserService {
 		if(checkAccount(user)){
 			user.setType(Account.TYPE_COMPANY_USER);
 			if(null!=certFrontPicFile){
-				String frontUrl = fileUtil.uploadFile(user.getAccount()+"/idcardfrontpic", certFrontPicFile);
+				String frontUrl = fileUtil.uploadFile(user.getAccount()+"/certfrontpic", certFrontPicFile);
 				if(null==frontUrl){
 					return null;
 				}
 				user.setCertificateFrontPicUrl(frontUrl);
 			}
 			if(null!=certBackPicFile){
-				String backUrl = fileUtil.uploadFile(user.getAccount()+"/idcardbackpic", certBackPicFile);
+				String backUrl = fileUtil.uploadFile(user.getAccount()+"/certbackpic", certBackPicFile);
 				if(null==backUrl){
 					return null;
 				}
-				user.setCertificate(backUrl);
+				user.setCertificateBackPicUrl(backUrl);
 			}
 			if(null!=personUserDao.selectUserByAccount(user.getAccount())){
 				RequestMessageContext.setMsg(msgUtil.get("account.exist"));

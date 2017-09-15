@@ -19,6 +19,7 @@ import com.rrt.adp.util.FileUtil;
 
 
 
+
 public class FileUploadTest {
 	
 	private String basicUrl = UserControllerTest.baseUrl;
@@ -62,9 +63,9 @@ public class FileUploadTest {
 		FileSystemResource resource = new FileSystemResource(new File(filePath));
 		MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
 		param.add("file", resource);
-		param.add("id", "id001");
-		param.add("index", "2");
-		param.add("token", "9DFCEC050DCEF9A94738C75739968D06");
+		param.add("id", "zhagnsan");
+		//param.add("index", "2");
+		param.add("token", "04A8D70A989A0B707FE337C7F6C50C45");
 
 		String string = rest.postForObject(url, param, String.class);
 		System.out.println(string);
