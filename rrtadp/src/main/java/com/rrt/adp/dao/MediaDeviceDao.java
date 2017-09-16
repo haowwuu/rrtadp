@@ -48,8 +48,6 @@ public interface MediaDeviceDao {
 		@Result(property = "lat", column = "lat"),
 		@Result(property = "districtCode", column = "district_code"),
 		@Result(property = "address", column = "address"),
-		@Result(property = "districtCode", column = "district_code"),
-		@Result(property = "address", column = "address"),
 		@Result(property = "owner", column = "owner")
 	})
 	MediaDevice selectDevice(@Param("deviceId") String deviceId);

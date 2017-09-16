@@ -28,6 +28,10 @@
 	  	<property name="dataSource" ref="rrtggDataSource" />
 	</bean>
 	
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="ddapDataSource" />
+	</bean>
+	
 	<mybatis:scan base-package="com.rrt.adp.dao"/>
 	
 	<!-- <bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">

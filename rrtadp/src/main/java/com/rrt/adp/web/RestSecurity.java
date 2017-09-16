@@ -13,7 +13,7 @@ public class RestSecurity {
 	private static final String TOKEN = "token";
 	
 	private static Cache<String, Account> sessionCache = 
-			CacheBuilder.newBuilder().expireAfterAccess(30, TimeUnit.MINUTES).build();
+			CacheBuilder.newBuilder().expireAfterAccess(240, TimeUnit.MINUTES).build();
 	
 	public static String writeSession(Account account, HttpServletRequest request){
 		if(null==account||null==request){

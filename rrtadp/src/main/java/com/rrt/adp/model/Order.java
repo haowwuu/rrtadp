@@ -31,7 +31,7 @@ public class Order extends DBModel{
 	private MediaDevice mediaDevice;
 	
 	public Order() {
-		this.id = ORDER_ID_PREFIX+this.id;
+		this.id = PREFIX_ORDER+this.id;
 	}
 	
 	public boolean isStateLegal(){

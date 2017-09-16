@@ -32,7 +32,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 		if(null==ad||null==account){
 			return null;
 		}
-		ad.setId(DBModel.ADVERTISEMENT_ID_PREFIX+SequenceGenerator.next());
+		ad.setId(DBModel.PREFIX_ADVERTISEMENT+SequenceGenerator.next());
 		ad.setState(Advertisement.STATE_NEW);
 		ad.setOwner(account.getAccount());
 		if(!ad.isTypeLegal()){

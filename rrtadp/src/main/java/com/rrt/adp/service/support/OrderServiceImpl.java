@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
 		if(null==order||null==account||null==account.getAccount()){
 			return false;
 		}
-		order.setId(DBModel.ORDER_ID_PREFIX+SequenceGenerator.next());
+		order.setId(DBModel.PREFIX_ORDER+SequenceGenerator.next());
 		if(null==order.getAdId()){
 			RequestMessageContext.setMsg(msgUtil.get("parameter.null", "adId"));
 			return false;

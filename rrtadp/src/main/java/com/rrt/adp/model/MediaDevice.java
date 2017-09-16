@@ -29,7 +29,7 @@ public class MediaDevice extends DBModel {
 	private String owner;
 	
 	public MediaDevice() {
-		this.id = MEDIA_DEVICE_ID_PREFIX+this.id;
+		this.id = PREFIX_MEDIA_DEVICE+this.id;
 	}
 	
 	public Map<String, Object> dictionary() {

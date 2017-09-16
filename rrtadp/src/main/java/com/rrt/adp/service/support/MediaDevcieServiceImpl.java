@@ -27,7 +27,7 @@ public class MediaDevcieServiceImpl implements MediaDeviceService {
 		if(null==device||null==account){
 			return false;
 		}
-		device.setId(DBModel.MEDIA_DEVICE_ID_PREFIX+SequenceGenerator.next());
+		device.setId(DBModel.PREFIX_MEDIA_DEVICE+SequenceGenerator.next());
 		device.setState(MediaDevice.STATE_NEW);
 		device.setOwner(account.getAccount());
 		if(!device.isStatusLegal()){

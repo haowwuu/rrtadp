@@ -54,7 +54,7 @@ public class Advertisement extends DBModel{
 	}
 	
 	public Advertisement() {
-		this.id = ADVERTISEMENT_ID_PREFIX+this.id;
+		this.id = PREFIX_ADVERTISEMENT+this.id;
 	}
 	
 	public String getTitle() {

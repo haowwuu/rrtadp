@@ -62,7 +62,6 @@
 	<script type="text/javascript">
 		
     	 var login = {
-			type:"P",
 			login:function(){
 				var account = $("#account").val();
 				var password = $("#password").val();
@@ -76,8 +75,7 @@
 	    			data:{
 	    				account:account,
 	    				password:password,
-	    				token:token,
-	    				type:_this.type
+	    				token:token
 	    			},
 	    			success:function(data){
 	    				if(data.code==="0"){
