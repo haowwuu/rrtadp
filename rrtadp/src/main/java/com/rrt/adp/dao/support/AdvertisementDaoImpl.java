@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.rrt.adp.dao.AdvertisementDao;
@@ -22,6 +23,7 @@ import com.rrt.adp.util.SequenceGenerator;
  * @date 2017年9月16日
  * 
  */
+@Repository
 public class AdvertisementDaoImpl implements AdvertisementDao {
 	
 	@Resource
@@ -77,8 +79,12 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 		if(null==adId){
 			return null;
 		}
-		return this.jdbcTemplate.queryForObject("select * from rrt_ad where id = ?",  
+		List<Advertisement> ads = this.jdbcTemplate.query("select * from rrt_ad where id = ?",  
 				new Object[]{adId},  new AdMapper());
+		if(null==ads||ads.size()<1){
+			return null;
+		}
+		return ads.get(0);
 	}
 
 	@Override

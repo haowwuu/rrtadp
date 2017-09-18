@@ -8,11 +8,13 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import com.rrt.adp.dao.OrderDao;
 import com.rrt.adp.model.Order;
 import com.rrt.adp.util.SequenceGenerator;
 
+@Repository
 public class OrderDaoImpl implements OrderDao {
 	
 	@Resource

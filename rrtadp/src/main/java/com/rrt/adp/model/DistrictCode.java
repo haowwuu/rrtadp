@@ -13,8 +13,8 @@ public class DistrictCode {
 	private String shortName;
 	private String mergerName;
 	private String pinyin;
-	private float lng;
-	private float lat;
+	private double lng;
+	private double lat;
 	
 	
 	public int getId() {
@@ -77,19 +77,18 @@ public class DistrictCode {
 	public void setPinyin(String pinyin) {
 		this.pinyin = pinyin;
 	}
-	public float getLng() {
+	public double getLng() {
 		return lng;
 	}
-	public void setLng(float lng) {
+	public void setLng(double lng) {
 		this.lng = lng;
 	}
-	public float getLat() {
+	public double getLat() {
 		return lat;
 	}
-	public void setLat(float lat) {
+	public void setLat(double lat) {
 		this.lat = lat;
 	}
-	
 	@Override
 	public String toString() {
 		return "DistrictCode [id=" + id + ", parentId=" + parentId + ", level=" + level + ", areaCode=" + areaCode

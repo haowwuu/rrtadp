@@ -11,12 +11,12 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.cglib.transform.AbstractClassLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.rrt.adp.dao.support.AdvertisementDaoImpl;
 import com.rrt.adp.model.Advertisement;
 
 
@@ -24,6 +24,7 @@ import com.rrt.adp.model.Advertisement;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:beans.xml")
 public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
+	
 	@Resource
 	private AdvertisementDao advertisementDao;
 	
@@ -34,7 +35,7 @@ public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
 		sqlProvider = new SqlProvider();
 	}
 	
-	@Ignore
+	@Test
 	public void testInsertAd() {
 		Advertisement advertisement = new Advertisement();
 		advertisement.setTitle("ad-title");
@@ -53,7 +54,7 @@ public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
 		fail("Not yet implemented");
 	}
 
-	@Ignore
+	@Test
 	public void testUpdateAd() {
 		Advertisement advertisement = new Advertisement();
 		advertisement.setId("AD1500731358736");
@@ -62,7 +63,7 @@ public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
 		advertisementDao.updateAd(advertisement);
 	}
 
-	@Ignore
+	@Test
 	public void testSelectAd() {
 		Advertisement advertisement = advertisementDao.selectAd("AD1500731358736");
 		System.out.println(advertisement);

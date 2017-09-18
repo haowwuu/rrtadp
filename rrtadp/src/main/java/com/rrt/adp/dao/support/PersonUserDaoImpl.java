@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import com.rrt.adp.dao.PersonUserDao;
 import com.rrt.adp.model.PersonUser;
@@ -19,6 +20,8 @@ import com.rrt.adp.util.SequenceGenerator;
  * @date 2017年9月16日
  * 
  */
+
+@Repository
 public class PersonUserDaoImpl implements PersonUserDao {
 	
 	@Resource

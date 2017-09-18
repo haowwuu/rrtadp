@@ -8,11 +8,13 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import com.rrt.adp.dao.MediaDeviceDao;
 import com.rrt.adp.model.MediaDevice;
 import com.rrt.adp.util.SequenceGenerator;
 
+@Repository
 public class MediaDeviceDaoImpl implements MediaDeviceDao {
 	
 	@Resource
