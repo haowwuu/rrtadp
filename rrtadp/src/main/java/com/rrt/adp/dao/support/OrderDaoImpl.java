@@ -126,14 +126,19 @@ public class OrderDaoImpl implements OrderDao {
 
 	@Override
 	public int updateDeviceBidSuccess(String deviceId) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(!StringUtils.hasText(deviceId)){
+			return 0;
+		}
+		return this.jdbcTemplate.update("update rrt_order set state = ? "
+			+ "where device_id = ? and state = ? or state = ? order by price DESC LIMIT 20", 
+			new Object[]{Order.STATE_BID_SUCCESS, deviceId, Order.STATE_NEW, Order.STATE_CHECKED});
 	}
 
 	@Override
 	public int updateDeviceBidFail() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.jdbcTemplate.update("update rrt_order set state = ? "
+			+ "WHERE state = ? or state = ? and create_time > DATE_SUB(NOW(), INTERVAL 10 DAY)", 
+			new Object[]{Order.STATE_BID_FAIL, Order.STATE_NEW, Order.STATE_CHECKED});
 	}
 	
 	private static final class OrderMapper implements RowMapper<Order> {
