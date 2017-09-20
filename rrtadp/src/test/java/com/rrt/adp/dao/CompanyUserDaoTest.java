@@ -36,12 +36,12 @@ public class CompanyUserDaoTest extends AbstractJUnit4SpringContextTests{
 		sqlProvider = new SqlProvider();
 	}
 
-	@Ignore
+	@Test
 	public void testInsertUser() {
 		CompanyUser user = new CompanyUser();
 		user.setId(SequenceGenerator.next());
 		//user.setAccount("account"+random.nextInt(1000));
-		user.setAccount("rrtgg");
+		user.setAccount("testjdbc");
 		user.setPassword(EncryptUtil.md5("rrtgg123456"));
 		user.setDescription("testdescription");
 		user.setType(Account.TYPE_COMPANY_USER);
@@ -60,7 +60,7 @@ public class CompanyUserDaoTest extends AbstractJUnit4SpringContextTests{
 		int i = userDao.insertUser(user);
 	}
 
-	@Ignore
+	@Test
 	public void testDeleteUser() {
 		userDao.deleteUser("account417");
 	}
@@ -68,21 +68,21 @@ public class CompanyUserDaoTest extends AbstractJUnit4SpringContextTests{
 	@Test
 	public void testUpdateUser() {
 		CompanyUser user = new CompanyUser();
-		user.setAccount("rrtgg");
-//		user.setCompanyAddress("updateAddress");
-//		user.setDistrictCode("3303");
-//		user.setContactPhone("13111111111");
+		user.setAccount("testjsbc");
+		user.setCompanyAddress("updateAddress");
+		user.setDistrictCode("3303");
+		user.setContactPhone("13111111111");
 		user.setPassword(EncryptUtil.md5("rrtgg123456"));
 		userDao.updateUser(user);
 	}
 
-	@Ignore
+	@Test
 	public void testSelectUser() {
 		List<CompanyUser> users = userDao.selectUser();
 		users.stream().forEach(System.out::println);
 	}
 
-	@Ignore
+	@Test
 	public void testSelectUserByAccount() {
 		CompanyUser user = userDao.selectUserByAccount("account257");
 		System.out.println(user);

@@ -24,7 +24,7 @@ public class OrderDaoTest extends AbstractJUnit4SpringContextTests {
 	@Resource
 	private OrderDao orderDao;
 	
-	@Ignore
+	@Test
 	public void testInsertOrder() {
 		Order order = new Order();
 		order.setAdId("AD1500731358736");
@@ -36,12 +36,12 @@ public class OrderDaoTest extends AbstractJUnit4SpringContextTests {
 		orderDao.insertOrder(order);
 	}
 
-	@Ignore
+	@Test
 	public void testDeleteOrder() {
 		fail("Not yet implemented");
 	}
 
-	@Ignore
+	@Test
 	public void testUpdateOrder() {
 		Order order = new Order();
 		order.setId("OR1500735546969");
@@ -50,25 +50,25 @@ public class OrderDaoTest extends AbstractJUnit4SpringContextTests {
 		orderDao.updateOrder(order);
 	}
 
-	@Ignore
+	@Test
 	public void testSelectOrder() {
 		Order order = orderDao.selectOrder("OR1500735546969");
 		System.out.println(order);
 	}
 
-	@Ignore
+	@Test
 	public void testSelectOrderList() {
 		List<Order> orders = orderDao.selectOrderList();
 		orders.stream().forEach(System.out::println);
 	}
 	
-	@Ignore
+	@Test
 	public void testSelectUserOrderList() {
 		List<Order> orders = orderDao.selectUserOrderList("rrtgg");
 		orders.stream().forEach(System.out::println);
 	}
 	
-	@Ignore
+	@Test
 	public void testUpdataBid(){
 		List<String> list = orderDao.selectBidDevice();
 		list.stream().forEach(System.out::println);

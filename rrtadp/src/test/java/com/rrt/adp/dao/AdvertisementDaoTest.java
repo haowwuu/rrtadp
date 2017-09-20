@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.rrt.adp.dao.support.AdvertisementDaoImpl;
 import com.rrt.adp.model.Advertisement;
 
 

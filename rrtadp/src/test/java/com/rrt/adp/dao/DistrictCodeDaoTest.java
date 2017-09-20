@@ -21,12 +21,12 @@ public class DistrictCodeDaoTest extends AbstractJUnit4SpringContextTests {
 	private DistrictCodeDao districtCodeDao;
 	
 	
-	@Ignore
+	@Test
 	public void testSelectTopLevel() {
 		districtCodeDao.selectTopLevel().stream().forEach(System.out::println);
 	}
 
-	@Ignore
+	@Test
 	public void testSelectChild() {
 		districtCodeDao.selectChild(181794).stream().forEach(System.out::println);
 	}

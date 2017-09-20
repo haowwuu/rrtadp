@@ -17,7 +17,7 @@ public class PaginationJdbcTemplate extends JdbcTemplate {
 	private static final String MYSQL = "mysql";
 	private static final String ORACLE = "oracle";
 	
-	private String dBType;
+	private String dbType;
 	
 	public <T> List<T> queryPagination (String sql, Object[] args, 
 			int pageNum, int pageSize, RowMapper<T> mapper) {
@@ -52,15 +52,15 @@ public class PaginationJdbcTemplate extends JdbcTemplate {
 			pageSql.append(" ) a WHERE ROWNUM <= ").append(pageNum*pageSize);
 			pageSql.append(") WHERE rn >= ").append(start);
 		default:
-			throw new IllegalArgumentException("unsupported database type ["+this.dBType+"]");
+			throw new IllegalArgumentException("unsupported database type ["+this.dbType+"]");
 		}
 		
 		return pageSql.toString();
 	}
 
 	public String getdBType() {
-		if(null!=dBType){
-			return dBType;
+		if(null!=dbType){
+			return dbType;
 		}
 		Object driver = null;
 		try {
@@ -69,8 +69,8 @@ public class PaginationJdbcTemplate extends JdbcTemplate {
 			
 		}
 		if(null!=driver){
-			this.dBType = ORACLE;
-			return this.dBType;
+			this.dbType = ORACLE;
+			return this.dbType;
 		}
 		try {
 			driver = Class.forName("com.mysql.jdbc.Driver");
@@ -78,13 +78,13 @@ public class PaginationJdbcTemplate extends JdbcTemplate {
 			
 		}
 		if(null!=driver){
-			this.dBType = MYSQL;
+			this.dbType = MYSQL;
 		}
-		return this.dBType;
+		return this.dbType;
 	}
 
 	public void setdBType(String dBType) {
-		this.dBType = dBType;
+		this.dbType = dBType;
 	}
 
 }

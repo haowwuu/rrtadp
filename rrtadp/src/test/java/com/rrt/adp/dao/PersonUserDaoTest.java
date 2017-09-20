@@ -38,13 +38,13 @@ public class PersonUserDaoTest extends AbstractJUnit4SpringContextTests{
 		sqlProvider = new SqlProvider();
 	}
 
-	@Ignore
+	@Test
 	public void testInsertUser() {
 		PersonUser user = new PersonUser();
 		user.setId(SequenceGenerator.next());
 
 		//user.setAccount("account"+random.nextInt(1000));
-		user.setAccount("rrtgg");
+		user.setAccount("rrtggjdbc");
 		user.setPassword(EncryptUtil.md5("rrtgg123456"));
 		user.setDescription("testdescription");
 		user.setType(Account.TYPE_PERSON_USER);
@@ -62,12 +62,12 @@ public class PersonUserDaoTest extends AbstractJUnit4SpringContextTests{
 		int i = userDao.insertUser(user);
 	}
 
-	@Ignore
+	@Test
 	public void testDeleteUser() {
 		userDao.deleteUser("456");
 	}
 
-	@Ignore
+	@Test
 	public void testUpdateUser() {
 		PersonUser user = new PersonUser();
 		user.setAccount("account877");

@@ -219,7 +219,7 @@ public class PersonUserDaoImpl implements PersonUserDao {
 		StringBuilder update = new StringBuilder();
 		Object[] values = new Object[30];
 		int i = 0;
-		update.append("update user_company set update_time = ?");
+		update.append("update user_person set update_time = ?");
 		values[i] = new Date(); 
 		i++;
 		

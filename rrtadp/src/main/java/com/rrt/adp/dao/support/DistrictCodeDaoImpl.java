@@ -21,21 +21,21 @@ public class DistrictCodeDaoImpl implements DistrictCodeDao {
 	@Override
 	public List<DistrictCode> selectTopLevel() {
 		return this.jdbcTemplate.query(
-				"select id, city_code, short_name from district_code where level = 0",  
+				"select * from district_code where level = 0",  
 				 new DistrictMapper());
 	}
 
 	@Override
 	public List<DistrictCode> selectChild(int parentId) {
 		return this.jdbcTemplate.query(
-				"select id, city_code, short_name from district_code where parent_id = ?",  
+				"select * from district_code where parent_id = ?",  
 				 new Object[]{parentId},new DistrictMapper());
 	}
 
 	@Override
 	public DistrictCode selectByCityCode(String cityCode) {
 		List<DistrictCode> districts = this.jdbcTemplate.query(
-				"select * from district_code where city_code = #{cityCode} order by id asc limit 1",  
+				"select * from district_code where city_code = ? order by id asc limit 1",  
 				 new Object[]{cityCode},new DistrictMapper());
 		if(null==districts||districts.size()<1){
 			return null;

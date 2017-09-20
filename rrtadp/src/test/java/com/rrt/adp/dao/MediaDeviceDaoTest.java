@@ -37,7 +37,7 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 		sqlProvider = new SqlProvider();
 	}
 
-	@Ignore
+	@Test
 	public void testInsertDevice() {
 		MediaDevice device = new MediaDevice();
 		device.setDeviceType(MediaDevice.TYPE_SCREEN);
@@ -59,12 +59,12 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 		
 	}
 
-	@Ignore
+	@Test
 	public void testDeleteDevice() {
 		fail("Not yet implemented");
 	}
 
-	@Ignore
+	@Test
 	public void testUpdateDevice() {
 		MediaDevice device = new MediaDevice();
 		device.setId("MD1500729361092");
@@ -74,7 +74,7 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 		deviceDao.updateDevice(device);
 	}
 
-	@Ignore
+	@Test
 	public void testSelectDevice() {
 		MediaDevice device = deviceDao.selectDevice("MD1500729361092");
 		System.out.println(device);
@@ -101,7 +101,7 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 		devcies.stream().forEach(System.out::println);
 	}
 	
-	@Ignore
+	@Test
 	public void testSelectUserDeviceList() {
 		List<MediaDevice> devices = deviceDao.selectUserDeviceList("rrtgg");
 		devices.stream().forEach(System.out::println);
