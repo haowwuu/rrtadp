@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 
 import com.rrt.adp.model.Advertisement;
+import com.rrt.adp.model.Page;
 
 public interface AdvertisementDao {
 	
@@ -70,4 +71,8 @@ public interface AdvertisementDao {
 		@Result(property = "owner", column = "owner")
 	})
 	List<Advertisement> selectUserAdList(String account);
+	
+	List<Advertisement> selectAdList(Advertisement ad, Page<?> page);
+	
+	int countAd(Advertisement ad);
 }

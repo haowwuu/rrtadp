@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.rrt.adp.model.MediaDevice;
+import com.rrt.adp.model.Page;
 
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -81,7 +82,7 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 				
 	}
 
-	@Test
+	@Ignore
 	public void testSelectDeviceList() {
 		MediaDevice device = new MediaDevice();
 		/*device.setDeviceType(MediaDevice.TYPE_SCREEN);
@@ -101,10 +102,25 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 		devcies.stream().forEach(System.out::println);
 	}
 	
-	@Test
+	@Ignore
 	public void testSelectUserDeviceList() {
 		List<MediaDevice> devices = deviceDao.selectUserDeviceList("rrtgg");
 		devices.stream().forEach(System.out::println);
+	}
+	
+	@Test
+	public void testSelectPage(){
+		MediaDevice device = new MediaDevice();
+		Page<?> page = new Page<>(1,3);
+		deviceDao.selectDeviceList(device, page).stream().forEach(System.out::println);
+	}
+	
+	@Test
+	public void testCount(){
+		MediaDevice device = new MediaDevice();
+		device.setOwner("rrtgg");
+		int count = deviceDao.countDevice(device);
+		System.out.println(count);
 	}
 
 }

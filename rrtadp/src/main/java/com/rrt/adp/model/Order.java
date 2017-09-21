@@ -30,10 +30,6 @@ public class Order extends DBModel{
 	private Advertisement advertisement;
 	private MediaDevice mediaDevice;
 	
-	public Order() {
-		this.id = PREFIX_ORDER+this.id;
-	}
-	
 	public boolean isStateLegal(){
 		return ORDER_STATE_SET.contains(getState());
 	}

@@ -53,10 +53,6 @@ public class Advertisement extends DBModel{
 		return isStateLegal(getState());
 	}
 	
-	public Advertisement() {
-		this.id = PREFIX_ADVERTISEMENT+this.id;
-	}
-	
 	public String getTitle() {
 		return title;
 	}

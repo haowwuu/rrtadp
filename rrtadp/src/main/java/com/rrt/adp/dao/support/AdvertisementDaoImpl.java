@@ -8,13 +8,14 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.rrt.adp.dao.AdvertisementDao;
 import com.rrt.adp.model.Advertisement;
+import com.rrt.adp.model.Page;
+import com.rrt.adp.util.PaginationJdbcTemplate;
 import com.rrt.adp.util.SequenceGenerator;
 
 /**
@@ -27,7 +28,7 @@ import com.rrt.adp.util.SequenceGenerator;
 public class AdvertisementDaoImpl implements AdvertisementDao {
 	
 	@Resource
-	private JdbcTemplate jdbcTemplate;
+	private PaginationJdbcTemplate jdbcTemplate;
 	
 	@Override
 	public int insertAd(Advertisement ad) {
@@ -89,7 +90,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 
 	@Override
 	public List<Advertisement> selectAdList(Advertisement ad) {
-		Object[] select = buildSelectSql(ad);
+		Object[] select = buildSelectSql("select * from rrt_ad", ad);
 		String sql = (String)select[select.length-1];
 		Object[] values = new Object[select.length-1];
 		System.arraycopy(select, 0, values, 0, select.length-1);
@@ -105,6 +106,25 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 		ad.setId(null);
 		ad.setOwner(account);
 		return selectAdList(ad);
+	}
+	
+	@Override
+	public List<Advertisement> selectAdList(Advertisement ad, Page<?> page) {
+		Object[] select = buildSelectSql("select * from rrt_ad",ad);
+		String sql = (String)select[select.length-1];
+		Object[] values = new Object[select.length-1];
+		System.arraycopy(select, 0, values, 0, select.length-1);
+		return this.jdbcTemplate.queryPagination(sql, values, 
+				page.getPageNum(), page.getPageSize(), new AdMapper());
+	}
+
+	@Override
+	public int countAd(Advertisement ad) {
+		Object[] select = buildSelectSql("select count(*) from rrt_ad", ad);
+		String sql = (String)select[select.length-1];
+		Object[] values = new Object[select.length-1];
+		System.arraycopy(select, 0, values, 0, select.length-1);
+		return this.jdbcTemplate.queryForObject(sql, Integer.class, values);
 	}
 	
 	private static final class AdMapper implements RowMapper<Advertisement> {
@@ -126,10 +146,11 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 	    }
 	}
 	
-	private Object[] buildSelectSql(Advertisement ad) {
+	private Object[] buildSelectSql(String selectOrCount, Advertisement ad) {
 		
 		StringBuilder select = new StringBuilder();
-		select.append("select * from rrt_ad where 1");
+		select.append(selectOrCount);
+		select.append(" where 1");
 		if(null==ad){
 			return new Object[]{select.toString()};
 		}

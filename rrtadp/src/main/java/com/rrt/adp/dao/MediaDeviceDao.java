@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 
 import com.rrt.adp.model.MediaDevice;
+import com.rrt.adp.model.Page;
 
 
 public interface MediaDeviceDao {
@@ -99,5 +100,9 @@ public interface MediaDeviceDao {
 		@Result(property = "owner", column = "owner")
 	})
 	List<MediaDevice> selectDeviceList(MediaDevice device);
+	
+	List<MediaDevice> selectDeviceList(MediaDevice device, Page<?> page);
+	
+	int countDevice(MediaDevice device);
 	
 }

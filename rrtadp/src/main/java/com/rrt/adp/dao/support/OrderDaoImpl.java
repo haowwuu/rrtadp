@@ -6,26 +6,27 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import com.rrt.adp.dao.OrderDao;
 import com.rrt.adp.model.Order;
+import com.rrt.adp.model.Page;
+import com.rrt.adp.util.PaginationJdbcTemplate;
 import com.rrt.adp.util.SequenceGenerator;
 
 @Repository
 public class OrderDaoImpl implements OrderDao {
 	
 	@Resource
-	private JdbcTemplate jdbcTemplate;
+	private PaginationJdbcTemplate jdbcTemplate;
 	
 	@Override
 	public int insertOrder(Order order) {
 		if(null==order){
 			return 0;
 		}
-		order.setId(Order.PREFIX_ADVERTISEMENT+SequenceGenerator.next());
+		order.setId(Order.PREFIX_ORDER+SequenceGenerator.next());
 		order.setCreateTime(new Date());
 		order.setState(Order.STATE_NEW);
 		return this.jdbcTemplate.update("insert into rrt_order (id, create_time, update_time, "
@@ -65,7 +66,7 @@ public class OrderDaoImpl implements OrderDao {
 	}
 	
 	private List<Order> select(Order order) {
-		Object[] select = buildSelectSql(order);
+		Object[] select = buildSelectSql("select * from rrt_order", order);
 		String sql = (String)select[select.length-1];
 		Object[] values = new Object[select.length-1];
 		System.arraycopy(select, 0, values, 0, select.length-1);
@@ -143,6 +144,24 @@ public class OrderDaoImpl implements OrderDao {
 			new Object[]{Order.STATE_BID_FAIL, Order.STATE_NEW, Order.STATE_CHECKED});
 	}
 	
+	@Override
+	public List<Order> selectOrderList(Order order, Page<?> page) {
+		Object[] select = buildSelectSql("select * from rrt_order", order);
+		String sql = (String)select[select.length-1];
+		Object[] values = new Object[select.length-1];
+		System.arraycopy(select, 0, values, 0, select.length-1);
+		return this.jdbcTemplate.queryPagination(sql, values, page.getPageNum(), page.getPageSize(), new OrderMapper());
+	}
+
+	@Override
+	public int countOrder(Order order) {
+		Object[] select = buildSelectSql("select count(*) from rrt_order", order);
+		String sql = (String)select[select.length-1];
+		Object[] values = new Object[select.length-1];
+		System.arraycopy(select, 0, values, 0, select.length-1);
+		return this.jdbcTemplate.queryForObject(sql, Integer.class, values);
+	}
+	
 	private static final class OrderMapper implements RowMapper<Order> {
 
 	    public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -161,10 +180,11 @@ public class OrderDaoImpl implements OrderDao {
 	    }
 	}
 	
-	private Object[] buildSelectSql(Order order) {
+	private Object[] buildSelectSql(String selectOrCount, Order order) {
 		
 		StringBuilder select = new StringBuilder();
-		select.append("select * from rrt_order where 1");
+		select.append(selectOrCount);
+		select.append(" where 1");
 		if(null==order){
 			return new Object[]{select.toString()};
 		}

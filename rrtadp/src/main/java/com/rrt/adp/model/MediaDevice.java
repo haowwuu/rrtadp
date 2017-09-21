@@ -28,10 +28,6 @@ public class MediaDevice extends DBModel {
 	private String address;
 	private String owner;
 	
-	public MediaDevice() {
-		this.id = PREFIX_MEDIA_DEVICE+this.id;
-	}
-	
 	public Map<String, Object> dictionary() {
 		Map<String, Object> dic = new HashMap<>();
 		Map<String, String> deviceType = new HashMap<>();

@@ -27,7 +27,7 @@ public class DBModel {
 		return STATE_SET.contains(state);
 	}
 	
-	protected String id = SequenceGenerator.next();
+	protected String id;
 	private Date createTime = new Date();
 	private Date updateTime;
 	

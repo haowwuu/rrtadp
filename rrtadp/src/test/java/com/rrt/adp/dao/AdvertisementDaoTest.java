@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.List;
 import java.util.Random;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.annotation.Resource;
 
 import org.junit.Before;
@@ -17,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.rrt.adp.model.Advertisement;
+import com.rrt.adp.model.Page;
 
 
 @WebAppConfiguration
@@ -62,13 +64,13 @@ public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
 		advertisementDao.updateAd(advertisement);
 	}
 
-	@Test
+	@Ignore
 	public void testSelectAd() {
 		Advertisement advertisement = advertisementDao.selectAd("AD1500731358736");
 		System.out.println(advertisement);
 	}
 
-	@Test
+	@Ignore
 	public void testSelectAdList() {
 		Advertisement advertisement = new Advertisement();
 		advertisement.setTitle("ad-title");
@@ -79,6 +81,24 @@ public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
 		advertisement.setOwner("rrtgg");
 		List<Advertisement> ads = advertisementDao.selectAdList(advertisement);
 		ads.stream().forEach(System.out::println);
+	}
+	
+	@Test
+	public void testSelectPage() {
+		Advertisement advertisement = new Advertisement();
+		advertisement.setTitle("ad-title");
+		Page<?> page = new Page<>(1,1);
+		
+		advertisementDao.selectAdList(advertisement, page).stream().forEach(System.out::println);
+	}
+	
+	@Test
+	public void testCount(){
+		Advertisement advertisement = new Advertisement();
+		advertisement.setTitle("ad-title");
+		
+		int count = advertisementDao.countAd(advertisement);
+		System.out.println(count);
 	}
 
 }

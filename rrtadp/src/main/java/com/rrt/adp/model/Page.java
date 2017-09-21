@@ -18,6 +18,22 @@ public class Page<T> {
 
     private List<T> list;
 
+	public Page() {
+		
+	}
+	
+	public Page(int pageNum, int pageSize) {
+		this.pageNum = pageNum;
+		this.pageSize = pageSize;
+	}
+
+	public Page(int pageNum, int pageSize, int total, List<T> list) {
+		this.pageNum = pageNum;
+		this.pageSize = pageSize;
+		this.total = total;
+		this.list = list;
+	}
+
 	public int getPageNum() {
 		return pageNum;
 	}
@@ -48,6 +64,11 @@ public class Page<T> {
 
 	public void setList(List<T> list) {
 		this.list = list;
+	}
+
+	@Override
+	public String toString() {
+		return "Page [pageNum=" + pageNum + ", pageSize=" + pageSize + ", total=" + total + ", list=" + list + "]";
 	}
 
 }

@@ -137,6 +137,9 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void bid() {
 		List<String> deviceList = orderDao.selectBidDevice();
+		if(null==deviceList){
+			return;
+		}
 		for(String device:deviceList){
 			orderDao.updateDeviceBidSuccess(device);
 		}

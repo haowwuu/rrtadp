@@ -6,26 +6,27 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import com.rrt.adp.dao.MediaDeviceDao;
 import com.rrt.adp.model.MediaDevice;
+import com.rrt.adp.model.Page;
+import com.rrt.adp.util.PaginationJdbcTemplate;
 import com.rrt.adp.util.SequenceGenerator;
 
 @Repository
 public class MediaDeviceDaoImpl implements MediaDeviceDao {
 	
 	@Resource
-	private JdbcTemplate jdbcTemplate;
+	private PaginationJdbcTemplate jdbcTemplate;
 	
 	@Override
 	public int insertDevice(MediaDevice device) {
 		if(null==device){
 			return 0;
 		}
-		device.setId(MediaDevice.PREFIX_ADVERTISEMENT+SequenceGenerator.next());
+		device.setId(MediaDevice.PREFIX_MEDIA_DEVICE+SequenceGenerator.next());
 		device.setCreateTime(new Date());
 		device.setState(MediaDevice.STATE_NEW);
 		return this.jdbcTemplate.update("insert into rrt_media_device (id, create_time, update_time, "
@@ -99,11 +100,30 @@ public class MediaDeviceDaoImpl implements MediaDeviceDao {
 
 	@Override
 	public List<MediaDevice> selectDeviceList(MediaDevice device) {
-		Object[] select = buildSelectSql(device);
+		Object[] select = buildSelectSql("select * from rrt_media_device", device);
 		String sql = (String)select[select.length-1];
 		Object[] values = new Object[select.length-1];
 		System.arraycopy(select, 0, values, 0, select.length-1);
 		return this.jdbcTemplate.query(sql, values, new MediaDeviceMapper());
+	}
+	
+	@Override
+	public List<MediaDevice> selectDeviceList(MediaDevice device, Page<?> page) {
+		Object[] select = buildSelectSql("select * from rrt_media_device", device);
+		String sql = (String)select[select.length-1];
+		Object[] values = new Object[select.length-1];
+		System.arraycopy(select, 0, values, 0, select.length-1);
+		return this.jdbcTemplate.queryPagination(sql, values, 
+				page.getPageNum(), page.getPageSize(), new MediaDeviceMapper());
+	}
+
+	@Override
+	public int countDevice(MediaDevice device) {
+		Object[] select = buildSelectSql("select count(*) from rrt_media_device", device);
+		String sql = (String)select[select.length-1];
+		Object[] values = new Object[select.length-1];
+		System.arraycopy(select, 0, values, 0, select.length-1);
+		return this.jdbcTemplate.queryForObject(sql, Integer.class, values);
 	}
 	
 	private static final class MediaDeviceMapper implements RowMapper<MediaDevice> {
@@ -132,10 +152,11 @@ public class MediaDeviceDaoImpl implements MediaDeviceDao {
 	    }
 	}
 	
-	private Object[] buildSelectSql(MediaDevice device) {
+	private Object[] buildSelectSql(String selectOrCount, MediaDevice device) {
 		
 		StringBuilder select = new StringBuilder();
-		select.append("select * from rrt_media_device where 1");
+		select.append(selectOrCount);
+		select.append(" where 1");
 		if(null==device){
 			return new Object[]{select.toString()};
 		}

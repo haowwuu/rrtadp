@@ -13,8 +13,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.web.context.request.NativeWebRequest;
 
 import com.rrt.adp.model.Order;
+import com.rrt.adp.model.Page;
 
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -50,19 +52,19 @@ public class OrderDaoTest extends AbstractJUnit4SpringContextTests {
 		orderDao.updateOrder(order);
 	}
 
-	@Test
+	@Ignore
 	public void testSelectOrder() {
 		Order order = orderDao.selectOrder("OR1500735546969");
 		System.out.println(order);
 	}
 
-	@Test
+	@Ignore
 	public void testSelectOrderList() {
 		List<Order> orders = orderDao.selectOrderList();
 		orders.stream().forEach(System.out::println);
 	}
 	
-	@Test
+	@Ignore
 	public void testSelectUserOrderList() {
 		List<Order> orders = orderDao.selectUserOrderList("rrtgg");
 		orders.stream().forEach(System.out::println);
@@ -76,9 +78,21 @@ public class OrderDaoTest extends AbstractJUnit4SpringContextTests {
 		orderDao.updateDeviceBidFail();
 	}
 	
-	@Test
+	@Ignore
 	public void testSelectUserOrder(){
 		System.out.println(orderDao.selectUserOrder("OR1500815056870", "admin0"));
+	}
+	@Test
+	public void testSelectPage(){
+		Order order = new Order();
+		Page<?> page = new Page<>(1, 4);
+		orderDao.selectOrderList(order, page).stream().forEach(System.out::println);
+	}
+	@Test
+	public void testCount() {
+		Order order = new Order();
+		int count = orderDao.countOrder(order);
+		System.out.println(count);
 	}
 
 }

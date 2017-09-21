@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 
 import com.rrt.adp.model.Order;
+import com.rrt.adp.model.Page;
 
 public interface OrderDao {
 	
@@ -94,4 +95,8 @@ public interface OrderDao {
 	@Update("update rrt_order set state = 'F' "
 			+ "WHERE state = 'N' or state = 'C' and create_time > DATE_SUB(NOW(), INTERVAL 10 DAY)")
 	int updateDeviceBidFail();
+	
+	List<Order> selectOrderList(Order order, Page<?> page);
+	
+	int countOrder(Order order);
 }
