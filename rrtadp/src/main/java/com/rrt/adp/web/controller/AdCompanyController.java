@@ -60,7 +60,7 @@ public class AdCompanyController {
 		}
 	}
 	
-	@ApiOperation("删除广告公司")
+	@ApiOperation("分页查询广告公司")
 	@RequestMapping(value="/page", method=RequestMethod.GET)
 	public RestResult deleteAdCompany(AdCompany company, Page<AdCompany> page){
 		Page<AdCompany> companys = companyService.getAdCompanyPage(company, page);
