@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.MediaDevice;
+import com.rrt.adp.model.Page;
 import com.rrt.adp.service.MediaDeviceService;
-import com.rrt.adp.util.RequestMessageContext;
+import com.rrt.adp.util.MessageContext;
 import com.rrt.adp.web.RestResult;
 import com.rrt.adp.web.RestSecurity;
 
@@ -30,7 +31,7 @@ public class MediaDeviceController {
 		if(deviceService.addMediaDevice(device, account)){
 			return RestResult.defaultSuccessResult();
 		}else{
-			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
 	}
 	
@@ -58,7 +59,7 @@ public class MediaDeviceController {
 		if(deviceService.updateMediaDevice(device, account)){
 			return RestResult.defaultSuccessResult();
 		}else{
-			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
 	}
 	
@@ -69,7 +70,18 @@ public class MediaDeviceController {
 		if(deviceService.deleteMediaDevice(deviceId, account)){
 			return RestResult.defaultSuccessResult();
 		}else{
-			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
+	}
+	
+	@ApiOperation("分页获取设备，分页参数pageNum， pageSize， 默认返回审核通过的设备，传入owner参数可以获取个人所有设备")
+	@RequestMapping(value="page", method={RequestMethod.GET, RequestMethod.POST})
+	public RestResult pageAd(MediaDevice device, Page<MediaDevice> page, HttpServletRequest request){
+		Account account = RestSecurity.getSessionAccount(request);
+		Page<MediaDevice> devices = deviceService.getMediaDevicePage(device, account, page);
+		if(null!=devices){
+			return RestResult.defaultSuccessResult(devices);
+		}
+		return RestResult.defaultFailResult(MessageContext.getMsg());
 	}
 }

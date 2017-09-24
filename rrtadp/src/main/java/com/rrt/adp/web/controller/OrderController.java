@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.Order;
+import com.rrt.adp.model.Page;
 import com.rrt.adp.service.OrderService;
 import com.rrt.adp.util.MessageUtil;
-import com.rrt.adp.util.RequestMessageContext;
+import com.rrt.adp.util.MessageContext;
 import com.rrt.adp.web.RestResult;
 import com.rrt.adp.web.RestSecurity;
 
@@ -34,7 +35,7 @@ public class OrderController {
 		if(orderService.addOrder(order, account)){
 			return RestResult.defaultSuccessResult();
 		}else{
-			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
 	}
 	
@@ -59,7 +60,7 @@ public class OrderController {
 		if(orderService.updateOrder(order, account)){
 			return RestResult.defaultSuccessResult();
 		}else{
-			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
 	}
 	
@@ -70,7 +71,7 @@ public class OrderController {
 		if(orderService.deleteOrder(orderId, account)){
 			return RestResult.defaultSuccessResult();
 		}else{
-			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
 	}
 	
@@ -83,6 +84,17 @@ public class OrderController {
 		}else{
 			return RestResult.defaultFailResult(msgUtil.get("permission.deny"));
 		}
+	}
+	
+	@ApiOperation("分页获取订单，分页参数pageNum， pageSize")
+	@RequestMapping(value="page", method={RequestMethod.GET, RequestMethod.POST})
+	public RestResult pageAd(Order order, Page<Order> page, HttpServletRequest request){
+		Account account = RestSecurity.getSessionAccount(request);
+		Page<Order> orders = orderService.getOrderPage(order, account, page);
+		if(null!=orders){
+			return RestResult.defaultSuccessResult(orders);
+		}
+		return RestResult.defaultFailResult(MessageContext.getMsg());
 	}
 
 }

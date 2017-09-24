@@ -10,8 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.Advertisement;
+import com.rrt.adp.model.Page;
 import com.rrt.adp.service.AdvertisementService;
-import com.rrt.adp.util.RequestMessageContext;
+import com.rrt.adp.util.MessageContext;
 import com.rrt.adp.web.RestResult;
 import com.rrt.adp.web.RestSecurity;
 
@@ -33,11 +34,11 @@ public class AdvertisementController {
 		if(null!=retn){
 			return RestResult.defaultSuccessResult(retn);
 		}else{
-			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
 	}
 	
-	@ApiOperation("获取个人广告列表")
+	@ApiOperation("depreciated 获取个人广告列表，建议使用page接口传入owner参数")
 	@RequestMapping(value="/my", method=RequestMethod.GET)
 	public RestResult getUserAdList(HttpServletRequest request){
 		Account account = RestSecurity.getSessionAccount(request);
@@ -61,7 +62,7 @@ public class AdvertisementController {
 		if(adService.updateAd(ad, account)){
 			return RestResult.defaultSuccessResult();
 		}else{
-			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
 	}
 	
@@ -72,8 +73,19 @@ public class AdvertisementController {
 		if(adService.deleteAd(adId, account)){
 			return RestResult.defaultSuccessResult();
 		}else{
-			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
+	}
+	
+	@ApiOperation("分页获取广告，分页参数pageNum， pageSize， 默认返回审核通过的广告，传入owner参数可以获取个人所有广告")
+	@RequestMapping(value="page", method={RequestMethod.GET, RequestMethod.POST})
+	public RestResult pageAd(Advertisement ad, Page<Advertisement> page, HttpServletRequest request){
+		Account account = RestSecurity.getSessionAccount(request);
+		Page<Advertisement> ads = adService.getUserAdPage(ad, account, page);
+		if(null!=ads){
+			return RestResult.defaultSuccessResult(ads);
+		}
+		return RestResult.defaultFailResult(MessageContext.getMsg());
 	}
 	
 }

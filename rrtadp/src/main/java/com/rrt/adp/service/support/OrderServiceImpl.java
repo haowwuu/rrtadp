@@ -1,6 +1,7 @@
 package com.rrt.adp.service.support;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.Resource;
 
@@ -17,9 +18,10 @@ import com.rrt.adp.model.Advertisement;
 import com.rrt.adp.model.DBModel;
 import com.rrt.adp.model.MediaDevice;
 import com.rrt.adp.model.Order;
+import com.rrt.adp.model.Page;
 import com.rrt.adp.service.OrderService;
 import com.rrt.adp.util.MessageUtil;
-import com.rrt.adp.util.RequestMessageContext;
+import com.rrt.adp.util.MessageContext;
 import com.rrt.adp.util.SequenceGenerator;
 
 @Service
@@ -44,21 +46,21 @@ public class OrderServiceImpl implements OrderService {
 		}
 		order.setId(DBModel.PREFIX_ORDER+SequenceGenerator.next());
 		if(null==order.getAdId()){
-			RequestMessageContext.setMsg(msgUtil.get("parameter.null", "adId"));
+			MessageContext.setMsg(msgUtil.get("parameter.null", "adId"));
 			return false;
 		}
 		if(null==order.getDeviceId()){
-			RequestMessageContext.setMsg(msgUtil.get("parameter.null", "deviceId"));
+			MessageContext.setMsg(msgUtil.get("parameter.null", "deviceId"));
 			return false;
 		}
 		Advertisement ad = adDao.selectAd(order.getAdId());
 		if(null==ad){
-			RequestMessageContext.setMsg(msgUtil.get("parameter.not.exist", "adId"));
+			MessageContext.setMsg(msgUtil.get("parameter.not.exist", "adId"));
 			return false;
 		}
 		MediaDevice device = deviceDao.selectDevice(order.getDeviceId());
 		if(null==device){
-			RequestMessageContext.setMsg(msgUtil.get("parameter.not.exist", "deviceId"));
+			MessageContext.setMsg(msgUtil.get("parameter.not.exist", "deviceId"));
 			return false;
 		}
 		order.setDeviceOwner(device.getOwner());
@@ -107,7 +109,7 @@ public class OrderServiceImpl implements OrderService {
 			return false;
 		}
 		if(null!=order.getState()&&!order.isStateLegal()){
-			RequestMessageContext.setMsg(msgUtil.get("parameter.illegal", "state"));
+			MessageContext.setMsg(msgUtil.get("parameter.illegal", "state"));
 			return false;
 		}
 		Order dbOrder = orderDao.selectOrder(order.getId());
@@ -115,7 +117,7 @@ public class OrderServiceImpl implements OrderService {
 			return false;
 		}
 		if(!account.getAccount().equals(order.getAdOwner())&&!account.isAdmin()){
-			RequestMessageContext.setMsg(msgUtil.get("permission.deny"));
+			MessageContext.setMsg(msgUtil.get("permission.deny"));
 			return false;
 		}
 		orderDao.updateOrder(order);
@@ -145,6 +147,43 @@ public class OrderServiceImpl implements OrderService {
 		}
 		orderDao.updateDeviceBidFail();
 		LOGGER.error("info message, report the bid procedure has proceeded");
+	}
+
+	@Override
+	public Page<Order> getOrderPage(Order order, Account account, Page<Order> page) {
+		if(null==account||null==account.getAccount()){
+			return null;
+		}
+		order = null==order? new Order():order;
+		if(!account.isAdmin()){
+			order.setAdOwner(account.getAccount());
+			order.setDeviceOwner(account.getAccount());
+		}
+		return selectOrderPage(order, page);
+	}
+	
+	private Page<Order> selectOrderPage(Order order, Page<Order> page){
+		CompletableFuture<List<Order>> orderfuture = new CompletableFuture<>();
+		new Thread(() -> {
+			try{
+				List<Order> orders = orderDao.selectOrderList(order, page);
+				orderfuture.complete(orders);
+			}catch (Exception e) {
+				LOGGER.error("selectOrderPage order[{}] page[{}] exception [{}]", order, page, e.getMessage());
+				page.setPageNum(-1);
+			}
+		}).start();
+		
+		try{
+			page.setTotal(orderDao.countOrder(order));
+			page.setList(orderfuture.get());
+		}catch (Exception e) {
+			MessageContext.setMsg(msgUtil.get("db.exception"));
+			LOGGER.error("selectOrderPage order[{}] page[{}] exception [{}]", order, page, e.getMessage());
+			return null;
+		} 
+		
+		return page.getPageNum()<0?null:page;
 	}
 
 }

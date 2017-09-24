@@ -39,8 +39,6 @@ public class Account extends DBModel{
 	private String role;
 	private String state;
 	
-	
-	
 	public Account() {
 		super();
 	}
@@ -54,6 +52,13 @@ public class Account extends DBModel{
 		this.type = type;
 		this.role = role;
 		this.state = state;
+	}
+	
+	public static boolean isAdmin(Account account){
+		if(null==account||null==account.getAccount()){
+			return false;
+		}
+		return account.isAdmin();	
 	}
 	
 	public static boolean isTypeLegal(String type){

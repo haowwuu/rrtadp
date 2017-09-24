@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.Order;
+import com.rrt.adp.model.Page;
 
 public interface OrderService {
 	
@@ -18,5 +19,7 @@ public interface OrderService {
 	boolean deleteOrder(String orderId, Account account);
 	
 	void bid();
+	
+	Page<Order> getOrderPage(Order order, Account account, Page<Order> page);
 	
 }

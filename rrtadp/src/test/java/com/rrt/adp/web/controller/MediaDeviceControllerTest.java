@@ -2,21 +2,28 @@ package com.rrt.adp.web.controller;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
-import java.util.Date;
-
+import org.apache.ibatis.ognl.Token;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.Module.SetupContext;
+import com.rrt.adp.web.TestUtil;
+
 public class MediaDeviceControllerTest {
 	
-	private String baseUrl = UserControllerTest.baseUrl;
+	private String baseUrl = TestUtil.baseUrl;
+	private String token;
 	
-	@Test
+	@Before
+	public void setUp() throws Exception {
+		token = TestUtil.getToken();
+	}
+	
+	@Ignore
 	public void testCreateDevice() {
 		RestTemplate restTemplate = new RestTemplate();  
 		//FileSystemResource frontPic = new FileSystemResource(new File("F:\\2.jpg"));
@@ -52,6 +59,19 @@ public class MediaDeviceControllerTest {
 	@Ignore
 	public void testUpdateDevice() {
 		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testPageDevice() {
+		RestTemplate restTemplate = new RestTemplate();  
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();  
+        form.add("token", token);
+        form.add("pageNum", "1");
+        form.add("pageSize", "20");
+        //form.add("owner", "rrtgg");
+      
+        String result = restTemplate.postForObject(baseUrl+"/device/page", form, String.class);  
+        System.out.println(result);
 	}
 
 }

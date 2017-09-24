@@ -1,9 +1,12 @@
 package com.rrt.adp.service.support;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,14 +14,17 @@ import com.rrt.adp.dao.AdvertisementDao;
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.Advertisement;
 import com.rrt.adp.model.DBModel;
+import com.rrt.adp.model.Page;
 import com.rrt.adp.service.AdvertisementService;
 import com.rrt.adp.util.FileUtil;
 import com.rrt.adp.util.MessageUtil;
-import com.rrt.adp.util.RequestMessageContext;
+import com.rrt.adp.util.MessageContext;
 import com.rrt.adp.util.SequenceGenerator;
 
 @Service
 public class AdvertisementServiceImpl implements AdvertisementService {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(AdvertisementServiceImpl.class);
 	
 	@Resource
 	private AdvertisementDao adDao;
@@ -36,7 +42,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 		ad.setState(Advertisement.STATE_NEW);
 		ad.setOwner(account.getAccount());
 		if(!ad.isTypeLegal()){
-			RequestMessageContext.setMsg(msgUtil.get("parameter.illegal", "type"));
+			MessageContext.setMsg(msgUtil.get("parameter.illegal", "type"));
 			return null;
 		}
 		if(null!=adFile){
@@ -79,11 +85,11 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 			return false;
 		}
 		if(null!=ad.getType()&&!ad.isTypeLegal()){
-			RequestMessageContext.setMsg(msgUtil.get("parameter.illegal", "type"));
+			MessageContext.setMsg(msgUtil.get("parameter.illegal", "type"));
 			return false;
 		}
 		if(null!=ad.getState()&&!ad.isStateLegal()){
-			RequestMessageContext.setMsg(msgUtil.get("parameter.illegal", "state"));
+			MessageContext.setMsg(msgUtil.get("parameter.illegal", "state"));
 			return false;
 		}
 		Advertisement dbAd = adDao.selectAd(ad.getId());
@@ -91,7 +97,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 			return false;
 		}
 		if(!dbAd.getOwner().equals(account.getAccount())&&!account.isAdmin()){
-			RequestMessageContext.setMsg(msgUtil.get("permission.deny"));
+			MessageContext.setMsg(msgUtil.get("permission.deny"));
 			return false;
 		}
 		adDao.updateAd(ad);
@@ -107,6 +113,42 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 		ad.setId(adId);
 		ad.setState(Advertisement.STATE_DELETE);
 		return updateAd(ad, account);
+	}
+
+	@Override
+	public Page<Advertisement> getUserAdPage(Advertisement ad, Account account, Page<Advertisement> page) {
+		if(null==account||null==account.getAccount()){
+			return null;
+		}
+		ad = null==ad? new Advertisement():ad;
+		if(!account.isAdmin()&&!account.getAccount().equals(ad.getOwner())){
+			ad.setState(Advertisement.STATE_CHECKED);
+		}
+		return selectAdPage(ad, page);
+	}
+	
+	private Page<Advertisement> selectAdPage(Advertisement ad, Page<Advertisement> page){
+		CompletableFuture<List<Advertisement>> adfuture = new CompletableFuture<>();
+		new Thread(() -> {
+			try{
+				List<Advertisement> advertisements = adDao.selectAdList(ad, page);
+				adfuture.complete(advertisements);
+			}catch (Exception e) {
+				LOGGER.error("selectAdPage ad[{}] page[{}] exception [{}]", ad, page, e.getMessage());
+				page.setPageNum(-1);
+			}
+		}).start();
+		
+		try{
+			page.setTotal(adDao.countAd(ad));
+			page.setList(adfuture.get());
+		}catch (Exception e) {
+			MessageContext.setMsg(msgUtil.get("db.exception"));
+			LOGGER.error("selectAdPage ad[{}] page[{}] exception [{}]", ad, page, e.getMessage());
+			return null;
+		} 
+		
+		return page.getPageNum()<0?null:page;
 	}
 
 }

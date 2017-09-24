@@ -1,7 +1,7 @@
 package com.rrt.adp.util;
 
 
-public class RequestMessageContext {
+public class MessageContext {
 	
 	private static ThreadLocal<String> msgContext = new ThreadLocal<>();
 	

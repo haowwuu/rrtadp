@@ -19,7 +19,7 @@ import com.rrt.adp.service.UserService;
 import com.rrt.adp.util.EncryptUtil;
 import com.rrt.adp.util.FileUtil;
 import com.rrt.adp.util.MessageUtil;
-import com.rrt.adp.util.RequestMessageContext;
+import com.rrt.adp.util.MessageContext;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Account login(Account account) {
 		if(null==account||null==account.getAccount()){
-			RequestMessageContext.setMsg(msgUtil.get("account.null"));
+			MessageContext.setMsg(msgUtil.get("account.null"));
 			return null;
 		}
 		Account user = personUserDao.selectUserByAccount(account.getAccount());
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 			user = companyUserDao.selectUserByAccount(account.getAccount());
 		}
 		if(null==user||!Account.STATE_CHECKED.equals(user.getState())){
-			RequestMessageContext.setMsg(msgUtil.get("accoount.not.exist"));
+			MessageContext.setMsg(msgUtil.get("accoount.not.exist"));
 			return null;
 		}
 		String pwd = EncryptUtil.md5(user.getPassword()+account.getToken());
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 			user.setPassword(null);
 			return user;
 		}else{
-			RequestMessageContext.setMsg(msgUtil.get("password.incorrect"));
+			MessageContext.setMsg(msgUtil.get("password.incorrect"));
 		}
 		return null;
 	}
@@ -79,13 +79,13 @@ public class UserServiceImpl implements UserService {
 				user.setIDCardBackPicUrl(backUrl);
 			}
 			if(null!=companyUserDao.selectUserByAccount(user.getAccount())){
-				RequestMessageContext.setMsg(msgUtil.get("account.exist"));
+				MessageContext.setMsg(msgUtil.get("account.exist"));
 				return null;
 			}
 			try{
 				personUserDao.insertUser(user);
 			}catch (DataIntegrityViolationException e) {
-				RequestMessageContext.setMsg(msgUtil.get("account.exist"));
+				MessageContext.setMsg(msgUtil.get("account.exist"));
 				LOGGER.error("insert person user exception. [{}]", e.getMessage());
 				return null;
 			}		
@@ -114,13 +114,13 @@ public class UserServiceImpl implements UserService {
 				user.setCertificateBackPicUrl(backUrl);
 			}
 			if(null!=personUserDao.selectUserByAccount(user.getAccount())){
-				RequestMessageContext.setMsg(msgUtil.get("account.exist"));
+				MessageContext.setMsg(msgUtil.get("account.exist"));
 				return null;
 			}
 			try {
 				companyUserDao.insertUser(user);
 			} catch (DataIntegrityViolationException e) {
-				RequestMessageContext.setMsg(msgUtil.get("account.exist"));
+				MessageContext.setMsg(msgUtil.get("account.exist"));
 				LOGGER.error("insert company person user exception. [{}]", e.getMessage());
 				return null;
 			}
@@ -132,11 +132,11 @@ public class UserServiceImpl implements UserService {
 	
 	private boolean checkAccount(Account account){
 		if(null==account||null==account.getAccount()){
-			RequestMessageContext.setMsg(msgUtil.get("account.null"));
+			MessageContext.setMsg(msgUtil.get("account.null"));
 			return false;
 		}
 		if(null==account.getPassword()){
-			RequestMessageContext.setMsg(msgUtil.get("password.null"));
+			MessageContext.setMsg(msgUtil.get("password.null"));
 			return false;
 		}
 	
@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean updateAccount(Account account) {
 		if(null==account||null==account.getAccount()){
-			RequestMessageContext.setMsg(msgUtil.get("account.null"));
+			MessageContext.setMsg(msgUtil.get("account.null"));
 			return false;
 		}
 		account.setRole(null);
@@ -158,7 +158,7 @@ public class UserServiceImpl implements UserService {
 		}else if(Account.TYPE_COMPANY_USER.equals(account.getType())){
 			companyUserDao.updateUser(new CompanyUser(account));
 		}else{
-			RequestMessageContext.setMsg(msgUtil.get("accout.type.illegal"));
+			MessageContext.setMsg(msgUtil.get("accout.type.illegal"));
 			return false;
 		}
 		return true;
@@ -167,7 +167,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean updatePersonUser(PersonUser person) {
 		if(null==person||null==person.getAccount()){
-			RequestMessageContext.setMsg(msgUtil.get("account.null"));
+			MessageContext.setMsg(msgUtil.get("account.null"));
 			return false;
 		}
 		personUserDao.updateUser(person);
@@ -177,7 +177,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean updateCompanyUser(CompanyUser companyUser) {
 		if(null==companyUser||null==companyUser.getAccount()){
-			RequestMessageContext.setMsg(msgUtil.get("account.null"));
+			MessageContext.setMsg(msgUtil.get("account.null"));
 			return false;
 		}
 		companyUserDao.updateUser(companyUser);

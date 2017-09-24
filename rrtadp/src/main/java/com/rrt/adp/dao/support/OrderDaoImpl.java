@@ -215,12 +215,17 @@ public class OrderDaoImpl implements OrderDao {
 			values[i] = order.getState();
 			i++;
 		}
-		if(StringUtils.hasText(order.getAdOwner())){
+		if(StringUtils.hasText(order.getAdOwner())&&StringUtils.hasText(order.getDeviceOwner())){
+			select.append(" and ad_owner = ? or device_owner = ?");
+			values[i] = order.getAdOwner();
+			i++;
+			values[i] = order.getDeviceOwner();
+			i++;
+		}else if(StringUtils.hasText(order.getAdOwner())){
 			select.append(" and ad_owner = ?");
 			values[i] = order.getAdOwner();
 			i++;
-		}
-		if(StringUtils.hasText(order.getDeviceOwner())){
+		}else if(StringUtils.hasText(order.getDeviceOwner())){
 			select.append(" and device_owner = ?");
 			values[i] = order.getDeviceOwner();
 			i++;

@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.rrt.adp.model.Account;
 import com.rrt.adp.util.FileUtil;
-import com.rrt.adp.util.RequestMessageContext;
+import com.rrt.adp.util.MessageContext;
 import com.rrt.adp.web.RestResult;
 import com.rrt.adp.web.RestSecurity;
 
@@ -42,7 +42,7 @@ public class FileUploadController {
 		if(null!=retn){
 			return RestResult.defaultSuccessResult(retn, "success");
 		}else{
-			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
 	}
 }

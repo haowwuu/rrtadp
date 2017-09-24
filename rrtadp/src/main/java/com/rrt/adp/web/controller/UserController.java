@@ -18,7 +18,7 @@ import com.rrt.adp.model.PersonUser;
 import com.rrt.adp.service.UserService;
 import com.rrt.adp.util.FileUtil;
 import com.rrt.adp.util.MessageUtil;
-import com.rrt.adp.util.RequestMessageContext;
+import com.rrt.adp.util.MessageContext;
 import com.rrt.adp.web.RestResult;
 import com.rrt.adp.web.RestSecurity;
 
@@ -44,7 +44,7 @@ public class UserController {
 			RestSecurity.writeSession(retn, request);
 			return RestResult.defaultSuccessResult(retn, msgUtil.get("login.success"));
 		}else{
-			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
 	}
 	
@@ -56,7 +56,7 @@ public class UserController {
 		if(null!=retn){
 			return RestResult.defaultSuccessResult(retn, msgUtil.get("regist.success"));
 		}else{
-			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
 	}
 	
@@ -79,7 +79,7 @@ public class UserController {
 		if(null!=retn){
 			return RestResult.defaultSuccessResult(retn, msgUtil.get("regist.success"));
 		}else{
-			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
 	}
 	
@@ -95,7 +95,7 @@ public class UserController {
 		if(userService.updateAccount(account)){
 			return RestResult.defaultSuccessResult("success");
 		}else{
-			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
 	}
 	
@@ -139,7 +139,7 @@ public class UserController {
 		if(userService.updatePersonUser(user)){
 			return RestResult.defaultSuccessResult("success");
 		}else{
-			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
 	}
 	
@@ -152,7 +152,7 @@ public class UserController {
 		if(userService.updateCompanyUser(user)){
 			return RestResult.defaultSuccessResult("success");
 		}else{
-			return RestResult.defaultFailResult(RequestMessageContext.getMsg());
+			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
 	}
 	

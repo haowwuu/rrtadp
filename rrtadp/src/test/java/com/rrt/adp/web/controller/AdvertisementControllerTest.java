@@ -12,16 +12,20 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.rrt.adp.web.TestUtil;
+
 
 public class AdvertisementControllerTest {
 
-	private String baseUrl = UserControllerTest.baseUrl;
-	//private String baseUrl = "http://localhost:8080/rrtadp/";
+	private String baseUrl = TestUtil.baseUrl;
+	private String token;
+	
 	@Before
 	public void setUp() throws Exception {
+		token = TestUtil.getToken();
 	}
 
-	@Test
+	@Ignore
 	public void testCreateAd() {
 		RestTemplate restTemplate = new RestTemplate();  
 		FileSystemResource frontPic = new FileSystemResource(new File("F:\\2.jpg"));
@@ -42,6 +46,19 @@ public class AdvertisementControllerTest {
         form.add("token", "9FFCE962640718F2956BAB499048C6E3");
       
         String result = restTemplate.postForObject(baseUrl+"/ad/list", form, String.class);  
+        System.out.println(result);
+	}
+	
+	@Test
+	public void testPageUserAd() {
+		RestTemplate restTemplate = new RestTemplate();  
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();  
+        form.add("token", token);
+        form.add("pageNum", "1");
+        form.add("pageSize", "20");
+        form.add("owner", "rrtgg");
+      
+        String result = restTemplate.postForObject(baseUrl+"/ad/page", form, String.class);  
         System.out.println(result);
 	}
 

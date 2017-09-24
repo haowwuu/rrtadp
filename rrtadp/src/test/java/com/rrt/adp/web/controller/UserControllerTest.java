@@ -14,12 +14,13 @@ import org.springframework.web.client.RestTemplate;
 
 import com.rrt.adp.model.Account;
 import com.rrt.adp.util.EncryptUtil;
+import com.rrt.adp.web.TestUtil;
 
 
 public class UserControllerTest {
 	
-	//public static String baseUrl = "http://localhost:8080/rrtadp/";
-	public static String baseUrl = "http://47.92.100.40/rrtadp/";
+	
+	public static String baseUrl = TestUtil.baseUrl;
 	public static String token = null;
 
 	@Before

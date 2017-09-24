@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.rrt.adp.util.SequenceGenerator;
-
 public class DBModel {
 	
 	public static final String PREFIX_ADVERTISEMENT = "AD";
@@ -28,6 +26,7 @@ public class DBModel {
 	}
 	
 	protected String id;
+	private String dataState;
 	private Date createTime = new Date();
 	private Date updateTime;
 	
@@ -37,6 +36,12 @@ public class DBModel {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getDataState() {
+		return dataState;
+	}
+	public void setDataState(String dataState) {
+		this.dataState = dataState;
 	}
 	public Date getCreateTime() {
 		return createTime;
@@ -50,5 +55,11 @@ public class DBModel {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "DBModel [id=" + id + ", dataState=" + dataState + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + "]";
+	}
+	
 }

@@ -37,7 +37,7 @@ public class FileUtil {
 		try{
 			Files.write(contents, file);
 		}catch (IOException e) {
-			RequestMessageContext.setMsg(msgUtil.get("upload.exception"));
+			MessageContext.setMsg(msgUtil.get("upload.exception"));
 			LOGGER.error("upload file exception. " + e.getMessage());
 			return null;
 		}
@@ -62,7 +62,7 @@ public class FileUtil {
 		try{
 			contents =  mfile.getBytes();
 		}catch (IOException e) {
-			RequestMessageContext.setMsg(msgUtil.get("file.broken"));
+			MessageContext.setMsg(msgUtil.get("file.broken"));
 			LOGGER.error("file broken. "+e.getMessage());
 			return null;
 		}
