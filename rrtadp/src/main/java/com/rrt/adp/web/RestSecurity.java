@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.rrt.adp.model.Account;
+import com.rrt.adp.util.MessageContext;
 
 public class RestSecurity {
 	private static final String SESSION_NAME = "account";
@@ -40,7 +41,10 @@ public class RestSecurity {
 		if(null==token){
 			token = request.getParameter(TOKEN);
 		}
-		return null==token?null:sessionCache.getIfPresent(token);
+	    if(null==token||null==(account = sessionCache.getIfPresent(token))){
+	    	MessageContext.setMsg("session expired.");
+	    }
+		return account;
 	}
 	
 	public static boolean isAdmin(HttpServletRequest request){
