@@ -37,12 +37,9 @@ public class PaginationJdbcTemplate extends JdbcTemplate {
 	}
 	
 	private String buildPaginationSql(String orginSql, int pageNum, int pageSize){
-		if(pageNum<1||pageSize<0){
-			return orginSql;
-		}
-		if(pageSize>200){
-			pageSize = 200;
-		}
+		pageNum = pageNum<1?1:pageNum;
+		pageSize = pageSize<0?0:pageSize>200?200:pageSize;
+		
 		int start = (pageNum-1)*pageSize;
 		StringBuilder pageSql = new StringBuilder();
 		switch (getdBType().toLowerCase()) {
