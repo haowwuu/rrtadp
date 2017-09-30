@@ -23,7 +23,8 @@ public class RestResult {
 	}
 
 	public enum CODE {
-		RET_OK("0"), RET_NO("1"), RET_NO_PRIVILEGE("3"), RET_NO_EXCEPTION("5");
+		RET_OK("0"), RET_NO("1"), RET_NOT_LOGGED_IN("2"),
+		RET_NO_PRIVILEGE("3"), RET_NO_EXCEPTION("5");
 
 		private String value;
 		private CODE(String value) {

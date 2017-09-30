@@ -52,7 +52,7 @@
 	<mvc:interceptors>
 	  	<bean id="loginRestIntercepter" class="com.cetiti.eboy.web.LoginRestIntercepter">
 	  		<property name="bypassApiSet">
-			<bean class="com.rrt.adp.util.StringUtils" factory-method="toSet">
+			<bean class="com.cetiti.eboy.util.StringUtils" factory-method="toSet">
 				<constructor-arg>
 					<value>/account/login,account/regist,account/logout</value>
 				</constructor-arg>
