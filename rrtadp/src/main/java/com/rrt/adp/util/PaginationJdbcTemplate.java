@@ -36,7 +36,7 @@ public class PaginationJdbcTemplate extends JdbcTemplate {
 		return this.queryPagination(sql, null, pageNum, pageSize, mapper);
 	}
 	
-	private String buildPaginationSql(String orginSql, int pageNum, int pageSize){
+	public String buildPaginationSql(String orginSql, int pageNum, int pageSize){
 		pageNum = pageNum<1?1:pageNum;
 		pageSize = pageSize<0?0:pageSize>200?200:pageSize;
 		

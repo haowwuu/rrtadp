@@ -28,13 +28,6 @@ public class CompanyUserDaoTest extends AbstractJUnit4SpringContextTests{
 	@Resource
 	private CompanyUserDao userDao;
 	private Random random;
-	private SqlProvider sqlProvider;
-	
-	@Before
-	public void setUp() throws Exception {
-		random = new Random(System.currentTimeMillis());
-		sqlProvider = new SqlProvider();
-	}
 
 	@Test
 	public void testInsertUser() {

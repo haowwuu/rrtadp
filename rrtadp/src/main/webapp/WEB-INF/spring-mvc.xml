@@ -50,16 +50,10 @@
 	</bean>
 	
 	<mvc:interceptors>
-	  	<bean id="loginRestIntercepter" class="com.cetiti.eboy.web.LoginRestIntercepter">
-	  		<property name="bypassApiSet">
-			<bean class="com.rrt.adp.util.StringUtils" factory-method="toSet">
-				<constructor-arg>
-					<value>/account/login,account/regist,account/logout</value>
-				</constructor-arg>
-			</bean>
-			</property>
+	  	<bean id="loginRestIntercepter" class="com.rrt.adp.web.LoginRestIntercepter">
+			<constructor-arg value="/user/login,/user/regist/person,/user/regist/company"/>
 	  	</bean>
-	    <bean id="executeTimeIntercepter" class="com.cetiti.eboy.web.ExecuteTimeIntercepter"/>
+	    <bean id="executeTimeIntercepter" class="com.rrt.adp.web.ExecuteTimeIntercepter"/>
   	</mvc:interceptors>
 
 </beans>

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.rrt.adp.dao.CompanyUserDao;
@@ -19,6 +20,9 @@ import com.rrt.adp.service.UserService;
 import com.rrt.adp.util.EncryptUtil;
 import com.rrt.adp.util.FileUtil;
 import com.rrt.adp.util.MessageUtil;
+
+import io.netty.util.internal.StringUtil;
+
 import com.rrt.adp.util.MessageContext;
 
 @Service
@@ -192,6 +196,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<CompanyUser> getCompanyUserList() {
 		return companyUserDao.selectUser();
+	}
+
+	@Override
+	public PersonUser getPersonUser(String account) {
+		return personUserDao.selectUserByAccount(account);
 	}
 
 }

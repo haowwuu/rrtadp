@@ -23,26 +23,28 @@ public class FileUploadController {
 	@Resource
 	private FileUtil fileUtil;
 	
-	@ApiOperation("上传文件， (参数id为设备id(如MD1500729361092)， index为文件编号(如1,2,3等)， file为文件)"
-			+ "通过 host/adfile/${owner}/${id-index} 获取文件")
+	@ApiOperation("上传文件， 参数id为设备id，或者广告id，或用户账号等(如MD1500729361092)， attr为id实体的图片属性 如封面cover 头像avatar， file为文件"
+			+ "通过 host/adfile/${id}/${attr} 获取文件")
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
-	public RestResult createAd(String id, Integer index, MultipartFile file, HttpServletRequest request){
+	public RestResult createAd(String id, String attr, MultipartFile file, HttpServletRequest request){
 		if(null==id){
-			return RestResult.defaultFailResult("id null");
+			return RestResult.defaultFailResult("[id] null");
+		}
+		if(null==attr){
+			return RestResult.defaultFailResult("[attr] null");
 		}
 		Account account = RestSecurity.getSessionAccount(request);
 		if(null==account||null==account.getAccount()){
 			return RestResult.defaultFailResult("permission deny, please login.");
 		}
-		String fileName = account.getAccount()+"/"+id;
-		if(null!=index){
-			fileName += "-"+index%5;
-		}
+		String fileName = id+"/"+attr;
+		
 		String retn = fileUtil.uploadFile(fileName, file);
 		if(null!=retn){
-			return RestResult.defaultSuccessResult(retn, "success");
+			return RestResult.defaultSuccessResult(retn);
 		}else{
 			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
 	}
+	
 }

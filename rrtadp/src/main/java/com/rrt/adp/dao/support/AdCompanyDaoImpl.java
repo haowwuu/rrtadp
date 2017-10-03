@@ -115,6 +115,11 @@ public class AdCompanyDaoImpl implements AdCompanyDao {
 		}
 		Object[] values = new Object[20];
 		int i = 0;
+		if(StringUtils.hasText(company.getId())){
+			select.append(" and id = ?");
+			values[i] = company.getId();
+		    i++;
+		}
 		if(StringUtils.hasText(company.getName())){
 			select.append(" and name like ?");
 			values[i] = "%"+company.getName()+"%";

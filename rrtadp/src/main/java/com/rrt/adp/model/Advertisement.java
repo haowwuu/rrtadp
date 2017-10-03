@@ -25,6 +25,7 @@ public class Advertisement extends DBModel{
 	private String content;
 	private String contentUrl;
 	private int timeInSecond;
+	private String adCompanyId;
 	private String owner;
 	
 	public Map<String, Object> dictionary(){
@@ -94,6 +95,13 @@ public class Advertisement extends DBModel{
 	}
 	public void setOwner(String owner) {
 		this.owner = owner;
+	}
+	public String getAdCompanyId() {
+		return adCompanyId;
+	}
+
+	public void setAdCompanyId(String adCompanyId) {
+		this.adCompanyId = adCompanyId;
 	}
 
 	@Override

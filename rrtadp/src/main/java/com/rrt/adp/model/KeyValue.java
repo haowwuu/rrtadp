@@ -1,5 +1,10 @@
 package com.rrt.adp.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.springframework.jdbc.core.RowMapper;
+
 /**
  * @Description TODO
  * @author Wuwuhao

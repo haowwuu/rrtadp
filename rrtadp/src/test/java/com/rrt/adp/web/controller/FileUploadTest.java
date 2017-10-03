@@ -7,6 +7,7 @@ import java.io.File;
 import javax.annotation.Resource;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,24 +17,28 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.rrt.adp.util.FileUtil;
+import com.rrt.adp.web.TestUtil;
 
 
 
 
 public class FileUploadTest {
 	
-	private String basicUrl = UserControllerTest.baseUrl;
+	private static String baseUrl = TestUtil.baseUrl;
+	private static String token;
 	@Resource
 	private FileUtil fileUtil;
-	//http://blog.csdn.net/mhmyqn/article/details/26395743
-	@Before
-	public void setUp() throws Exception {
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		token = TestUtil.getToken();
 	}
+
 
 	
 	@Ignore
 	public void testUpload() throws Exception {
-		String url = basicUrl + "user/uploadFile";
+		String url = baseUrl + "user/uploadFile";
 		//String filePath = "C:\\Users\\MikanMu\\Desktop\\test.txt";
 		String filePath = "F:\\2.jpg";
 
@@ -55,17 +60,17 @@ public class FileUploadTest {
 	
 	@Test
 	public void testUploadFileIndex() throws Exception {
-		String url = basicUrl + "/file/upload";
+		String url = baseUrl + "/file/upload";
 		//String filePath = "C:\\Users\\MikanMu\\Desktop\\test.txt";
-		String filePath = "F:\\2.jpg";
+		String filePath = "/Users/wuhao/git/rrt/rrtadp/target/rrtgg/images/logo.png";
 
 		RestTemplate rest = new RestTemplate();
 		FileSystemResource resource = new FileSystemResource(new File(filePath));
 		MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
 		param.add("file", resource);
 		param.add("id", "zhagnsan");
-		//param.add("index", "2");
-		param.add("token", "04A8D70A989A0B707FE337C7F6C50C45");
+		param.add("attr", "avatar");
+		param.add("token", token);
 
 		String string = rest.postForObject(url, param, String.class);
 		System.out.println(string);

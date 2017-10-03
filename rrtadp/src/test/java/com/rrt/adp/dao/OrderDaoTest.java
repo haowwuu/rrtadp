@@ -3,6 +3,7 @@ package com.rrt.adp.dao;
 import static org.junit.Assert.*;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -26,7 +27,7 @@ public class OrderDaoTest extends AbstractJUnit4SpringContextTests {
 	@Resource
 	private OrderDao orderDao;
 	
-	@Test
+	@Ignore
 	public void testInsertOrder() {
 		Order order = new Order();
 		order.setAdId("AD1500731358736");
@@ -38,12 +39,12 @@ public class OrderDaoTest extends AbstractJUnit4SpringContextTests {
 		orderDao.insertOrder(order);
 	}
 
-	@Test
+	@Ignore
 	public void testDeleteOrder() {
 		fail("Not yet implemented");
 	}
 
-	@Test
+	@Ignore
 	public void testUpdateOrder() {
 		Order order = new Order();
 		order.setId("OR1500735546969");
@@ -70,7 +71,7 @@ public class OrderDaoTest extends AbstractJUnit4SpringContextTests {
 		orders.stream().forEach(System.out::println);
 	}
 	
-	@Test
+	@Ignore
 	public void testUpdataBid(){
 		List<String> list = orderDao.selectBidDevice();
 		list.stream().forEach(System.out::println);
@@ -82,17 +83,35 @@ public class OrderDaoTest extends AbstractJUnit4SpringContextTests {
 	public void testSelectUserOrder(){
 		System.out.println(orderDao.selectUserOrder("OR1500815056870", "admin0"));
 	}
-	@Test
+	
+	@Ignore
 	public void testSelectPage(){
 		Order order = new Order();
 		Page<?> page = new Page<>(1, 4);
 		orderDao.selectOrderList(order, page).stream().forEach(System.out::println);
 	}
-	@Test
+	
+	@Ignore
 	public void testCount() {
 		Order order = new Order();
 		int count = orderDao.countOrder(order);
 		System.out.println(count);
+	}
+	
+	@Test
+	public void testSelectGroupbyAdOrderbyCount() {
+		Page<?> page = new Page<>(1,10);
+		Map<Object, Object> retn = orderDao.selectGroupbyAdOrderbyCount(page);
+		System.out.println(retn);
+		System.out.println(page);
+	}
+	
+	@Test
+	public void testSelectGroupbyDeviceOrderbyCount() {
+		Page<?> page = new Page<>(1,10);
+		Map<Object, Object> retn = orderDao.selectGroupbyDeviceOrderbyCount(page);
+		System.out.println(retn);
+		System.out.println(page);
 	}
 
 }

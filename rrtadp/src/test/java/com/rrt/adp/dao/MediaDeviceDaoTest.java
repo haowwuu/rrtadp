@@ -7,9 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Resource;
-import javax.print.attribute.standard.Media;
 
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,13 +28,6 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 	private MediaDeviceDao deviceDao;
 	
 	private Random random;
-	private SqlProvider sqlProvider;
-
-	@Before
-	public void setUp() throws Exception {
-		random = new Random(System.currentTimeMillis());
-		sqlProvider = new SqlProvider();
-	}
 
 	@Test
 	public void testInsertDevice() {
@@ -108,19 +99,26 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 		devices.stream().forEach(System.out::println);
 	}
 	
-	@Test
+	@Ignore
 	public void testSelectPage(){
 		MediaDevice device = new MediaDevice();
 		Page<?> page = new Page<>(1,3);
 		deviceDao.selectDeviceList(device, page).stream().forEach(System.out::println);
 	}
 	
-	@Test
+	@Ignore
 	public void testCount(){
 		MediaDevice device = new MediaDevice();
 		device.setOwner("rrtgg");
 		int count = deviceDao.countDevice(device);
 		System.out.println(count);
+	}
+	
+	@Test
+	public void testSelectDeviceListOrderByOrder(){
+		MediaDevice device = new MediaDevice();
+		Page<?> page = new Page<>(1,3);
+		deviceDao.selectDeviceListOrderByOrder(device, page).stream().forEach(System.out::println);
 	}
 
 }

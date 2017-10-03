@@ -25,4 +25,6 @@ public interface UserService {
 	List<PersonUser> getPersonUserList();
 	
 	List<CompanyUser> getCompanyUserList();
+	
+	PersonUser getPersonUser(String account);
 }

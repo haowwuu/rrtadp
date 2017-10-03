@@ -7,8 +7,6 @@ import java.util.Random;
 
 import javax.annotation.Resource;
 
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -30,13 +28,6 @@ public class PersonUserDaoTest extends AbstractJUnit4SpringContextTests{
 	private PersonUserDao userDao;
 	
 	private Random random;
-	private SqlProvider sqlProvider;
-
-	@Before
-	public void setUp() throws Exception {
-		random = new Random(System.currentTimeMillis());
-		sqlProvider = new SqlProvider();
-	}
 
 	@Test
 	public void testInsertUser() {

@@ -25,7 +25,6 @@ import org.springframework.util.StringUtils;
  * @date 2017年9月25日
  * 
  */
-@Component
 public class HttpClient {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(HttpClient.class);

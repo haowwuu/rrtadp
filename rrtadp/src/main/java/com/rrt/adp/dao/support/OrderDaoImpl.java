@@ -3,7 +3,9 @@ package com.rrt.adp.dao.support;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import org.springframework.jdbc.core.RowMapper;
@@ -160,6 +162,34 @@ public class OrderDaoImpl implements OrderDao {
 		Object[] values = new Object[select.length-1];
 		System.arraycopy(select, 0, values, 0, select.length-1);
 		return this.jdbcTemplate.queryForObject(sql, Integer.class, values);
+	}
+	
+	@Override
+	public Map<Object, Object> selectGroupbyAdOrderbyCount(Page<?> page) {
+		String sql = "SELECT ad_id, count(*) as num FROM rrt_order group by ad_id order by num desc";
+		sql = jdbcTemplate.buildPaginationSql(sql, page.getPageNum(), page.getPageSize());
+		int total = this.jdbcTemplate.queryForObject("SELECT count(distinct ad_id) FROM rrt_order", Integer.class);
+		page.setTotal(total);
+		List<Map<String, Object>> list = this.jdbcTemplate.queryForList(sql);
+		Map<Object, Object> retn = new HashMap<>();
+		for(Map<String, Object> map:list){
+			retn.put(map.get("ad_id"), map.get("num"));
+		}
+		return retn;
+	}
+
+	@Override
+	public Map<Object, Object> selectGroupbyDeviceOrderbyCount(Page<?> page) {
+		String sql = "SELECT device_id, count(*) as num FROM rrt_order group by device_id order by num desc";
+		sql = jdbcTemplate.buildPaginationSql(sql, page.getPageNum(), page.getPageSize());
+		int total = this.jdbcTemplate.queryForObject("SELECT count(distinct device_id) FROM rrt_order", Integer.class);
+		page.setTotal(total);
+		List<Map<String, Object>> list = this.jdbcTemplate.queryForList(sql);
+		Map<Object, Object> retn = new HashMap<>();
+		for(Map<String, Object> map:list){
+			retn.put(map.get("device_id"), map.get("num"));
+		}
+		return retn;
 	}
 	
 	private static final class OrderMapper implements RowMapper<Order> {

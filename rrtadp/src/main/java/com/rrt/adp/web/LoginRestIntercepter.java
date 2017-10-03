@@ -29,6 +29,16 @@ public class LoginRestIntercepter extends HandlerInterceptorAdapter {
 	@Resource
 	private JsonUtil jsonUtil;
 	
+	public LoginRestIntercepter(String bypassApis) {
+		if(null!=bypassApis){
+			Set<String> set = new HashSet<>();
+			for(String s: bypassApis.split(",")){
+				set.add(s);
+			}
+			this.bypassApiSet = set;
+		}
+	}
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -40,7 +50,7 @@ public class LoginRestIntercepter extends HandlerInterceptorAdapter {
 	    	String context = request.getContextPath();
 	    	String subUri = uri.substring(uri.indexOf(context)+context.length());
 	    	
-	    	System.out.println("subUrl:"+subUri);
+	    	//System.out.println("subUrl:"+subUri);
 	    	
 	    	if(!isLogedIn(request)&&!bypassApiSet.contains(subUri)){
 	    		RestResult result = new RestResult(CODE.RET_NOT_LOGGED_IN, "session expired", null);

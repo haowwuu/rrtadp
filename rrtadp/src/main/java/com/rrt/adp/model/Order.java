@@ -10,14 +10,13 @@ public class Order extends DBModel{
 	public static final String STATE_PAYED = "P";
 	public static final String STATE_BID_SUCCESS = "S";
 	public static final String STATE_BID_FAIL = "F";
-	public static final String STATE_ILLEAGL = "I";
+	
 	private static final Set<String> ORDER_STATE_SET = new HashSet<>();
 	static{
 		ORDER_STATE_SET.addAll(STATE_SET);
 		ORDER_STATE_SET.add(STATE_PAYED);
 		ORDER_STATE_SET.add(STATE_BID_SUCCESS);
 		ORDER_STATE_SET.add(STATE_BID_FAIL);
-		ORDER_STATE_SET.add(STATE_ILLEAGL);
 	}
 	
 	private String adId;

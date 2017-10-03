@@ -14,12 +14,14 @@ public class DBModel {
 	public static final String STATE_CHECKED = "C";
 	public static final String STATE_LOCK = "L";
 	public static final String STATE_DELETE = "D";
+	public static final String STATE_ILLEAGL = "I";
 	protected static final Set<String> STATE_SET= new HashSet<>();
 	static{
 		STATE_SET.add(STATE_NEW);
 		STATE_SET.add(STATE_CHECKED);
 		STATE_SET.add(STATE_LOCK);
 		STATE_SET.add(STATE_DELETE);
+		STATE_SET.add(STATE_ILLEAGL);
 	}
 	public static boolean isStateLegal(String state){
 		return STATE_SET.contains(state);
@@ -27,7 +29,7 @@ public class DBModel {
 	
 	protected String id;
 	private String dataState;
-	private Date createTime = new Date();
+	private Date createTime;
 	private Date updateTime;
 	
 	

@@ -29,13 +29,6 @@ public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
 	@Resource
 	private AdvertisementDao advertisementDao;
 	
-	private SqlProvider sqlProvider;
-
-	@Before
-	public void setUp() throws Exception {
-		sqlProvider = new SqlProvider();
-	}
-	
 	@Test
 	public void testInsertAd() {
 		Advertisement advertisement = new Advertisement();
@@ -45,6 +38,7 @@ public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
 		advertisement.setContent("ad-content");
 		advertisement.setContentUrl("ad-content-url");
 		advertisement.setTimeInSecond(10);
+		advertisement.setAdCompanyId("1506219215217");
 		advertisement.setOwner("rrtgg");
 		
 		advertisementDao.insertAd(advertisement);
@@ -61,6 +55,7 @@ public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
 		advertisement.setId("AD1500731358736");
 		advertisement.setState(Advertisement.STATE_CHECKED);
 		advertisement.setContent("new content");
+		advertisement.setAdCompanyId("1506220948875");
 		advertisementDao.updateAd(advertisement);
 	}
 
@@ -99,6 +94,13 @@ public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
 		
 		int count = advertisementDao.countAd(advertisement);
 		System.out.println(count);
+	}
+	
+	@Test
+	public void testSelectAdListOrderByOrder(){
+		Advertisement advertisement = new Advertisement();
+		Page<?> page = new Page<>(1,10);
+		advertisementDao.selectAdListOrderByOrder(advertisement, page).stream().forEach(System.out::println);
 	}
 
 }

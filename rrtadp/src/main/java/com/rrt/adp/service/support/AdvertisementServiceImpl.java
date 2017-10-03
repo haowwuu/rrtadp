@@ -151,4 +151,35 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 		return page.getPageNum()<0?null:page;
 	}
 
+	@Override
+	public Page<Advertisement> getHotAdPage(Advertisement ad, Account account, Page<Advertisement> page) {
+		if(null==account||null==account.getAccount()){
+			return null;
+		}
+		ad = null==ad? new Advertisement():ad;
+		ad.setState(Advertisement.STATE_CHECKED);
+		final Advertisement selectAd = ad;
+		CompletableFuture<List<Advertisement>> adfuture = new CompletableFuture<>();
+		new Thread(() -> {
+			try{
+				List<Advertisement> advertisements = adDao.selectAdListOrderByOrder(selectAd, page);
+				adfuture.complete(advertisements);
+			}catch (Exception e) {
+				LOGGER.error("selectAdPage ad[{}] page[{}] exception [{}]", selectAd, page, e.getMessage());
+				adfuture.completeExceptionally(e);
+			}
+		}).start();
+		
+		try{
+			page.setTotal(adDao.countAd(selectAd));
+			page.setList(adfuture.get());
+		}catch (Exception e) {
+			MessageContext.setMsg(msgUtil.get("db.exception"));
+			LOGGER.error("selectAdPage ad[{}] page[{}] exception [{}]", selectAd, page, e.getMessage());
+			return null;
+		} 
+		
+		return page;
+	}
+
 }

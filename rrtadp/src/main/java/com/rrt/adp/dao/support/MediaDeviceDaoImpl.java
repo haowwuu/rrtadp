@@ -116,6 +116,20 @@ public class MediaDeviceDaoImpl implements MediaDeviceDao {
 		return this.jdbcTemplate.queryPagination(sql, values, 
 				page.getPageNum(), page.getPageSize(), new MediaDeviceMapper());
 	}
+	
+	@Override
+	public List<MediaDevice> selectDeviceListOrderByOrder(MediaDevice device, Page<?> page) {
+		String sql = "select dev.id, dev.create_time, dev.update_time, "
+				+ "dev.device_type, dev.device_status, dev.base_price, dev.key_words, dev.name, dev.description, dev.state, "
+				+ "dev.play_time, dev.play_frequency, dev.lng, dev.lat, dev.district_code, dev.address, dev.owner, "
+				+ "count(*) as num from rrt_media_device as dev left join rrt_order as ord on  (dev.id = ord.ad_id)";
+		Object[] select = buildSelectSql(sql, device);
+		sql = (String)select[select.length-1];
+		Object[] values = new Object[select.length-1];
+		System.arraycopy(select, 0, values, 0, select.length-1);
+		return this.jdbcTemplate.queryPagination(sql+" group by dev.id order by num desc", values, 
+				page.getPageNum(), page.getPageSize(), new MediaDeviceMapper());
+	}
 
 	@Override
 	public int countDevice(MediaDevice device) {

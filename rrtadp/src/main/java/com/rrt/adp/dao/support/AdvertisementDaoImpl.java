@@ -39,8 +39,8 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 		ad.setCreateTime(new Date());
 		ad.setState(Advertisement.STATE_NEW);
 		return this.jdbcTemplate.update("insert into rrt_ad (id, create_time, update_time, "
-				+ "title, type, content, state, content_url, time_in_second, owner) "
-				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+				+ "title, type, content, state, content_url, time_in_second, ad_company_id, owner) "
+				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 				new Object[]{
 						ad.getId(),
 						ad.getCreateTime(),
@@ -51,6 +51,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 						ad.getState(),
 						ad.getContentUrl(),
 						ad.getTimeInSecond(),
+						ad.getAdCompanyId(),
 						ad.getOwner()
 				});
 	}
@@ -117,6 +118,19 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 		return this.jdbcTemplate.queryPagination(sql, values, 
 				page.getPageNum(), page.getPageSize(), new AdMapper());
 	}
+	
+	@Override
+	public List<Advertisement> selectAdListOrderByOrder(Advertisement ad, Page<?> page) {
+		String sql = "SELECT ad.id, ad.create_time, ad.update_time, ad.type, ad.title, ad.content,"
+				+ " ad.content_url, ad.state, ad.time_in_second, ad.ad_company_id, ad.owner, count(*) as num"
+				+ " FROM rrt_ad as ad left join rrt_order as ord on  (ad.id = ord.ad_id)";
+		Object[] select = buildSelectSql(sql, ad);
+		sql = (String)select[select.length-1];
+		Object[] values = new Object[select.length-1];
+		System.arraycopy(select, 0, values, 0, select.length-1);
+		return this.jdbcTemplate.queryPagination(sql+" group by ad.id order by num desc", values, 
+				page.getPageNum(), page.getPageSize(), new AdMapper());
+	}
 
 	@Override
 	public int countAd(Advertisement ad) {
@@ -140,6 +154,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 			ad.setContent(rs.getString("content"));
 			ad.setContentUrl(rs.getString("content_url"));
 		    ad.setTimeInSecond(rs.getInt("time_in_second"));
+		    ad.setAdCompanyId(rs.getString("ad_company_id"));
 		    ad.setOwner(rs.getString("owner"));
 
 	        return ad;
@@ -156,6 +171,11 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 		}
 		Object[] values = new Object[20];
 		int i = 0;
+		if(StringUtils.hasText(ad.getId())){
+			select.append(" and id = ?");
+			values[i] = ad.getId();
+		    i++;
+		}
 		if(StringUtils.hasText(ad.getTitle())){
 			select.append(" and title like ?");
 			values[i] = "%"+ad.getTitle()+"%";
@@ -174,6 +194,11 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 		if(StringUtils.hasText(ad.getContent())){
 			select.append(" and content like ?");
 			values[i] = "%"+ad.getContent()+"%";
+			i++;
+		}
+		if(StringUtils.hasText(ad.getAdCompanyId())){
+			select.append(" and ad_company_id = ?");
+			values[i] = ad.getAdCompanyId();
 			i++;
 		}
 		if(StringUtils.hasText(ad.getOwner())){
@@ -228,6 +253,11 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 		if(ad.getTimeInSecond()>0){
 			update.append(",time_in_second = ?");
 			values[i] = ad.getTimeInSecond();
+			i++;
+		}
+		if(StringUtils.hasText(ad.getAdCompanyId())){
+			update.append(",ad_company_id = ?");
+			values[i] = ad.getAdCompanyId();
 			i++;
 		}
 		if(StringUtils.hasText(ad.getOwner())){

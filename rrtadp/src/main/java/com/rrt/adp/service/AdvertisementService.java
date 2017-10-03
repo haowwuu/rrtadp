@@ -21,4 +21,6 @@ public interface AdvertisementService {
 	boolean deleteAd(String adId, Account account);
 	
 	Page<Advertisement> getUserAdPage(Advertisement ad, Account account, Page<Advertisement> page);
+	
+	Page<Advertisement> getHotAdPage(Advertisement ad, Account account, Page<Advertisement> page);
 }
