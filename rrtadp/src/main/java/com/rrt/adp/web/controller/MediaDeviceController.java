@@ -76,9 +76,20 @@ public class MediaDeviceController {
 	
 	@ApiOperation("分页获取设备，分页参数pageNum， pageSize， 默认返回审核通过的设备，传入owner参数可以获取个人所有设备")
 	@RequestMapping(value="page", method={RequestMethod.GET, RequestMethod.POST})
-	public RestResult pageAd(MediaDevice device, Page<MediaDevice> page, HttpServletRequest request){
+	public RestResult pageDevice(MediaDevice device, Page<MediaDevice> page, HttpServletRequest request){
 		Account account = RestSecurity.getSessionAccount(request);
 		Page<MediaDevice> devices = deviceService.getMediaDevicePage(device, account, page);
+		if(null!=devices){
+			return RestResult.defaultSuccessResult(devices);
+		}
+		return RestResult.defaultFailResult(MessageContext.getMsg());
+	}
+	
+	@ApiOperation("分页获取热门设备，分页参数pageNum， pageSize， 当前按照设备的订单数量排序")
+	@RequestMapping(value="hotbyorder", method={RequestMethod.GET, RequestMethod.POST})
+	public RestResult pageHotDevice(MediaDevice device, Page<MediaDevice> page, HttpServletRequest request){
+		Account account = RestSecurity.getSessionAccount(request);
+		Page<MediaDevice> devices = deviceService.getHotMediaDevicePage(device, account, page);
 		if(null!=devices){
 			return RestResult.defaultSuccessResult(devices);
 		}

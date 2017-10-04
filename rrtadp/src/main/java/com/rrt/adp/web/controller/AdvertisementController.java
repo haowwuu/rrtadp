@@ -88,4 +88,15 @@ public class AdvertisementController {
 		return RestResult.defaultFailResult(MessageContext.getMsg());
 	}
 	
+	@ApiOperation("分页获取热门广告，分页参数pageNum， pageSize， 当前按照广告的订单数量排序")
+	@RequestMapping(value="hotbyorder", method={RequestMethod.GET, RequestMethod.POST})
+	public RestResult pageHotAd(Advertisement ad, Page<Advertisement> page, HttpServletRequest request){
+		Account account = RestSecurity.getSessionAccount(request);
+		Page<Advertisement> ads = adService.getHotAdPage(ad, account, page);
+		if(null!=ads){
+			return RestResult.defaultSuccessResult(ads);
+		}
+		return RestResult.defaultFailResult(MessageContext.getMsg());
+	}
+	
 }

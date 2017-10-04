@@ -34,13 +34,14 @@ public class CompanyUserDaoTest extends AbstractJUnit4SpringContextTests{
 		CompanyUser user = new CompanyUser();
 		user.setId(SequenceGenerator.next());
 		//user.setAccount("account"+random.nextInt(1000));
-		user.setAccount("testjdbc");
+		user.setAccount("testjdbb");
 		user.setPassword(EncryptUtil.md5("rrtgg123456"));
 		user.setDescription("testdescription");
 		user.setType(Account.TYPE_COMPANY_USER);
 		user.setRole(Account.ROLE_NORMAL);
 		user.setState(Account.STATE_CHECKED);
 		user.setCompanyName("testcompany");
+		user.setShortName("shortName");
 		user.setLegalPerson("legalperson");
 		user.setContactPerson("contact");
 		user.setContactPhone("13312345678");
@@ -65,6 +66,7 @@ public class CompanyUserDaoTest extends AbstractJUnit4SpringContextTests{
 		user.setCompanyAddress("updateAddress");
 		user.setDistrictCode("3303");
 		user.setContactPhone("13111111111");
+		user.setShortName("shortnameu");
 		user.setPassword(EncryptUtil.md5("rrtgg123456"));
 		userDao.updateUser(user);
 	}

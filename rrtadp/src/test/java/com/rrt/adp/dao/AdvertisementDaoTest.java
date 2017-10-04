@@ -65,13 +65,15 @@ public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
 		System.out.println(advertisement);
 	}
 
-	@Ignore
+	@Test
 	public void testSelectAdList() {
 		Advertisement advertisement = new Advertisement();
 		advertisement.setTitle("ad-title");
 		advertisement.setType(Advertisement.TYPE_TEXT);
 		advertisement.setState(Advertisement.STATE_NEW);
 		advertisement.setContent("ad-content");
+		advertisement.setTimeInSecond(11);
+		advertisement.setOwner("admin");
 	
 		advertisement.setOwner("rrtgg");
 		List<Advertisement> ads = advertisementDao.selectAdList(advertisement);
@@ -91,6 +93,15 @@ public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
 	public void testCount(){
 		Advertisement advertisement = new Advertisement();
 		advertisement.setTitle("ad-title");
+		
+		advertisement.setTitle("ad-title");
+		advertisement.setType(Advertisement.TYPE_TEXT);
+		advertisement.setState(Advertisement.STATE_NEW);
+		advertisement.setContent("ad-content");
+		advertisement.setTimeInSecond(11);
+		advertisement.setOwner("admin");
+	
+		advertisement.setOwner("rrtgg");
 		
 		int count = advertisementDao.countAd(advertisement);
 		System.out.println(count);

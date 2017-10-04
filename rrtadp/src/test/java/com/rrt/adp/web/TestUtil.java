@@ -9,8 +9,8 @@ import com.rrt.adp.util.EncryptUtil;
 
 public class TestUtil {
 	
-	//public static String baseUrl = "http://localhost:8080/rrtadp/";
-	public static String baseUrl = "http://47.92.100.40/rrtgg/";
+	public static String baseUrl = "http://localhost:8080/rrtadp/";
+	//public static String baseUrl = "http://47.92.100.40/rrtgg/";
 	
 	public static boolean isSuccessRestResult(String restResult){
 		return null!=restResult&&restResult.indexOf("\"code\":\"0\"")>=0;

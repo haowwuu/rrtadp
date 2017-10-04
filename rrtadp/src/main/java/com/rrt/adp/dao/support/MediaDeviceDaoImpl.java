@@ -100,7 +100,7 @@ public class MediaDeviceDaoImpl implements MediaDeviceDao {
 
 	@Override
 	public List<MediaDevice> selectDeviceList(MediaDevice device) {
-		Object[] select = buildSelectSql("select * from rrt_media_device", device);
+		Object[] select = buildSelectSql("select * from rrt_media_device as dev", device);
 		String sql = (String)select[select.length-1];
 		Object[] values = new Object[select.length-1];
 		System.arraycopy(select, 0, values, 0, select.length-1);
@@ -109,7 +109,7 @@ public class MediaDeviceDaoImpl implements MediaDeviceDao {
 	
 	@Override
 	public List<MediaDevice> selectDeviceList(MediaDevice device, Page<?> page) {
-		Object[] select = buildSelectSql("select * from rrt_media_device", device);
+		Object[] select = buildSelectSql("select * from rrt_media_device as dev", device);
 		String sql = (String)select[select.length-1];
 		Object[] values = new Object[select.length-1];
 		System.arraycopy(select, 0, values, 0, select.length-1);
@@ -133,7 +133,7 @@ public class MediaDeviceDaoImpl implements MediaDeviceDao {
 
 	@Override
 	public int countDevice(MediaDevice device) {
-		Object[] select = buildSelectSql("select count(*) from rrt_media_device", device);
+		Object[] select = buildSelectSql("select count(*) from rrt_media_device as dev", device);
 		String sql = (String)select[select.length-1];
 		Object[] values = new Object[select.length-1];
 		System.arraycopy(select, 0, values, 0, select.length-1);
@@ -177,59 +177,59 @@ public class MediaDeviceDaoImpl implements MediaDeviceDao {
 		Object[] values = new Object[30];
 		int i = 0;
 		if(StringUtils.hasText(device.getId())){
-			select.append(" and id = ?");
+			select.append(" and dev.id = ?");
 			values[i] = device.getId();
 			i++;
 		}
 		if(StringUtils.hasText(device.getDeviceType())){
-			select.append(" and device_type = ?");
+			select.append(" and dev.device_type = ?");
 			values[i] = device.getDeviceType();
 			i++;
 		}
 		if(StringUtils.hasText(device.getDeviceStatus())){
-			select.append(" and device_status = ?");
+			select.append(" and dev.device_status = ?");
 			values[i] = device.getDeviceStatus();
 			i++;
 		}
 		if(device.getBasePrice()>0){
-			select.append(" and base_price <= ?");
+			select.append(" and dev.base_price <= ?");
 			values[i] = device.getBasePrice();
 			i++;
 		}
 		if(StringUtils.hasText(device.getKeyWords())){
-			select.append(" and key_words like ?");
+			select.append(" and dev.key_words like ?");
 			values[i] = "%"+device.getKeyWords()+"%";
 			i++;
 		}
 		if(StringUtils.hasText(device.getName())){
-			select.append(" and name like ?");
+			select.append(" and dev.name like ?");
 			values[i]="%"+device.getName()+"%";
 			i++;
 		}
 		if(StringUtils.hasText(device.getState())){
-			select.append(" and state = ?");
+			select.append(" and dev.state = ?");
 			values[i]=device.getState();
 			i++;
 		}
 		if(device.getLng()>0&&device.getLat()>0){
-			select.append(" and abs(lng - ?) < 0.03 and abs(lat - ?) < 0.03");
+			select.append(" and abs(dev.lng - ?) < 0.03 and abs(dev.lat - ?) < 0.03");
 			values[i]=device.getLng();
 			i++;
 			values[i]=device.getLat();
 			i++;
 		}
 		if(StringUtils.hasText(device.getDistrictCode())){
-			select.append(" and district_code = ?");
+			select.append(" and dev.district_code = ?");
 			values[i]=device.getDistrictCode();
 			i++;
 		}
 		if(StringUtils.hasText(device.getAddress())){
-			select.append(" and address like ?");
+			select.append(" and dev.address like ?");
 			values[i] = "%"+device.getAddress()+"%";
 			i++;
 		}
 		if(StringUtils.hasText(device.getOwner())){
-			select.append(" and owner = ?");
+			select.append(" and dev.owner = ?");
 			values[i] = device.getOwner();
 			i++;
 		}

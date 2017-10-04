@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.rrt.adp.dao.MediaDeviceDao;
+import com.rrt.adp.dao.ObjectFileDao;
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.DBModel;
 import com.rrt.adp.model.MediaDevice;
@@ -26,6 +27,8 @@ public class MediaDevcieServiceImpl implements MediaDeviceService {
 	
 	@Resource
 	private MediaDeviceDao deviceDao;
+	@Resource
+	private ObjectFileDao objFileDao;
 	@Resource
 	private MessageUtil msgUtil;
 	
@@ -129,10 +132,13 @@ public class MediaDevcieServiceImpl implements MediaDeviceService {
 		new Thread(() -> {
 			try{
 				List<MediaDevice> devices = deviceDao.selectDeviceList(device, page);
+				for(MediaDevice dev:devices){
+					dev.setDevicePictureUrls(objFileDao.selectObjFileUrlList(dev.getId(), MediaDevice.ATTR_DEVICEPICTURE));
+				}
 				devicefuture.complete(devices);
 			}catch (Exception e) {
 				LOGGER.error("selectDevicePage device[{}] page[{}] exception [{}]", device, page, e.getMessage());
-				page.setPageNum(-1);
+				devicefuture.completeExceptionally(e);
 			}
 		}).start();
 		
@@ -145,7 +151,42 @@ public class MediaDevcieServiceImpl implements MediaDeviceService {
 			return null;
 		} 
 		
-		return page.getPageNum()<0?null:page;
+		return page;
+	}
+
+	@Override
+	public Page<MediaDevice> getHotMediaDevicePage(MediaDevice device, Account account, Page<MediaDevice> page) {
+		if(null==account||null==account.getAccount()){
+			return null;
+		}
+		device = null==device? new MediaDevice():device;
+		device.setState(MediaDevice.STATE_CHECKED);
+		
+		final MediaDevice selectDev = device;
+		CompletableFuture<List<MediaDevice>> devicefuture = new CompletableFuture<>();
+		new Thread(() -> {
+			try{
+				List<MediaDevice> devices = deviceDao.selectDeviceListOrderByOrder(selectDev, page);
+				for(MediaDevice dev:devices){
+					dev.setDevicePictureUrls(objFileDao.selectObjFileUrlList(dev.getId(), MediaDevice.ATTR_DEVICEPICTURE));
+				}
+				devicefuture.complete(devices);
+			}catch (Exception e) {
+				LOGGER.error("selectDevicePage device[{}] page[{}] exception [{}]", selectDev, page, e.getMessage());
+				devicefuture.completeExceptionally(e);
+			}
+		}).start();
+		
+		try{
+			page.setTotal(deviceDao.countDevice(selectDev));
+			page.setList(devicefuture.get());
+		}catch (Exception e) {
+			MessageContext.setMsg(msgUtil.get("db.exception"));
+			LOGGER.error("selectDevicePage ad[{}] page[{}] exception [{}]", selectDev, page, e.getMessage());
+			return null;
+		} 
+		
+		return page;
 	}
 
 }

@@ -11,6 +11,9 @@ public class Advertisement extends DBModel{
 	public static final String TYPE_PICTURE = "P";
 	public static final String TYPE_VIDEO = "V";
 	public static final String TYPE_MIX = "M";
+	
+	public static final String ATTR_COVER = "coverUrl";
+	
 	private static final Set<String> TYPE_SET = new HashSet<>();
 	static{
 		TYPE_SET.add(TYPE_TEXT);
@@ -27,6 +30,8 @@ public class Advertisement extends DBModel{
 	private int timeInSecond;
 	private String adCompanyId;
 	private String owner;
+	
+	private String coverUrl;
 	
 	public Map<String, Object> dictionary(){
 		Map<String, Object> dic = new HashMap<>();
@@ -99,16 +104,21 @@ public class Advertisement extends DBModel{
 	public String getAdCompanyId() {
 		return adCompanyId;
 	}
-
 	public void setAdCompanyId(String adCompanyId) {
 		this.adCompanyId = adCompanyId;
+	}
+	public String getCoverUrl() {
+		return coverUrl;
+	}
+	public void setCoverUrl(String coverUrl) {
+		this.coverUrl = coverUrl;
 	}
 
 	@Override
 	public String toString() {
 		return "Advertisement [title=" + title + ", type=" + type + ", state=" + state + ", content=" + content
-				+ ", contentUrl=" + contentUrl + ", timeInSecond=" + timeInSecond + ", owner=" + owner + ", id=" + id
-				+ ", getCreateTime()=" + getCreateTime() + ", getUpdateTime()=" + getUpdateTime() + "]";
+				+ ", contentUrl=" + contentUrl + ", timeInSecond=" + timeInSecond + ", adCompanyId=" + adCompanyId
+				+ ", owner=" + owner + ", coverUrl=" + coverUrl + ", id=" + id + "]";
 	}
 
 }

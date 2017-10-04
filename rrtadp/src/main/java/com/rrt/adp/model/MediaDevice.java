@@ -2,6 +2,7 @@ package com.rrt.adp.model;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MediaDevice extends DBModel {
@@ -10,6 +11,8 @@ public class MediaDevice extends DBModel {
 	public static final String STATUS_REPAIRING = "R";
 	
 	public static final String TYPE_SCREEN = "S";
+	
+	public static final String ATTR_DEVICEPICTURE = "devicePictureUrls";
 	
 	private String deviceType;
 	private String deviceStatus;
@@ -27,6 +30,8 @@ public class MediaDevice extends DBModel {
 	private String districtCode;
 	private String address;
 	private String owner;
+	
+	private List<String> devicePictureUrls;
 	
 	public Map<String, Object> dictionary() {
 		Map<String, Object> dic = new HashMap<>();
@@ -140,6 +145,12 @@ public class MediaDevice extends DBModel {
 	}
 	public void setOwner(String owner) {
 		this.owner = owner;
+	}
+	public List<String> getDevicePictureUrls() {
+		return devicePictureUrls;
+	}
+	public void setDevicePictureUrls(List<String> devicePictureUrls) {
+		this.devicePictureUrls = devicePictureUrls;
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.rrt.adp.dao.AdvertisementDao;
+import com.rrt.adp.dao.ObjectFileDao;
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.Advertisement;
 import com.rrt.adp.model.DBModel;
@@ -28,6 +29,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 	
 	@Resource
 	private AdvertisementDao adDao;
+	@Resource
+	private ObjectFileDao objFileDao;
 	@Resource
 	private MessageUtil msgUtil;
 	@Resource
@@ -132,10 +135,15 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 		new Thread(() -> {
 			try{
 				List<Advertisement> advertisements = adDao.selectAdList(ad, page);
+				for(Advertisement a:advertisements){
+					if(Advertisement.TYPE_VIDEO.equals(a.getType())){
+						a.setCoverUrl(objFileDao.selectObjFileUrl(a.getId(), Advertisement.ATTR_COVER, 0));
+					}
+				}
 				adfuture.complete(advertisements);
 			}catch (Exception e) {
 				LOGGER.error("selectAdPage ad[{}] page[{}] exception [{}]", ad, page, e.getMessage());
-				page.setPageNum(-1);
+				adfuture.completeExceptionally(e);
 			}
 		}).start();
 		
@@ -148,7 +156,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 			return null;
 		} 
 		
-		return page.getPageNum()<0?null:page;
+		return page;
 	}
 
 	@Override
@@ -163,9 +171,14 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 		new Thread(() -> {
 			try{
 				List<Advertisement> advertisements = adDao.selectAdListOrderByOrder(selectAd, page);
+				for(Advertisement a:advertisements){
+					if(Advertisement.TYPE_VIDEO.equals(a.getType())){
+						a.setCoverUrl(objFileDao.selectObjFileUrl(a.getId(), Advertisement.ATTR_COVER, 0));
+					}
+				}
 				adfuture.complete(advertisements);
 			}catch (Exception e) {
-				LOGGER.error("selectAdPage ad[{}] page[{}] exception [{}]", selectAd, page, e.getMessage());
+				LOGGER.error("selectAdListOrderByOrder ad[{}] page[{}] exception [{}]", selectAd, page, e.getMessage());
 				adfuture.completeExceptionally(e);
 			}
 		}).start();

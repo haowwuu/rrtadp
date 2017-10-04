@@ -15,6 +15,8 @@ public class Account extends DBModel{
 	
 	public static final String TYPE_COMPANY_USER = "C";
 	public static final String TYPE_PERSON_USER = "P";
+	public static final String ATTR_PROFILEPHOTO = "profilePhotoUrl";
+	
 	private static final Set<String> TYPE_SET = new HashSet<>();
 	
 	public static final String ROLE_ADMIN = "A";
@@ -38,6 +40,8 @@ public class Account extends DBModel{
 	private String type;
 	private String role;
 	private String state;
+	
+	private String profilePhotoUrl;
 	
 	public Account() {
 		super();
@@ -143,5 +147,18 @@ public class Account extends DBModel{
 	public void setToken(String token) {
 		this.token = token;
 	}
-	
+	public String getProfilePhotoUrl() {
+		return profilePhotoUrl;
+	}
+	public void setProfilePhotoUrl(String profilePhotoUrl) {
+		this.profilePhotoUrl = profilePhotoUrl;
+	}
+
+	@Override
+	public String toString() {
+		return "Account [account=" + account + ", password=" + password + ", token=" + token + ", description="
+				+ description + ", type=" + type + ", role=" + role + ", state=" + state + ", profilePhotoUrl="
+				+ profilePhotoUrl + ", id=" + id + "]";
+	}
+
 }

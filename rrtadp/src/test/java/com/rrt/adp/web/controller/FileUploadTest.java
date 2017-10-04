@@ -58,7 +58,7 @@ public class FileUploadTest {
 		System.out.println(retn);
 	}
 	
-	@Test
+	@Ignore
 	public void testUploadFileIndex() throws Exception {
 		String url = baseUrl + "/file/upload";
 		//String filePath = "C:\\Users\\MikanMu\\Desktop\\test.txt";
@@ -74,6 +74,25 @@ public class FileUploadTest {
 
 		String string = rest.postForObject(url, param, String.class);
 		System.out.println(string);
+	}
+	
+	@Test
+	public void testUploadObjfile(){
+		String url = baseUrl + "/file/upload/v1";
+		//String filePath = "C:\\Users\\MikanMu\\Desktop\\test.txt";
+		String filePath = "/Users/wuhao/git/rrt/rrtadp/target/rrtgg/images/logo.png";
+
+		RestTemplate rest = new RestTemplate();
+		FileSystemResource resource = new FileSystemResource(new File(filePath));
+		MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
+		param.add("file", resource);
+		param.add("objectId", "MD1500729361092");
+		param.add("objectAttr", "avatar");
+		param.add("token", token);
+
+		String string = rest.postForObject(url, param, String.class);
+		System.out.println(string);
+		
 	}
 
 }

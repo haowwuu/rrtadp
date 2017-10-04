@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.rrt.adp.dao.CompanyUserDao;
+import com.rrt.adp.dao.ObjectFileDao;
 import com.rrt.adp.dao.PersonUserDao;
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.CompanyUser;
@@ -38,6 +39,8 @@ public class UserServiceImpl implements UserService {
 	private MessageUtil msgUtil;
 	@Resource
 	private FileUtil fileUtil;
+	@Resource
+	private ObjectFileDao objFileDao;
 
 	@Override
 	public Account login(Account account) {
@@ -56,6 +59,7 @@ public class UserServiceImpl implements UserService {
 		String pwd = EncryptUtil.md5(user.getPassword()+account.getToken());
 		if(pwd.equalsIgnoreCase(account.getPassword())){
 			user.setPassword(null);
+			user.setProfilePhotoUrl(objFileDao.selectObjFileUrl(user.getAccount(), Account.ATTR_PROFILEPHOTO, 0));
 			return user;
 		}else{
 			MessageContext.setMsg(msgUtil.get("password.incorrect"));

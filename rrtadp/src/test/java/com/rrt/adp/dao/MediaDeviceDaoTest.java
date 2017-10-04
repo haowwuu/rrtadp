@@ -73,10 +73,10 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 				
 	}
 
-	@Ignore
+	@Test
 	public void testSelectDeviceList() {
 		MediaDevice device = new MediaDevice();
-		/*device.setDeviceType(MediaDevice.TYPE_SCREEN);
+		device.setDeviceType(MediaDevice.TYPE_SCREEN);
 		device.setDeviceStatus(MediaDevice.STATUS_WORKING);
 		device.setBasePrice(100);
 		device.setKeyWords("key1");
@@ -88,7 +88,7 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 		device.setLat(30.456f);
 		device.setDistrictCode("330104");
 		device.setAddress("address somewhere");
-		device.setOwner("rrtgg");*/
+		device.setOwner("rrtgg");
 		List<MediaDevice> devcies = deviceDao.selectDeviceList(device);
 		devcies.stream().forEach(System.out::println);
 	}
@@ -99,10 +99,23 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 		devices.stream().forEach(System.out::println);
 	}
 	
-	@Ignore
+	@Test
 	public void testSelectPage(){
 		MediaDevice device = new MediaDevice();
 		Page<?> page = new Page<>(1,3);
+		device.setDeviceType(MediaDevice.TYPE_SCREEN);
+		device.setDeviceStatus(MediaDevice.STATUS_WORKING);
+		device.setBasePrice(100);
+		device.setKeyWords("key1");
+		device.setDescription("description");
+		device.setState(MediaDevice.STATE_NEW);
+		device.setPlayTime(new Date());
+		device.setPlayFrequency(10);
+		device.setLng(120.123f);
+		device.setLat(30.456f);
+		device.setDistrictCode("330104");
+		device.setAddress("address somewhere");
+		device.setOwner("rrtgg");
 		deviceDao.selectDeviceList(device, page).stream().forEach(System.out::println);
 	}
 	

@@ -3,6 +3,7 @@ package com.rrt.adp.model;
 public class CompanyUser extends Account{
 	
 	private String companyName;
+	private String shortName;
 	private String legalPerson;
 	private String contactPerson;
 	private String contactPhone;
@@ -29,6 +30,12 @@ public class CompanyUser extends Account{
 	}
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+	}
+	public String getShortName() {
+		return shortName;
+	}
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
 	}
 	public String getLegalPerson() {
 		return legalPerson;

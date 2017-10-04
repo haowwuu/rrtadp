@@ -91,7 +91,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 
 	@Override
 	public List<Advertisement> selectAdList(Advertisement ad) {
-		Object[] select = buildSelectSql("select * from rrt_ad", ad);
+		Object[] select = buildSelectSql("select * from rrt_ad as ad", ad);
 		String sql = (String)select[select.length-1];
 		Object[] values = new Object[select.length-1];
 		System.arraycopy(select, 0, values, 0, select.length-1);
@@ -111,7 +111,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 	
 	@Override
 	public List<Advertisement> selectAdList(Advertisement ad, Page<?> page) {
-		Object[] select = buildSelectSql("select * from rrt_ad",ad);
+		Object[] select = buildSelectSql("select * from rrt_ad as ad",ad);
 		String sql = (String)select[select.length-1];
 		Object[] values = new Object[select.length-1];
 		System.arraycopy(select, 0, values, 0, select.length-1);
@@ -134,7 +134,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 
 	@Override
 	public int countAd(Advertisement ad) {
-		Object[] select = buildSelectSql("select count(*) from rrt_ad", ad);
+		Object[] select = buildSelectSql("select count(*) from rrt_ad as ad", ad);
 		String sql = (String)select[select.length-1];
 		Object[] values = new Object[select.length-1];
 		System.arraycopy(select, 0, values, 0, select.length-1);
@@ -172,37 +172,37 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 		Object[] values = new Object[20];
 		int i = 0;
 		if(StringUtils.hasText(ad.getId())){
-			select.append(" and id = ?");
+			select.append(" and ad.id = ?");
 			values[i] = ad.getId();
 		    i++;
 		}
 		if(StringUtils.hasText(ad.getTitle())){
-			select.append(" and title like ?");
+			select.append(" and ad.title like ?");
 			values[i] = "%"+ad.getTitle()+"%";
 			i++;
 		}
 		if(StringUtils.hasText(ad.getType())){
-			select.append(" and type = ?");
+			select.append(" and ad.type = ?");
 			values[i] = ad.getType();
 		    i++;
 		}
 		if(StringUtils.hasText(ad.getState())){
-			select.append(" and state = ?");
+			select.append(" and ad.state = ?");
 			values[i] = ad.getState();
 			i++;
 		}
 		if(StringUtils.hasText(ad.getContent())){
-			select.append(" and content like ?");
+			select.append(" and ad.content like ?");
 			values[i] = "%"+ad.getContent()+"%";
 			i++;
 		}
 		if(StringUtils.hasText(ad.getAdCompanyId())){
-			select.append(" and ad_company_id = ?");
+			select.append(" and ad.ad_company_id = ?");
 			values[i] = ad.getAdCompanyId();
 			i++;
 		}
 		if(StringUtils.hasText(ad.getOwner())){
-			select.append(" and owner = ?");
+			select.append(" and ad.owner = ?");
 			values[i] = ad.getOwner();
 			i++;
 		}

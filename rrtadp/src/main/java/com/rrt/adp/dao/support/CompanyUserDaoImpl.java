@@ -38,9 +38,9 @@ public class CompanyUserDaoImpl implements CompanyUserDao {
 		user.setState(CompanyUser.STATE_NEW);
 		return this.jdbcTemplate.update("insert into user_company (id, create_time, update_time, "
 				+ "account, password, description, account_type, account_role, account_state, "
-				+ "company_name, legal_person, contact_person, contact_phone, office_phone, "
+				+ "company_name, short_name, legal_person, contact_person, contact_phone, office_phone, "
 				+ "district_code, company_address, certificate, certiticate_front_url, certificate_back_url) "
-				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 				new Object[]{
 						user.getId(),
 						user.getCreateTime(),
@@ -52,6 +52,7 @@ public class CompanyUserDaoImpl implements CompanyUserDao {
 						user.getRole(),
 						user.getState(),
 						user.getCompanyName(),
+						user.getShortName(),
 						user.getLegalPerson(),
 						user.getContactPerson(),
 						user.getContactPhone(),
@@ -126,6 +127,7 @@ public class CompanyUserDaoImpl implements CompanyUserDao {
 	        user.setRole(rs.getString("account_role"));
 	        user.setState(rs.getString("account_state"));
 	        user.setCompanyName(rs.getString("company_name"));
+	        user.setShortName(rs.getString("short_name"));
 	        user.setLegalPerson(rs.getString("legal_person"));
 	        user.setContactPerson(rs.getString("contact_person"));
 	        user.setContactPhone(rs.getString("contact_person"));
@@ -166,6 +168,11 @@ public class CompanyUserDaoImpl implements CompanyUserDao {
 		if(StringUtils.hasText(user.getState())){
 			select.append(" and account_state = ?");
 			values[i] = user.getState();
+			i++;
+		}
+		if(StringUtils.hasText(user.getShortName())){
+			select.append(" and short_name = ?");
+			values[i] = user.getShortName();
 			i++;
 		}
 		if(StringUtils.hasText(user.getCompanyName())){
@@ -258,6 +265,11 @@ public class CompanyUserDaoImpl implements CompanyUserDao {
 		if(StringUtils.hasText(user.getCompanyName())){
 			update.append(",company_name = ?");
 			values[i] = user.getCompanyName();
+			i++;
+		}
+		if(StringUtils.hasText(user.getShortName())){
+			update.append(",short_name = ?");
+			values[i] = user.getShortName();
 			i++;
 		}
 		if(StringUtils.hasText(user.getLegalPerson())){
