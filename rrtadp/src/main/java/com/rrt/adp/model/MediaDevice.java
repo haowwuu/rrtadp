@@ -25,8 +25,8 @@ public class MediaDevice extends DBModel {
 	private Date playTime;
 	private int playFrequency;
 	
-	private float lng;
-	private float lat;
+	private double lng;
+	private double lat;
 	private String districtCode;
 	private String address;
 	private String owner;
@@ -116,18 +116,19 @@ public class MediaDevice extends DBModel {
 	public void setPlayFrequency(int playFrequency) {
 		this.playFrequency = playFrequency;
 	}
-	public float getLng() {
+	public double getLng() {
 		return lng;
 	}
-	public void setLng(float lng) {
+	public void setLng(double lng) {
 		this.lng = lng;
 	}
-	public float getLat() {
+	public double getLat() {
 		return lat;
 	}
-	public void setLat(float lat) {
+	public void setLat(double lat) {
 		this.lat = lat;
 	}
+
 	public String getDistrictCode() {
 		return districtCode;
 	}

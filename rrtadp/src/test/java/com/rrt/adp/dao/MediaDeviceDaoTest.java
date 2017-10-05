@@ -41,8 +41,8 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 		device.setState(MediaDevice.STATE_NEW);
 		device.setPlayTime(new Date());
 		device.setPlayFrequency(10);
-		device.setLng(120.123f);
-		device.setLat(30.456f);
+		device.setLng(120.123);
+		device.setLat(30.456);
 		device.setDistrictCode("3301");
 		device.setAddress("address somewhere");
 		device.setOwner("rrtgg");
@@ -84,8 +84,8 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 		device.setState(MediaDevice.STATE_NEW);
 		device.setPlayTime(new Date());
 		device.setPlayFrequency(10);
-		device.setLng(120.123f);
-		device.setLat(30.456f);
+		device.setLng(120.123);
+		device.setLat(30.456);
 		device.setDistrictCode("330104");
 		device.setAddress("address somewhere");
 		device.setOwner("rrtgg");

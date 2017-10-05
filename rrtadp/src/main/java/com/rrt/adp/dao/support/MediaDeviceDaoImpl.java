@@ -156,8 +156,8 @@ public class MediaDeviceDaoImpl implements MediaDeviceDao {
 	        device.setState(rs.getString("state"));
 	        device.setPlayTime(rs.getDate("play_time"));
 	        device.setPlayFrequency(rs.getInt("play_frequency"));
-		    device.setLng(rs.getLong("lng"));
-		    device.setLat(rs.getLong("lat"));
+		    device.setLng(rs.getDouble("lng"));
+		    device.setLat(rs.getDouble("lat"));
 			device.setDistrictCode(rs.getString("district_code"));
 			device.setAddress(rs.getString("address"));
 			device.setOwner(rs.getString("owner"));
@@ -212,7 +212,7 @@ public class MediaDeviceDaoImpl implements MediaDeviceDao {
 			i++;
 		}
 		if(device.getLng()>0&&device.getLat()>0){
-			select.append(" and abs(dev.lng - ?) < 0.03 and abs(dev.lat - ?) < 0.03");
+			select.append(" and abs(dev.lng - ?) < 0.3 and abs(dev.lat - ?) < 0.3");
 			values[i]=device.getLng();
 			i++;
 			values[i]=device.getLat();
