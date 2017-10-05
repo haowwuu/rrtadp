@@ -1,16 +1,24 @@
 package com.rrt.adp.web.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
+import javax.print.attribute.standard.Media;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.rrt.adp.model.Account;
+import com.rrt.adp.model.Advertisement;
 import com.rrt.adp.model.MediaDevice;
+import com.rrt.adp.model.ObjectFile;
 import com.rrt.adp.model.Page;
 import com.rrt.adp.service.MediaDeviceService;
+import com.rrt.adp.util.FileUtil;
 import com.rrt.adp.util.MessageContext;
 import com.rrt.adp.web.RestResult;
 import com.rrt.adp.web.RestSecurity;
@@ -23,16 +31,48 @@ public class MediaDeviceController {
 	
 	@Resource
 	private MediaDeviceService deviceService;
+	@Resource
+	private FileUtil fileUtil;
 	
 	@ApiOperation("新建媒体设备")
 	@RequestMapping(value="/new", method=RequestMethod.POST)
-	public RestResult createDevice(MediaDevice device, HttpServletRequest request){
+	public RestResult createDevice(MediaDevice device, HttpServletRequest request, 
+			MultipartFile devicePicture0, MultipartFile devicePicture1, MultipartFile devicePicture2){
+		
 		Account account = RestSecurity.getSessionAccount(request);
-		if(deviceService.addMediaDevice(device, account)){
-			return RestResult.defaultSuccessResult();
-		}else{
+		if(!deviceService.addMediaDevice(device, account)){
 			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
+		List<String> picList = new ArrayList<>();
+		if(null!=devicePicture0){
+			ObjectFile objFile = new ObjectFile(device.getId(), MediaDevice.ATTR_DEVICEPICTURE, 0);
+			String up = fileUtil.uploadFile(objFile, devicePicture0);
+			if(null==up){
+				deviceService.deleteMediaDevice(device.getId(), account);
+				return RestResult.defaultFailResult(MessageContext.getMsg());
+			}
+			picList.add(up);
+		}
+		if(null!=devicePicture1){
+			ObjectFile objFile = new ObjectFile(device.getId(), MediaDevice.ATTR_DEVICEPICTURE, 1);
+			String up = fileUtil.uploadFile(objFile, devicePicture1);
+			if(null==up){
+				deviceService.deleteMediaDevice(device.getId(), account);
+				return RestResult.defaultFailResult(MessageContext.getMsg());
+			}
+			picList.add(up);
+		}
+		if(null!=devicePicture2){
+			ObjectFile objFile = new ObjectFile(device.getId(), MediaDevice.ATTR_DEVICEPICTURE, 2);
+			String up = fileUtil.uploadFile(objFile, devicePicture2);
+			if(null==up){
+				deviceService.deleteMediaDevice(device.getId(), account);
+				return RestResult.defaultFailResult(MessageContext.getMsg());
+			}
+			picList.add(up);
+		}
+		device.setDevicePictureUrls(picList);
+		return RestResult.defaultSuccessResult(device);
 	}
 	
 	@ApiOperation("获取个人媒体设备列表")

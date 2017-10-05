@@ -10,8 +10,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.Advertisement;
+import com.rrt.adp.model.ObjectFile;
 import com.rrt.adp.model.Page;
 import com.rrt.adp.service.AdvertisementService;
+import com.rrt.adp.util.FileUtil;
 import com.rrt.adp.util.MessageContext;
 import com.rrt.adp.web.RestResult;
 import com.rrt.adp.web.RestSecurity;
@@ -25,17 +27,28 @@ public class AdvertisementController {
 	
 	@Resource
 	private AdvertisementService adService;
+	@Resource
+	private FileUtil fileUtil;
 	
 	@ApiOperation("新建广告")
 	@RequestMapping(value="/new", method=RequestMethod.POST)
-	public RestResult createAd(Advertisement ad, MultipartFile adFile, HttpServletRequest request){
+	public RestResult createAd(Advertisement ad, MultipartFile adFile, MultipartFile coverFile, HttpServletRequest request){
 		Account account = RestSecurity.getSessionAccount(request);
 		Advertisement retn = adService.addAd(ad, adFile, account);
-		if(null!=retn){
-			return RestResult.defaultSuccessResult(retn);
-		}else{
+		if(null==retn){
 			return RestResult.defaultFailResult(MessageContext.getMsg());
 		}
+		if(null!=coverFile){
+			ObjectFile objFile = new ObjectFile(retn.getId(), Advertisement.ATTR_COVER, 0);
+			String up = fileUtil.uploadFile(objFile, coverFile);
+			if(null==up){
+				adService.deleteAd(retn.getId(), account);
+				return RestResult.defaultFailResult(MessageContext.getMsg());
+			}
+			retn.setCoverUrl(up);
+		}
+		
+		return RestResult.defaultSuccessResult(retn);
 	}
 	
 	@ApiOperation("depreciated 获取个人广告列表，建议使用page接口传入owner参数")

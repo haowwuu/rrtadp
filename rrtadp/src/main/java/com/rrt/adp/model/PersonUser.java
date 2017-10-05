@@ -3,7 +3,6 @@ package com.rrt.adp.model;
 public class PersonUser extends Account {
 	
 	private String name;
-	private String nickName;
 	private String phone;
 	private String email;
 	private String districtCode;
@@ -30,12 +29,6 @@ public class PersonUser extends Account {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public String getNickName() {
-		return nickName;
-	}
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
 	}
 	public String getPhone() {
 		return phone;
@@ -79,17 +72,12 @@ public class PersonUser extends Account {
 	public void setIDCardBackPicUrl(String iDCardBackPicUrl) {
 		IDCardBackPicUrl = iDCardBackPicUrl;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "PersonUser [name=" + name + ", nickName=" + nickName + ", phone=" + phone + ", email=" + email
-				+ ", districtCode=" + districtCode + ", address=" + address + ", IDCard=" + IDCard
-				+ ", IDCardFrontPicUrl=" + IDCardFrontPicUrl + ", IDCardBackPicUrl=" + IDCardBackPicUrl
-				+ ", isTypeLegal()=" + isTypeLegal() + ", isRoleLegal()=" + isRoleLegal() + ", isAdmin()=" + isAdmin()
-				+ ", isStateLegal()=" + isStateLegal() + ", getAccount()=" + getAccount() + ", getPassword()="
-				+ getPassword() + ", getDescription()=" + getDescription() + ", getType()=" + getType() + ", getRole()="
-				+ getRole() + ", getState()=" + getState() + ", getToken()=" + getToken() + ", getId()=" + getId()
-				+ ", getCreateTime()=" + getCreateTime() + ", getUpdateTime()=" + getUpdateTime() + "]";
+		return "PersonUser [name=" + name + ", phone=" + phone + ", email=" + email + ", districtCode=" + districtCode
+				+ ", address=" + address + ", IDCard=" + IDCard + ", IDCardFrontPicUrl=" + IDCardFrontPicUrl
+				+ ", IDCardBackPicUrl=" + IDCardBackPicUrl + ", id=" + id + ", toString()=" + super.toString() + "]";
 	}
 	
 }

@@ -41,7 +41,7 @@ public class CompanyUserDaoTest extends AbstractJUnit4SpringContextTests{
 		user.setRole(Account.ROLE_NORMAL);
 		user.setState(Account.STATE_CHECKED);
 		user.setCompanyName("testcompany");
-		user.setShortName("shortName");
+		user.setNickName("shortName");
 		user.setLegalPerson("legalperson");
 		user.setContactPerson("contact");
 		user.setContactPhone("13312345678");
@@ -66,7 +66,7 @@ public class CompanyUserDaoTest extends AbstractJUnit4SpringContextTests{
 		user.setCompanyAddress("updateAddress");
 		user.setDistrictCode("3303");
 		user.setContactPhone("13111111111");
-		user.setShortName("shortnameu");
+		user.setNickName("shortnameu");
 		user.setPassword(EncryptUtil.md5("rrtgg123456"));
 		userDao.updateUser(user);
 	}

@@ -41,6 +41,7 @@ public class Account extends DBModel{
 	private String role;
 	private String state;
 	
+	private String nickName;
 	private String profilePhotoUrl;
 	
 	public Account() {
@@ -153,12 +154,19 @@ public class Account extends DBModel{
 	public void setProfilePhotoUrl(String profilePhotoUrl) {
 		this.profilePhotoUrl = profilePhotoUrl;
 	}
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
 
 	@Override
 	public String toString() {
 		return "Account [account=" + account + ", password=" + password + ", token=" + token + ", description="
-				+ description + ", type=" + type + ", role=" + role + ", state=" + state + ", profilePhotoUrl="
-				+ profilePhotoUrl + ", id=" + id + "]";
+				+ description + ", type=" + type + ", role=" + role + ", state=" + state + ", nickName=" + nickName
+				+ ", profilePhotoUrl=" + profilePhotoUrl + ", id=" + id + "]";
 	}
 
 }

@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.CompanyUser;
+import com.rrt.adp.model.ObjectFile;
 import com.rrt.adp.model.PersonUser;
 import com.rrt.adp.service.UserService;
 import com.rrt.adp.util.FileUtil;
@@ -51,7 +52,15 @@ public class UserController {
 	@ApiOperation("个人用户注册")
 	@RequestMapping(value="/regist/person", method=RequestMethod.POST)
 	public RestResult registPersonUser(PersonUser user, 
-			MultipartFile idFrontPicFile, MultipartFile idBackPicFile){
+			MultipartFile idFrontPicFile, MultipartFile idBackPicFile, MultipartFile profilePhotoFile){
+		if(null!=profilePhotoFile){
+			ObjectFile objFile = new ObjectFile(user.getAccount(), Account.ATTR_PROFILEPHOTO, 0);
+			String retn = fileUtil.uploadFile(objFile, profilePhotoFile);
+			if(null==retn){
+				return RestResult.defaultFailResult(MessageContext.getMsg());
+			}
+			user.setProfilePhotoUrl(retn);
+		}
 		PersonUser retn = userService.registPersonUser(user, idFrontPicFile, idBackPicFile);
 		if(null!=retn){
 			return RestResult.defaultSuccessResult(retn, msgUtil.get("regist.success"));
@@ -74,7 +83,15 @@ public class UserController {
 	@ApiOperation("企业用户注册")
 	@RequestMapping(value="/regist/company", method=RequestMethod.POST)
 	public RestResult registCompanyUser(CompanyUser user, 
-			MultipartFile certFrontPicFile, MultipartFile certBackPicFile) {
+			MultipartFile certFrontPicFile, MultipartFile certBackPicFile, MultipartFile profilePhotoFile) {
+		if(null!=profilePhotoFile){
+			ObjectFile objFile = new ObjectFile(user.getAccount(), Account.ATTR_PROFILEPHOTO, 0);
+			String retn = fileUtil.uploadFile(objFile, profilePhotoFile);
+			if(null==retn){
+				return RestResult.defaultFailResult(MessageContext.getMsg());
+			}
+			user.setProfilePhotoUrl(retn);
+		}
 		CompanyUser retn = userService.registCompanyUser(user, certFrontPicFile, certBackPicFile);
 		if(null!=retn){
 			return RestResult.defaultSuccessResult(retn, msgUtil.get("regist.success"));

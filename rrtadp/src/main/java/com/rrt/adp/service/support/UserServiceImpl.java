@@ -22,8 +22,6 @@ import com.rrt.adp.util.EncryptUtil;
 import com.rrt.adp.util.FileUtil;
 import com.rrt.adp.util.MessageUtil;
 
-import io.netty.util.internal.StringUtil;
-
 import com.rrt.adp.util.MessageContext;
 
 @Service

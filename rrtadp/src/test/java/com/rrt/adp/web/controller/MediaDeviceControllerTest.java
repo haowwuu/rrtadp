@@ -2,15 +2,15 @@ package com.rrt.adp.web.controller;
 
 import static org.junit.Assert.*;
 
-import org.apache.ibatis.ognl.Token;
+import java.io.File;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import com.fasterxml.jackson.databind.Module.SetupContext;
 import com.rrt.adp.web.TestUtil;
 
 public class MediaDeviceControllerTest {
@@ -23,7 +23,7 @@ public class MediaDeviceControllerTest {
 		token = TestUtil.getToken();
 	}
 	
-	@Ignore
+	@Test
 	public void testCreateDevice() {
 		RestTemplate restTemplate = new RestTemplate();  
 		//FileSystemResource frontPic = new FileSystemResource(new File("F:\\2.jpg"));
@@ -41,7 +41,14 @@ public class MediaDeviceControllerTest {
         form.add("playTime", "2018-09-07 00:00:00");
         form.add("playFrequency", 11);
         
-        form.add("token", "8A23CDB0A4DC07108613F01658BF2D38");
+        form.add("token", token);
+        String filePath = "/Users/wuhao/git/rrt/rrtadp/target/rrtgg/images/logo.png";
+        FileSystemResource resource = new FileSystemResource(new File(filePath));
+        
+        form.add("devicePicture0", resource);
+        form.add("devicePicture1", resource);
+        form.add("devicePicture2", resource);
+        
         String result = restTemplate.postForObject(baseUrl+"/device/new", form, String.class);  
         System.out.println(result);
 	}
@@ -61,7 +68,7 @@ public class MediaDeviceControllerTest {
 		fail("Not yet implemented");
 	}
 	
-	@Test
+	@Ignore
 	public void testPageDevice() {
 		RestTemplate restTemplate = new RestTemplate();  
         MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();  

@@ -7,7 +7,17 @@ public class ObjectFile extends DBModel {
 	private int fileIndex;
 	private String fileName;
 	private String fileUrl;
-	
+
+	public ObjectFile() {
+		
+	}
+
+	public ObjectFile(String objectId, String objectAttr, int fileIndex) {
+		this.objectId = objectId;
+		this.objectAttr = objectAttr;
+		this.fileIndex = fileIndex;
+	}
+
 	public String buildFullFileName(){
 		if(null==this.objectId||null==this.objectAttr){
 			return null;

@@ -52,7 +52,7 @@ public class CompanyUserDaoImpl implements CompanyUserDao {
 						user.getRole(),
 						user.getState(),
 						user.getCompanyName(),
-						user.getShortName(),
+						user.getNickName(),
 						user.getLegalPerson(),
 						user.getContactPerson(),
 						user.getContactPhone(),
@@ -127,7 +127,7 @@ public class CompanyUserDaoImpl implements CompanyUserDao {
 	        user.setRole(rs.getString("account_role"));
 	        user.setState(rs.getString("account_state"));
 	        user.setCompanyName(rs.getString("company_name"));
-	        user.setShortName(rs.getString("short_name"));
+	        user.setNickName(rs.getString("short_name"));
 	        user.setLegalPerson(rs.getString("legal_person"));
 	        user.setContactPerson(rs.getString("contact_person"));
 	        user.setContactPhone(rs.getString("contact_person"));
@@ -170,9 +170,9 @@ public class CompanyUserDaoImpl implements CompanyUserDao {
 			values[i] = user.getState();
 			i++;
 		}
-		if(StringUtils.hasText(user.getShortName())){
+		if(StringUtils.hasText(user.getNickName())){
 			select.append(" and short_name = ?");
-			values[i] = user.getShortName();
+			values[i] = user.getNickName();
 			i++;
 		}
 		if(StringUtils.hasText(user.getCompanyName())){
@@ -267,9 +267,9 @@ public class CompanyUserDaoImpl implements CompanyUserDao {
 			values[i] = user.getCompanyName();
 			i++;
 		}
-		if(StringUtils.hasText(user.getShortName())){
+		if(StringUtils.hasText(user.getNickName())){
 			update.append(",short_name = ?");
-			values[i] = user.getShortName();
+			values[i] = user.getNickName();
 			i++;
 		}
 		if(StringUtils.hasText(user.getLegalPerson())){

@@ -25,16 +25,18 @@ public class AdvertisementControllerTest {
 		token = TestUtil.getToken();
 	}
 
-	@Ignore
+	@Test
 	public void testCreateAd() {
 		RestTemplate restTemplate = new RestTemplate();  
-		FileSystemResource frontPic = new FileSystemResource(new File("F:\\2.jpg"));
+		String filePath = "/Users/wuhao/git/rrt/rrtadp/target/rrtgg/images/logo.png";
+		FileSystemResource frontPic = new FileSystemResource(new File(filePath));
         MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();  
         form.add("title", "adttiel1");
-        form.add("type", "T");
+        form.add("type", "V");
         form.add("content", "adcontent");
         form.add("adFile", frontPic);
-        form.add("token", "9D4F16C0209408986E9BE2BC05F3CD1E");
+        form.add("token", token);
+        form.add("coverFile", frontPic);
         String result = restTemplate.postForObject(baseUrl+"/ad/new", form, String.class);  
         System.out.println(result);
 	}
@@ -49,7 +51,7 @@ public class AdvertisementControllerTest {
         System.out.println(result);
 	}
 	
-	@Test
+	@Ignore
 	public void testPageUserAd() {
 		RestTemplate restTemplate = new RestTemplate();  
         MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();  

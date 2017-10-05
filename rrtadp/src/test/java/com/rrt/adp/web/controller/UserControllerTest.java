@@ -28,7 +28,7 @@ public class UserControllerTest {
 	}
 
 	//token=9FFCE962640718F2956BAB499048C6E3
-	@Test
+	@Ignore
 	public void testLogin() {
 		Account account = new Account();
 		account.setAccount("rrtgg");
@@ -46,23 +46,26 @@ public class UserControllerTest {
         System.out.println(result);
 	}
 
-	@Ignore
+	@Test
 	public void testRegistPersonUser() {
 		RestTemplate restTemplate = new RestTemplate();  
-		FileSystemResource frontPic = new FileSystemResource(new File("F:\\2.jpg"));
-		FileSystemResource backtPic = new FileSystemResource(new File("F:\\2.jpg"));
+		String filePath = "/Users/wuhao/git/rrt/rrtadp/target/rrtgg/images/logo.png";
+		FileSystemResource frontPic = new FileSystemResource(new File(filePath));
+		FileSystemResource backtPic = new FileSystemResource(new File(filePath));
+		FileSystemResource profilePhoto = new FileSystemResource(new File(filePath));
         MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();  
-        form.add("account", "testuserpic");
+        form.add("account", "testuserphoto");
         form.add("password", EncryptUtil.md5("testuserpic123456"));
         form.add("type", "P");
         form.add("IDCard", "301233245567365676");
         form.add("idFrontPicFile", frontPic);
         form.add("idBackPicFile", backtPic);
+        form.add("profilePhotoFile", profilePhoto);
         String result = restTemplate.postForObject(baseUrl+"/user/regist/person", form, String.class);  
         System.out.println(result);
 	}
 	
-	@Test
+	@Ignore
 	public void testRegistCompanyUser() {
 		RestTemplate restTemplate = new RestTemplate();  
 		FileSystemResource frontPic = new FileSystemResource(new File("/Users/wuhao/Pictures/logo.png"));
@@ -121,64 +124,5 @@ public class UserControllerTest {
 		fail("Not yet implemented");
 	}
 
-	@Ignore
-	public void testObject() {
-		fail("Not yet implemented");
-	}
-
-	@Ignore
-	public void testGetClass() {
-		fail("Not yet implemented");
-	}
-
-	@Ignore
-	public void testHashCode() {
-		fail("Not yet implemented");
-	}
-
-	@Ignore
-	public void testEquals() {
-		fail("Not yet implemented");
-	}
-
-	@Ignore
-	public void testClone() {
-		fail("Not yet implemented");
-	}
-
-	@Ignore
-	public void testToString() {
-		fail("Not yet implemented");
-	}
-
-	@Ignore
-	public void testNotify() {
-		fail("Not yet implemented");
-	}
-
-	@Ignore
-	public void testNotifyAll() {
-		fail("Not yet implemented");
-	}
-
-	@Ignore
-	public void testWaitLong() {
-		fail("Not yet implemented");
-	}
-
-	@Ignore
-	public void testWaitLongInt() {
-		fail("Not yet implemented");
-	}
-
-	@Ignore
-	public void testWait() {
-		fail("Not yet implemented");
-	}
-
-	@Ignore
-	public void testFinalize() {
-		fail("Not yet implemented");
-	}
 
 }

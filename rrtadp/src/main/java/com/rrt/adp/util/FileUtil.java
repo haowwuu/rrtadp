@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.io.Files;
+import com.rrt.adp.dao.ObjectFileDao;
+import com.rrt.adp.model.ObjectFile;
+import com.rrt.adp.web.RestResult;
 
 @Component
 public class FileUtil {
@@ -24,6 +27,8 @@ public class FileUtil {
 	private String baseFileUrl;
 	@Resource
 	private MessageUtil msgUtil;
+	@Resource
+	private ObjectFileDao objFileDao;
 	
 	public String uploadFile(String fileName, byte[] contents){
 		if(null==fileName){
@@ -42,6 +47,28 @@ public class FileUtil {
 			return null;
 		}
 		return baseFileUrl+fileName;
+	}
+	
+	public String uploadFile(ObjectFile objFile, MultipartFile mfile){
+		if(null==objFile||null==objFile.getObjectId()){
+			return null;
+		}
+		String fileName = mfile.getOriginalFilename();
+		objFile.setFileName(fileName);
+		fileName = objFile.buildFullFileName();
+		String retn = uploadFile(fileName, mfile);
+		if(null==retn){
+			return null;
+		}
+		objFile.setFileUrl(retn);
+		try{
+			objFileDao.replaceObjectFile(objFile);
+		}catch (Exception e) {
+			LOGGER.error("saveFileUrl [{}] exception [{}]", objFile, e.getMessage());
+			MessageContext.setMsg(msgUtil.get("db.exception"));
+			return null;
+		}
+		return retn;
 	}
 	
 	public String uploadFile(String fileName, MultipartFile mfile){
