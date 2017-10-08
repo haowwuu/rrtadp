@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.print.attribute.standard.Media;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.rrt.adp.model.Account;
-import com.rrt.adp.model.Advertisement;
 import com.rrt.adp.model.MediaDevice;
 import com.rrt.adp.model.ObjectFile;
 import com.rrt.adp.model.Page;
@@ -132,6 +130,16 @@ public class MediaDeviceController {
 		Page<MediaDevice> devices = deviceService.getHotMediaDevicePage(device, account, page);
 		if(null!=devices){
 			return RestResult.defaultSuccessResult(devices);
+		}
+		return RestResult.defaultFailResult(MessageContext.getMsg());
+	}
+	
+	@ApiOperation("传入设备id, basePrice， 获取设备建议价格")
+	@RequestMapping(value="adviseprice", method=RequestMethod.GET)
+	public RestResult getAdvistPirce(MediaDevice device) {
+		Float advisePrice = deviceService.getAdvisePrice(device);
+		if(null!=advisePrice){
+			return RestResult.defaultSuccessResult(advisePrice);
 		}
 		return RestResult.defaultFailResult(MessageContext.getMsg());
 	}

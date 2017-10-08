@@ -7,7 +7,9 @@ import java.util.Map;
 
 public class MediaDevice extends DBModel {
 	
-	public static final String STATUS_WORKING = "W";
+	public static final String STATUS_WORKING = "W";  
+	public static final String STATUS_OPENING = "O";
+	public static final String STATUS_CLOSED = "C";
 	public static final String STATUS_REPAIRING = "R";
 	
 	public static final String TYPE_SCREEN = "S";
@@ -48,12 +50,15 @@ public class MediaDevice extends DBModel {
 		Map<String, String> deviceStatus = new HashMap<>();
 		deviceStatus.put("working", STATUS_WORKING);
 		deviceStatus.put("repairing", STATUS_REPAIRING);
+		deviceStatus.put("opening", STATUS_OPENING);
+		deviceStatus.put("closed", STATUS_CLOSED);
 		dic.put("media device status", deviceStatus);
 		return dic;
 	}
 	
 	public boolean isStatusLegal(){
-		return STATUS_REPAIRING.equals(getDeviceStatus())||STATUS_WORKING.equals(getDeviceStatus());
+		return STATUS_REPAIRING.equals(getDeviceStatus())||STATUS_WORKING.equals(getDeviceStatus())
+				||STATUS_OPENING.equals(getDeviceStatus())||STATUS_CLOSED.equals(getDeviceStatus());
 	}
 	public boolean isTypeLegal(){
 		return TYPE_SCREEN.equals(getDeviceType());

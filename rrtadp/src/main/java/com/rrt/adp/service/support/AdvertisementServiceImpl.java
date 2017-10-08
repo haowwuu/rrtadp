@@ -15,6 +15,7 @@ import com.rrt.adp.dao.ObjectFileDao;
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.Advertisement;
 import com.rrt.adp.model.DBModel;
+import com.rrt.adp.model.ObjectFile;
 import com.rrt.adp.model.Page;
 import com.rrt.adp.service.AdvertisementService;
 import com.rrt.adp.util.FileUtil;
@@ -49,7 +50,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 			return null;
 		}
 		if(null!=adFile){
-			String url = fileUtil.uploadFile(account.getAccount()+"/"+ad.getId(), adFile);
+			ObjectFile objFile = new ObjectFile(ad.getId(), Advertisement.ATTR_CONTENT, 0);
+			String url = fileUtil.uploadFile(objFile, adFile);
+			//String url = fileUtil.uploadFile(account.getAccount()+"/"+ad.getId(), adFile);
 			if(null==url){
 				return null;
 			}

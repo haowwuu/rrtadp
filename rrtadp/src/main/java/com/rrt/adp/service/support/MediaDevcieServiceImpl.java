@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 
 import com.rrt.adp.dao.MediaDeviceDao;
 import com.rrt.adp.dao.ObjectFileDao;
+import com.rrt.adp.dao.OrderDao;
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.DBModel;
 import com.rrt.adp.model.MediaDevice;
+import com.rrt.adp.model.Order;
 import com.rrt.adp.model.Page;
 import com.rrt.adp.service.MediaDeviceService;
 import com.rrt.adp.util.MessageUtil;
@@ -30,6 +32,8 @@ public class MediaDevcieServiceImpl implements MediaDeviceService {
 	@Resource
 	private ObjectFileDao objFileDao;
 	@Resource
+	private OrderDao orderDao;
+	@Resource
 	private MessageUtil msgUtil;
 	
 	@Override
@@ -39,7 +43,9 @@ public class MediaDevcieServiceImpl implements MediaDeviceService {
 		}
 		device.setId(DBModel.PREFIX_MEDIA_DEVICE+SequenceGenerator.next());
 		device.setState(MediaDevice.STATE_NEW);
-		device.setOwner(account.getAccount());
+		if(null==device.getOwner()){
+			device.setOwner(account.getAccount());
+		}
 		if(!device.isStatusLegal()){
 			MessageContext.setMsg(msgUtil.get("parameter.illegal","deviceStatus"));
 			return false;
@@ -187,6 +193,39 @@ public class MediaDevcieServiceImpl implements MediaDeviceService {
 		} 
 		
 		return page;
+	}
+
+	@Override
+	public Float getAdvisePrice(MediaDevice device) {
+		if(null==device||null==device.getId()){
+			return 0f;
+		}
+		float price = device.getBasePrice();
+		if(device.getBasePrice()<0.001){
+			MediaDevice md = deviceDao.selectDevice(device.getId());
+			if(null==md){
+				return 0f;
+			}
+			price = md.getBasePrice();
+		}
+		Order order = new Order();
+		order.setDeviceId(device.getId());
+		order.setState(Order.STATE_NEW);
+		int newOrderCount = 0;
+		try{
+			newOrderCount = orderDao.countOrder(order);
+		}catch (Exception e) {
+			MessageContext.setMsg(msgUtil.get("db.exception"));
+			LOGGER.error("getAdvisePrice device[{}] exception [{}]", device, e.getMessage());
+			return null;
+		}
+		
+		if(newOrderCount>=5){
+			price *= 1.2;
+		}else if(newOrderCount>=3){
+			price *=1.05;
+		}
+		return price;
 	}
 
 }

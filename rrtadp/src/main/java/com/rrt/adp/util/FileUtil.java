@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.common.io.Files;
 import com.rrt.adp.dao.ObjectFileDao;
 import com.rrt.adp.model.ObjectFile;
-import com.rrt.adp.web.RestResult;
 
 @Component
 public class FileUtil {

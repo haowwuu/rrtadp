@@ -35,7 +35,9 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 		if(null==ad){
 			return 0;
 		}
-		ad.setId(Advertisement.PREFIX_ADVERTISEMENT+SequenceGenerator.next());
+		if(null==ad.getId()||ad.getId().indexOf(Advertisement.PREFIX_ADVERTISEMENT)<0){
+			ad.setId(Advertisement.PREFIX_ADVERTISEMENT+SequenceGenerator.next());
+		}
 		ad.setCreateTime(new Date());
 		ad.setState(Advertisement.STATE_NEW);
 		return this.jdbcTemplate.update("insert into rrt_ad (id, create_time, update_time, "

@@ -36,7 +36,7 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 		device.setDeviceStatus(MediaDevice.STATUS_WORKING);
 		device.setBasePrice(100);
 		device.setKeyWords("key1,key2,key3");
-		device.setName("中文名");
+		device.setName("中文名乱码测试");
 		device.setDescription("description");
 		device.setState(MediaDevice.STATE_NEW);
 		device.setPlayTime(new Date());
@@ -45,7 +45,7 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 		device.setLat(30.456);
 		device.setDistrictCode("3301");
 		device.setAddress("address somewhere");
-		device.setOwner("rrtgg");
+		device.setOwner("luanma");
 		
 		deviceDao.insertDevice(device);
 		

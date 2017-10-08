@@ -21,4 +21,6 @@ public interface MediaDeviceService {
 	Page<MediaDevice> getMediaDevicePage(MediaDevice device, Account account, Page<MediaDevice> page);
 	
 	Page<MediaDevice> getHotMediaDevicePage(MediaDevice device, Account account, Page<MediaDevice> page);
+	
+	Float getAdvisePrice(MediaDevice device);
 }

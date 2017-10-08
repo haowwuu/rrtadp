@@ -13,6 +13,8 @@ public class Advertisement extends DBModel{
 	public static final String TYPE_MIX = "M";
 	
 	public static final String ATTR_COVER = "coverUrl";
+	public static final String ATTR_CONTENT = "contentUrl";
+	
 	
 	private static final Set<String> TYPE_SET = new HashSet<>();
 	static{

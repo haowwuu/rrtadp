@@ -260,6 +260,11 @@ public class OrderDaoImpl implements OrderDao {
 			values[i] = order.getDeviceOwner();
 			i++;
 		}
+		if(null!=order.getCreateTime()){
+			select.append(" and create_time > ?");
+			values[i] = order.getCreateTime();
+			i++;
+		}
 		select.append(" order by create_time desc");
 		values[i] = select.toString();
 		i++;
