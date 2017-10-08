@@ -1,0 +1,49 @@
+{
+	"id": 24192,
+	"name": "phone",
+	"usecount": 1,
+	"content": {
+		"footer": {
+			"enabled": false
+		},
+		"center": {
+			"id": "row1_col1",
+			"content": [
+				"http://imgs.yunbiaowulian.com/imgserver/resource/2017/06/12/28ddffe8-96ef-4e4a-a942-11fbd93d3fb0.jpg"
+			],
+			"imageDetail": {
+				"playTime": "5",
+				"isAutoPlay": "true",
+				"imagePlayType": "0"
+			},
+			"container": {
+				"height": "100%",
+				"width": "100%",
+				"left": "0%",
+				"top": "0%"
+			},
+			"type": "1"
+		}],
+		"move": {
+			"bgmusic": {
+				"music": "",
+				"name": ""
+			},
+			"container": {
+				"height": "15.58139534883721%",
+				"width": "6.9371727748691105%",
+				"left": "5.49738219895288%",
+				"top": "12.325581395348838%"
+			},
+			"type": "move_3"
+		}],
+		"header": {
+			"enabled": false
+		}
+	},
+	"layoutType": 0,
+	"resolution": "1080*1920",
+	"splitScreen": "1_1",
+	"direction": 1,
+	"layoutImg": "http://www.yunbiaowulian.com//images/layout/1_1.png"
+}

@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.annotation.Resource;
-
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
@@ -22,6 +20,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 /**
@@ -30,14 +29,13 @@ import org.springframework.util.StringUtils;
  * @date 2017年9月25日
  * 
  */
+@Component
 public class HttpClient {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(HttpClient.class);
 	
 	private RequestConfig requestConfig;
 	private CloseableHttpClient closeableHttpClient;
-	@Resource
-	private JsonUtil jsonUtil;
 	
 	public HttpClient() {
 		requestConfig = RequestConfig.custom()
@@ -116,10 +114,10 @@ public class HttpClient {
 					nvps.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
 				}
 				String params = EntityUtils.toString(new UrlEncodedFormEntity(nvps, "UTF-8"));
-				httpGet = new HttpGet(url+"?"+params);
-			}else{
-				httpGet = new HttpGet(url);
+				url = url+"?"+params;
 			}
+			httpGet = new HttpGet(url);
+			//System.out.println(url);
 		}catch (Exception e) {
 			LOGGER.error("illegal url [{}], data[{}] exception[{}]", url, data, e.getMessage());
 			return null;
@@ -128,6 +126,9 @@ public class HttpClient {
 			CloseableHttpResponse response = this.closeableHttpClient.execute(httpGet);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				return EntityUtils.toString(response.getEntity(), "UTF-8");
+			}else{
+				System.out.println(url);
+				System.out.println(response);
 			}
 		} catch (Exception e) {
 			LOGGER.error("get url[{}] data[{}] exception [{}]", url, data, e.getMessage());

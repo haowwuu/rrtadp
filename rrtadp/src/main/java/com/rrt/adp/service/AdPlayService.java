@@ -5,5 +5,7 @@ import com.rrt.adp.model.Advertisement;
 public interface AdPlayService {
 	
 	boolean play(Advertisement ad);
+	
+	public String auth();
 
 }
