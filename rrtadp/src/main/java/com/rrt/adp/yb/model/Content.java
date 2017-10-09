@@ -58,7 +58,7 @@ public class Content {
 		this.weekDay = "1,2,3,4,5,6,7";
 		this.runType = "1";
 		
-		this.layoutType = "0";
+		this.layoutType = "6";
 		this.move = new ArrayList<>();
 		
 	}
