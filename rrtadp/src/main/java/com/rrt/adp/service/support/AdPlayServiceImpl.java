@@ -111,11 +111,11 @@ public class AdPlayServiceImpl implements AdPlayService {
 	public void publish(){
 		Map<String, Object> params = new HashMap<>();
 		params.put("accessToken", this.token);
-		params.put("layoutId", "24190");
+		params.put("layoutId", "24298");
 		params.put("devices", "32004");
-		params.put("runSDateStr", "2017-10-08");
-		params.put("runEDateStr", "2017-10-08");
-		params.put("runStart", "16:00");
+		params.put("runSDateStr", "2017-10-10");
+		params.put("runEDateStr", "2017-10-10");
+		params.put("runStart", "12:00");
 		params.put("runEnd", "23:00");
 		params.put("run_rule", "1");
 		params.put("weekDayStr", "1,2,3,4,5,6,7");
@@ -141,7 +141,7 @@ public class AdPlayServiceImpl implements AdPlayService {
 		Map<String, Object> params = new HashMap<>();
 		params.put("accessToken", this.token);
 		params.put("id", 0);
-		params.put("name", "APILayoutJsonExample2");
+		params.put("name", "APILayoutJsonExample4");
 		/*List<String> urls = new ArrayList<>();
 		urls.add("http://imgs.yunbiaowulian.com/imgserver/resource/common/img/yq0KXFZz8JCAC9WpAAHK838qRuw734.jpg");
 		urls.add("http://imgs.yunbiaowulian.com/imgserver/resource/common/img/yq0KZVZz70OAJrxhAAGl8Dhd6yw772.jpg");
@@ -152,7 +152,7 @@ public class AdPlayServiceImpl implements AdPlayService {
 		contents.add(content);
 		System.out.println(jsonUtil.toJson(contents));
 		//params.put("content", jsonUtil.toJson(contents));
-*/		params.put("content", readFileByLines("E:\\json2.txt"));
+*/		params.put("content", readFileByLines("E:\\json3.txt"));
 		params.put("layoutInfo", "0:1_1:1080*1920:1");
 		
 		String retn = httpClient.get("http://www.yunbiaowulian.com/api/layout/update.html", params);
@@ -211,16 +211,16 @@ public class AdPlayServiceImpl implements AdPlayService {
         return sb.toString();
     }
 	
-	private String token = "eWIyQjdCQjBCMUE3ODJBNTNFOmEwNTFkZTViODMwMTQyODI4ZDExMWI1YTg5YWYyNGJkOjE1MDc1MjQ3MjUxOTI=";
+	private String token = "eWIyQjdCQjBCMUE3ODJBNTNFOmEwNTFkZTViODMwMTQyODI4ZDExMWI1YTg5YWYyNGJkOjE1MDc2MTUxNzgyMjE=";
 	public static void main(String[] args){
 		AdPlayServiceImpl playService = new AdPlayServiceImpl();
 		//playService.auth();
 		//playService.getDeviceList();
 		//playService.getUserDetail();
 		//playService.getLayOutList();
-		playService.getLayoutDetail("24236");
+		//playService.getLayoutDetail("24298");
 		
-		//playService.publish();
+		playService.publish();
 		//playService.createLayout();
 		//playService.deleteLayout();
 		

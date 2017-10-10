@@ -1,0 +1,31 @@
+{
+    "center": [
+        {
+            "container": {
+                "height": "100%",
+                "left": "0%",
+                "top": "0%",
+                "width": "100%"
+            },
+            "content": [
+                "http://imgs.yunbiaowulian.com/imgserver/resource/2017/06/12/cc9f6ee7-4b96-406f-a10e-4493d88a04e8.jpg",
+                "http://imgs.yunbiaowulian.com/imgserver/resource/2017/06/12/28ddffe8-96ef-4e4a-a942-11fbd93d3fb0.jpg",
+                "http://imgs.yunbiaowulian.com/imgserver/resource/2017/06/12/0af55529-ec93-4626-9932-ce1fb9adea9b.jpg"
+            ],
+            "id": "row1_col1",
+            "imageDetail": {
+                "imagePlayType": "0",
+                "isAutoPlay": "true",
+                "playTime": "5"
+            },
+            "type": "1"
+        }
+    ],
+    "footer": {
+        "enabled": false
+    },
+    "header": {
+        "enabled": false
+    },
+    "move": []
+}

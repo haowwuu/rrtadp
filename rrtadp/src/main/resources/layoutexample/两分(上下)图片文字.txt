@@ -1,0 +1,55 @@
+{
+    "center": [
+        {
+            "container": {
+                "height": "50%",
+                "left": "0%",
+                "top": "0%",
+                "width": "100%"
+            },
+            "content": [
+                "http://imgs.yunbiaowulian.com/imgserver/resource/common/img/yq0KXlXz8ByAEhreAAG3KmOm13A482.jpg",
+                "http://imgs.yunbiaowulian.com/imgserver/resource/2017/04/07/b83f7436-cdc5-4f74-92c7-75038c136fa1.mp4",
+                "http://imgs.yunbiaowulian.com/imgserver/resource/common/img/yq0KX1Xz8BSAE1IfAACNcwfHWWI493.jpg",
+                "http://imgs.yunbiaowulian.com/imgserver/resource/common/img/yq0KX1Xz8BOAHiIRAADurfI1468919.jpg"
+            ],
+            "id": "row1_col1",
+            "imageDetail": {
+                "imagePlayType": "0",
+                "isAutoPlay": "true",
+                "playTime": "5"
+            },
+            "type": "1"
+        },
+        {
+            "container": {
+                "height": "50%",
+                "left": "0%",
+                "top": "50%",
+                "width": "100%"
+            },
+            "content": [
+                "文字显示"
+            ],
+            "id": "row2_col1",
+            "textDetail": {
+                "background": "#ffffff",
+                "dataType": 0,
+                "fontColor": "#000000",
+                "fontFamily": "1",
+                "fontSize": "38",
+                "isPlay": "false",
+                "playTime": "1",
+                "playType": "0"
+            },
+            "type": "2"
+        }
+    ],
+    "footer": {
+        "enabled": false
+    },
+    "header": {
+        "enabled": false
+    },
+    "move": []
+}
