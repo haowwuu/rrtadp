@@ -12,13 +12,6 @@ public class Content {
 	private List<Map<String, Object>> center;
 	private Map<String, Object> header;
 	
-	private String eDate;
-	private String sDate;
-	private String start;
-	private String end;
-	private String weekDay;
-	private String runType;
-	
 	private String layoutType;
 	private List<String> move;
 	
@@ -51,14 +44,6 @@ public class Content {
 		contentItem.put("type", 1);
 		center.add(contentItem);
 		
-		this.eDate = "";
-		this.sDate = "";
-		this.start = "00:00";
-		this.end = "00:00";
-		this.weekDay = "1,2,3,4,5,6,7";
-		this.runType = "1";
-		
-		this.layoutType = "6";
 		this.move = new ArrayList<>();
 		
 	}
@@ -85,54 +70,6 @@ public class Content {
 
 	public void setHeader(Map<String, Object> header) {
 		this.header = header;
-	}
-
-	public String geteDate() {
-		return eDate;
-	}
-
-	public void seteDate(String eDate) {
-		this.eDate = eDate;
-	}
-
-	public String getsDate() {
-		return sDate;
-	}
-
-	public void setsDate(String sDate) {
-		this.sDate = sDate;
-	}
-
-	public String getStart() {
-		return start;
-	}
-
-	public void setStart(String start) {
-		this.start = start;
-	}
-
-	public String getEnd() {
-		return end;
-	}
-
-	public void setEnd(String end) {
-		this.end = end;
-	}
-
-	public String getWeekDay() {
-		return weekDay;
-	}
-
-	public void setWeekDay(String weekDay) {
-		this.weekDay = weekDay;
-	}
-
-	public String getRunType() {
-		return runType;
-	}
-
-	public void setRunType(String runType) {
-		this.runType = runType;
 	}
 
 	public String getLayoutType() {

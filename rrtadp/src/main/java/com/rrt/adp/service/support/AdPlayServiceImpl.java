@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.rrt.adp.model.Advertisement;
@@ -21,6 +24,7 @@ import com.rrt.adp.yb.model.Content;
 @Service
 public class AdPlayServiceImpl implements AdPlayService {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(AdPlayServiceImpl.class);
 	
 	private String appId = "yb2B7BB0B1A782A53E";
 	private String appSecret = "a051de5b830142828d111b5a89af24bd";
@@ -50,6 +54,7 @@ public class AdPlayServiceImpl implements AdPlayService {
 		System.out.println(retn);
 		Token token = jsonUtil.beanFromJson(retn, Token.class);
 		if(null==token){
+			LOGGER.error("auth fail, return [{}]", retn);
 			return null;
 		}
 		this.token = token.getAccesstoken();
@@ -60,82 +65,112 @@ public class AdPlayServiceImpl implements AdPlayService {
 		return null!=result&&result.indexOf("\"status\":0")>0;
 	}
 	
-	//http://www.yunbiaowulian.com/api/device/list.html?accessToken=密钥&searchDeviceType=1&menuId=1&pageNow=1
-	public String getDeviceList(){
-		Map<String, Object> params = new HashMap<>();
-		params.put("accessToken", this.token);
-		//params.put("menuId", 1);
-		params.put("pageNow", 1);
-		//params.put("searchDeviceType", 2);
-		String retn = httpClient.get("http://www.yunbiaowulian.com/api/device/list.html", params);
+	public String getDeviceList(String searchDeviceType, String menuId, String pageNow){
+		String retn = deviceList(searchDeviceType, menuId, pageNow);
 		if(isExpired(retn)){
 			auth();
-			
+			return deviceList(searchDeviceType, menuId, pageNow);
 		}
-		System.out.println(retn);
 		return retn;
 	}
-	//http://www.yunbiaowulian.com/api/user/detail.html?accessToken=密钥
-	public String getUserDetail(){
+	//http://www.yunbiaowulian.com/api/device/list.html?accessToken=密钥&searchDeviceType=1&menuId=1&pageNow=1
+	private String deviceList(String searchDeviceType, String menuId, String pageNow){
 		Map<String, Object> params = new HashMap<>();
 		params.put("accessToken", this.token);
-		String retn = httpClient.get("http://www.yunbiaowulian.com/api/user/detail.html", params);
-		System.out.println(retn);
+		if(null!=pageNow){
+			params.put("pageNow", 1);
+		}
+		if(null!=searchDeviceType){
+			params.put("searchDeviceType", 2);
+		}
+		
+		return httpClient.get("http://www.yunbiaowulian.com/api/device/list.html", params);
+	}
+	
+	public String getLayoutList(String direction, String layoutFrom, String pageNow){
+		String retn = layOutList(direction, layoutFrom, pageNow);
+		if(isExpired(retn)){
+			auth();
+			return layOutList(direction, layoutFrom, pageNow);
+		}
 		return retn;
 	}
 	
 	//http://www.yunbiaowulian.com/api/layout/list.html?accessToken=密钥&direction=竖屏&layoutFrom=0&pageNow=1
-	public String getLayOutList(){
+	public String layOutList(String direction, String layoutFrom, String pageNow){
 		Map<String, Object> params = new HashMap<>();
 		params.put("accessToken", this.token);
-		params.put("direction", "");
-		params.put("layoutFrom", 1);
-		params.put("pageNow", 1);
-		String retn = httpClient.get("http://www.yunbiaowulian.com/api/layout/list.html", params);
-		System.out.println(retn);
+		if(null!=direction){
+			params.put("direction", direction);
+		}
+		if(null!=layoutFrom){
+			params.put("layoutFrom", layoutFrom);
+		}
+		if(null!=pageNow){
+			params.put("pageNow", pageNow);
+		}
+		
+		return  httpClient.get("http://www.yunbiaowulian.com/api/layout/list.html", params);
+	}
+	
+	public String getLayoutDetail(String layoutId){
+		if(null==layoutId){
+			return null;
+		}
+		String retn = layoutDetail(layoutId);
+		if(isExpired(retn)){
+			auth();
+			return layoutDetail(layoutId);
+		}
 		return retn;
 	}
 	
 	//http://www.yunbiaowulian.com/api/layout/detail.html?accessToken=密钥
-	public String getLayoutDetail(String layoutId){
+	private String layoutDetail(String layoutId){
 		Map<String, Object> params = new HashMap<>();
 		params.put("accessToken", this.token);
 		params.put("layoutId", layoutId);
 		
-		String retn = httpClient.get("http://www.yunbiaowulian.com/api/layout/detail.html", params);
-		System.out.println(retn);
-		return retn;
+		return httpClient.get("http://www.yunbiaowulian.com/api/layout/detail.html", params);
 	}
+	
+	public String publish(String layoutId, List<String> deviceList){
+		return publish(layoutId, deviceList, null, null, null, null);
+	}
+	
+	public String publish(String layoutId, List<String> deviceList, String runSDateStr, String runEDateStr, String runStart, String runEnd){
+		if(null==layoutId||null==deviceList||deviceList.size()<1){
+			return null;
+		}
+		String retn = publishFull(layoutId, deviceList, runSDateStr, runEDateStr, runStart, runEnd);
+		if(isExpired(retn)){
+			auth();
+			return publishFull(layoutId, deviceList, runSDateStr, runEDateStr, runStart, runEnd);
+		}
+		return publishFull(layoutId, deviceList, runSDateStr, runEDateStr, runStart, runEnd);
+	}
+	
 	//http://www.yunbiaowulian.com/background/layout/publish.html?layoutId=24172&devices=32004%2C&reservation=2017-10-08+-+2017-10-08&startH=15&startM=00&endH=17&endM=00&run_rule=1&weekArray=1&weekArray=2&weekArray=3&weekArray=4&weekArray=5&weekArray=6&weekArray=7
 	//http://www.yunbiaowulian.com/api/layout/publish.html?accessToken=密钥
-	public void publish(){
+	private String publishFull(String layoutId, List<String> deviceList, String runSDateStr, String runEDateStr, String runStart, String runEnd) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("accessToken", this.token);
-		params.put("layoutId", "24298");
-		params.put("devices", "32004");
-		params.put("runSDateStr", "2017-10-10");
-		params.put("runEDateStr", "2017-10-10");
-		params.put("runStart", "12:00");
-		params.put("runEnd", "23:00");
+		params.put("layoutId", layoutId);
+		params.put("devices", deviceList.stream().collect(Collectors.joining(",")));
+		runEDateStr = null==runEDateStr?"":runEDateStr;
+		runSDateStr = null==runSDateStr?"":runSDateStr;
+		runStart = null==runStart?"00:00":runStart;
+		runEnd = null==runEnd?"00:00":runEnd;
+		params.put("runSDateStr", runSDateStr);
+		params.put("runEDateStr", runEDateStr);
+		params.put("runStart", runStart);
+		params.put("runEnd", runEnd);
 		params.put("run_rule", "1");
 		params.put("weekDayStr", "1,2,3,4,5,6,7");
 		 
-		String retn = httpClient.get("http://www.yunbiaowulian.com/api/layout/publish.html", params);
-		System.out.println(retn);
-		//return retn;
+		return httpClient.get("http://www.yunbiaowulian.com/api/layout/publish.html", params);
 	}
-	String contentStr = "{\"center\":[{\"content\":[\"http://imgs.yunbiaowulian.com/imgserver/resource/2017/06/23/b90b5062-c377-4888-8ea8-10282979afc3.png\","
-			+ "\"http://imgs.yunbiaowulian.com/imgserver/resource/2017/06/23/b90b5062-c377-4888-8ea8-10282979afc3.png\","
-			+ "\"http://imgs.yunbiaowulian.com/imgserver/resource/2017/06/23/566d9ef6-a2dc-49bd-b5a0-31dcb1f99e49.png\"],"
-			+ "\"id\":\"row1_col1\",\"imageDetail\":{\"playTime\":\"5\",\"isAutoPlay\":\"true\",\"imagePlayType\":\"0\"},"
-			+ "\"container\":{\"height\":\"100%\",\"width\":\"100%\",\"left\":\"0%\",\"top\":\"0%\"},\"type\":\"1\"}],"
-			+ "\"footer\":{\"enabled\":false},\"eDate\":\"\",\"weekDay\":\"1,2,3,4,5,6,7\",\"runType\":\"1\",\"start\":\"00:00\","
-			+ "\"sDate\":\"\",\"end\":\"00:00\",\"header\":{\"enabled\":false},\"move\":[],\"layoutType\":\"0\"}";
 	
-	//String contentStr2 = "{\"footer\":{\"enabled\":false},\"center\":[{\"id\":\"row1_col1\",\"content\":[\"#00FFFFFF\"],\"imageDetail\":{\"playTime\":\"5\",\"isAutoPlay\":\"true\",\"imagePlayType\":\"0\"},\"container\":{\"height\":\"100%\",\"width\":\"100%\",\"left\":\"0%\",\"top\":\"0%\"},\"type\":\"0\"},{\"id\":\"row1_col1\",\"content\":[\"http://imgs.yunbiaowulian.com/imgserver/resource/2017/06/23/b90b5062-c377-4888-8ea8-10282979afc3.png\"],\"imageDetail\":{\"playTime\":\"5\",\"isAutoPlay\":\"true\",\"imagePlayType\":\"0\"},\"container\":{\"height\":\"100%\",\"width\":\"100%\",\"left\":\"0%\",\"top\":\"0%\"},\"type\":\"1\"}],\"move\":[{\"content\":[\"\"],\"textDetail\":{\"fontColor\":\"#000000\",\"playTime\":\"1\",\"background\":\"#00FFFFFF\",\"textAlign\":\"left\",\"playType\":\"0\",\"fontFamily\":\"1\",\"fontSize\":\"30\"},\"container\":{\"height\":\"5.27778%\",\"width\":\"0%\",\"left\":\"0%\",\"top\":\"0%\"},\"type\":\"move_2\"},{\"bgmusic\":{\"music\":\"\",\"name\":\"\"},\"container\":{\"height\":\"15.58139534883721%\",\"width\":\"6.9371727748691105%\",\"left\":\"5.49738219895288%\",\"top\":\"12.325581395348838%\"},\"type\":\"move_3\"}],\"header\":{\"enabled\":false}}";
-	//String contentStr5 = "{\"footer\":{\"enabled\":false},\"center\":[{\"id\":\"row1_col1\",\"content\":[\"http://imgs.yunbiaowulian.com/imgserver/resource/2017/06/23/b90b5062-c377-4888-8ea8-10282979afc3.png\"],\"imageDetail\":{\"playTime\":\"5\",\"isAutoPlay\":\"true\",\"imagePlayType\":\"0\"},\"container\":{\"height\":\"100%\",\"width\":\"100%\",\"left\":\"0%\",\"top\":\"0%\"},\"type\":\"1\"}],\"move\":[{\"content\":[\"\"],\"textDetail\":{\"fontColor\":\"#000000\",\"playTime\":\"1\",\"background\":\"#00FFFFFF\",\"textAlign\":\"left\",\"playType\":\"0\",\"fontFamily\":\"1\",\"fontSize\":\"30\"},\"container\":{\"height\":\"5.27778%\",\"width\":\"0%\",\"left\":\"0%\",\"top\":\"0%\"},\"type\":\"move_2\"},{\"bgmusic\":{\"music\":\"\",\"name\":\"\"},\"container\":{\"height\":\"15.58139534883721%\",\"width\":\"6.9371727748691105%\",\"left\":\"5.49738219895288%\",\"top\":\"12.325581395348838%\"},\"type\":\"move_3\"}],\"header\":{\"enabled\":false}}";
-	String contentStr6 = "{\"footer\":{\"enabled\":false},\"center\":[{\"id\":\"row1_col1\",\"content\":[\"#00FFFFFF\"],\"imageDetail\":{\"playTime\":\"5\",\"isAutoPlay\":\"true\",\"imagePlayType\":\"0\"},\"container\":{\"height\":\"100%\",\"width\":\"100%\",\"left\":\"0%\",\"top\":\"0%\"},\"type\":\"0\"},{\"id\":\"row1_col1\",\"content\":[\"http://imgs.yunbiaowulian.com/imgserver/resource/2017/06/23/b90b5062-c377-4888-8ea8-10282979afc3.png\"],\"imageDetail\":{\"playTime\":\"5\",\"isAutoPlay\":\"true\",\"imagePlayType\":\"0\"},\"container\":{\"height\":\"100%\",\"width\":\"100%\",\"left\":\"0%\",\"top\":\"0%\"},\"type\":\"1\"}],\"move\":[],\"header\":{\"enabled\":false}}";
-
 	//http://www.yunbiaowulian.com/api/layout/update.html?accessToken=密钥&direction=竖屏&layoutFrom=0&pageNow=1
 	public void createLayout(){
 		Map<String, Object> params = new HashMap<>();
@@ -213,7 +248,7 @@ public class AdPlayServiceImpl implements AdPlayService {
 	
 	private String token = "eWIyQjdCQjBCMUE3ODJBNTNFOmEwNTFkZTViODMwMTQyODI4ZDExMWI1YTg5YWYyNGJkOjE1MDc2MTUxNzgyMjE=";
 	public static void main(String[] args){
-		AdPlayServiceImpl playService = new AdPlayServiceImpl();
+		AdPlayServiceImplTest playService = new AdPlayServiceImplTest();
 		//playService.auth();
 		//playService.getDeviceList();
 		//playService.getUserDetail();
