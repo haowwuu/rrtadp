@@ -19,7 +19,7 @@ import com.rrt.adp.yb.model.Content;
 
 
 @Service
-public class AdPlayServiceImplTest implements AdPlayService {
+public class AdPlayServiceImplTest  {
 	
 	
 	private String appId = "yb2B7BB0B1A782A53E";
@@ -36,11 +36,6 @@ public class AdPlayServiceImplTest implements AdPlayService {
 		jsonUtil = new JsonUtil();
 	}
 
-	@Override
-	public boolean play(Advertisement ad) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
 	public String auth(){
 		Map<String, Object> params = new HashMap<>();

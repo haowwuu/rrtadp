@@ -20,7 +20,7 @@ import com.rrt.adp.util.JsonUtil;
 
 
 @Service
-public class TestAdPlayServiceImpl implements AdPlayService {
+public class TestAdPlayServiceImpl {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(TestAdPlayServiceImpl.class);
 	
@@ -38,11 +38,6 @@ public class TestAdPlayServiceImpl implements AdPlayService {
 		jsonUtil = new JsonUtil();
 	}
 
-	@Override
-	public boolean play(Advertisement ad) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
 	public String auth(){
 		Map<String, Object> params = new HashMap<>();

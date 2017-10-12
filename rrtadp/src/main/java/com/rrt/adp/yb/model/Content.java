@@ -8,11 +8,10 @@ import java.util.Map;
 
 public class Content {
 	
-	private Map<String, Object> footer;
-	private List<Map<String, Object>> center;
-	private Map<String, Object> header;
 	
-	private String layoutType;
+	private List<Map<String, Object>> center;
+	private Map<String, Object> footer;
+	private Map<String, Object> header;
 	private List<String> move;
 	
 	public Content() {
@@ -20,8 +19,8 @@ public class Content {
 	}
 	
 	public Content(List<String> contentUrls){
-		this.footer = new HashMap<>();
 		this.center = new ArrayList<>();
+		this.footer = new HashMap<>();
 		this.header = new HashMap<>();
 		
 		footer.put("enabled", false);
@@ -31,9 +30,9 @@ public class Content {
 		contentItem.put("id", "row1_col1");
 		contentItem.put("content", contentUrls);
 		Map<String, Object> imageConfig = new HashMap<>();
-		imageConfig.put("playTime", 5);
-		imageConfig.put("isAutoPlay", true);
-		imageConfig.put("imagePlayType", 0);
+		imageConfig.put("playTime", "5");
+		imageConfig.put("isAutoPlay", "true");
+		imageConfig.put("imagePlayType", "0");
 		contentItem.put("imageDetail", imageConfig);
 		Map<String, Object> containerConfig = new HashMap<>();
 		containerConfig.put("height", "100%");
@@ -41,7 +40,7 @@ public class Content {
 		containerConfig.put("left", "0%");
 		containerConfig.put("top", "0%");
 		contentItem.put("container", containerConfig);
-		contentItem.put("type", 1);
+		contentItem.put("type", "1");
 		center.add(contentItem);
 		
 		this.move = new ArrayList<>();
@@ -72,14 +71,6 @@ public class Content {
 		this.header = header;
 	}
 
-	public String getLayoutType() {
-		return layoutType;
-	}
-
-	public void setLayoutType(String layoutType) {
-		this.layoutType = layoutType;
-	}
-
 	public List<String> getMove() {
 		return move;
 	}
@@ -87,6 +78,5 @@ public class Content {
 	public void setMove(List<String> move) {
 		this.move = move;
 	}
-	
 
 }

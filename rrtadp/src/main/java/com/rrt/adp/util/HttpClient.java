@@ -88,7 +88,9 @@ public class HttpClient {
 			if(null!=data){
 				List <NameValuePair> nvps = new ArrayList <NameValuePair>();
 				for(Entry<String, Object> entry:data.entrySet()){
-					nvps.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
+					if(null!=entry.getKey()&&null!=entry.getValue()){
+						nvps.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
+					}
 				}
 				httpPost.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
 			}
@@ -97,7 +99,7 @@ public class HttpClient {
 				return EntityUtils.toString(response.getEntity(), "UTF-8");
 			}
 		} catch (Exception e) {
-			LOGGER.error("post url[{}] data[{}] exception [{}]", url, data, e.getMessage());
+			LOGGER.error("post url[{}] data[{}] {} [{}]", url, data, e.getClass(), e.getMessage());
 		}
 		return null;
 	}
@@ -111,7 +113,9 @@ public class HttpClient {
 			if(null!=data){
 				List <NameValuePair> nvps = new ArrayList <NameValuePair>();
 				for(Entry<String, Object> entry:data.entrySet()){
-					nvps.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
+					if(null!=entry.getKey()&&null!=entry.getValue()){
+						nvps.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
+					}
 				}
 				String params = EntityUtils.toString(new UrlEncodedFormEntity(nvps, "UTF-8"));
 				url = url+"?"+params;
@@ -119,7 +123,8 @@ public class HttpClient {
 			httpGet = new HttpGet(url);
 			//System.out.println(url);
 		}catch (Exception e) {
-			LOGGER.error("illegal url [{}], data[{}] exception[{}]", url, data, e.getMessage());
+			e.printStackTrace();
+			LOGGER.error("illegal url [{}], data[{}] {} [{}]", url, data, e.getClass(), e.getMessage());
 			return null;
 		}
 		try {
