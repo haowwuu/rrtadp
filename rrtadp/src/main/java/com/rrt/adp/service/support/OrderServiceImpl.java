@@ -1,5 +1,6 @@
 package com.rrt.adp.service.support;
 
+import java.text.Bidi;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -9,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.rrt.adp.dao.AdvertisementDao;
 import com.rrt.adp.dao.MediaDeviceDao;
@@ -23,6 +25,8 @@ import com.rrt.adp.service.OrderService;
 import com.rrt.adp.util.MessageUtil;
 import com.rrt.adp.util.MessageContext;
 import com.rrt.adp.util.SequenceGenerator;
+
+import springfox.documentation.swagger.web.SwaggerApiListingReader;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -134,8 +138,19 @@ public class OrderServiceImpl implements OrderService {
 		order.setState(Order.STATE_DELETE);
 		return updateOrder(order, account);
 	}
-
-	@Scheduled(cron="0 0 17 * * ?")
+	
+	@Override
+	public boolean bid(String deviceId){
+		if(!StringUtils.hasText(deviceId)){
+			return true;
+		}
+		orderDao.updateDeviceBidSuccess(deviceId);
+		orderDao.updateDeviceBidFail(deviceId);
+		
+		return true;
+	}
+	
+	//@Scheduled(cron="0 0 17 * * ?")
 	@Override
 	public void bid() {
 		List<String> deviceList = orderDao.selectBidDevice();

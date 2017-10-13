@@ -302,7 +302,19 @@ public class AdPlayServiceImpl implements AdPlayService {
 	public String bindDevice(MediaDevice device) {
 		bindDevice(device.getForeignId(), device.getSerialNumber());
 		String retn = getDeviceDetail(device.getForeignId());
-		return retn;
+		return getDeviceId(retn);
+	}
+	
+	private String getDeviceId(String json){
+		if(null==json){
+			return null;
+		}
+		int idIdx = json.indexOf("\"id\":");
+		if(idIdx<0){
+			return null;
+		}
+		String idStr = json.substring(idIdx);
+		return idStr.substring(5, idStr.indexOf(","));
 	}
 
 }

@@ -11,5 +11,6 @@ public interface AdPlayService {
 	
 	boolean play(List<Advertisement> ads, List<MediaDevice> devices);
 	
+	//return playId
 	String bindDevice(MediaDevice device);
 }

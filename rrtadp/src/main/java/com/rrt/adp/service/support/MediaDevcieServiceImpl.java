@@ -17,6 +17,7 @@ import com.rrt.adp.model.DBModel;
 import com.rrt.adp.model.MediaDevice;
 import com.rrt.adp.model.Order;
 import com.rrt.adp.model.Page;
+import com.rrt.adp.service.AdPlayService;
 import com.rrt.adp.service.MediaDeviceService;
 import com.rrt.adp.util.MessageUtil;
 import com.rrt.adp.util.MessageContext;
@@ -35,12 +36,20 @@ public class MediaDevcieServiceImpl implements MediaDeviceService {
 	private OrderDao orderDao;
 	@Resource
 	private MessageUtil msgUtil;
+	@Resource
+	private AdPlayService adPlayService;
 	
 	@Override
 	public boolean addMediaDevice(MediaDevice device, Account account) {
 		if(null==device||null==account){
 			return false;
 		}
+		String playId = adPlayService.bindDevice(device);
+		if(null==playId){
+			MessageContext.setMsg(msgUtil.get("device.bind.fail"));
+			return false;
+		}
+		device.setPlayId(playId);
 		device.setId(DBModel.PREFIX_MEDIA_DEVICE+SequenceGenerator.next());
 		device.setState(MediaDevice.STATE_NEW);
 		if(null==device.getOwner()){

@@ -138,6 +138,16 @@ public class OrderDaoImpl implements OrderDao {
 			+ "where device_id = ? and state = ? or state = ? order by price DESC LIMIT 20", 
 			new Object[]{Order.STATE_BID_SUCCESS, deviceId, Order.STATE_NEW, Order.STATE_CHECKED});
 	}
+	
+	@Override
+	public int updateDeviceBidFail(String deviceId) {
+		if(!StringUtils.hasText(deviceId)){
+			return 0;
+		}
+		return this.jdbcTemplate.update("update rrt_order set state = ? "
+			+ "where device_id = ? and state = ? or state = ?", 
+			new Object[]{Order.STATE_BID_FAIL, deviceId, Order.STATE_NEW, Order.STATE_CHECKED});
+	}
 
 	@Override
 	public int updateDeviceBidFail() {

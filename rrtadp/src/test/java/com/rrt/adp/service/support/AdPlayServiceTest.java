@@ -58,7 +58,8 @@ public class AdPlayServiceTest extends AbstractJUnit4SpringContextTests {
 		device.setSerialNumber("SN9506608320");
 		System.out.println(playService.bindDevice(device));
 	}
-	
+		
+		
 	@Ignore
 	public void testAdPlayServiceImpl(){
 		AdPlayServiceImpl playService = new AdPlayServiceImpl();
