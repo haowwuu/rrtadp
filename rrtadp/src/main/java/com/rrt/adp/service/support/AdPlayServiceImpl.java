@@ -211,6 +211,49 @@ public class AdPlayServiceImpl implements AdPlayService {
 		return httpClient.get("http://www.yunbiaowulian.com/api/layout/delete.html", params);
 	}
 	
+	public String bindDevice(String serialNumber, String serialPwd){
+		if(null==serialNumber||null==serialPwd){
+			return null;
+		}
+		String retn = doBindDevice(serialNumber, serialPwd);
+		if(isExpired(retn)){
+			auth();
+			return doBindDevice(serialNumber, serialPwd);
+		}
+		return retn;
+	}
+	
+	//http://www.yunbiaowulian.com/api/device/bind.html?accessToken=密钥&serialNumber=YB0001&serialPwd=接入密码
+	private String doBindDevice(String serialNumber, String serialPwd){
+		Map<String, Object> params = new HashMap<>();
+		params.put("accessToken", this.token);
+		params.put("serialNumber", serialNumber);
+		params.put("serialPwd", serialPwd);
+	
+		return httpClient.get("http://www.yunbiaowulian.com/api/device/bind.html", params);
+	}
+	
+	public String getDeviceDetail(String serialNumber){
+		if(null==serialNumber){
+			return null;
+		}
+		String retn = deviceDetail(serialNumber);
+		if(isExpired(retn)){
+			auth();
+			return deviceDetail(serialNumber);
+		}
+		return retn;
+	}
+	
+	//http://www.yunbiaowulian.com/api/device/detail.html?accessToken=密钥&serialNumber=YB0001
+	private String deviceDetail(String serialNumber){
+		Map<String, Object> params = new HashMap<>();
+		params.put("accessToken", this.token);
+		params.put("serialNumber", serialNumber);
+	
+		return httpClient.get("http://www.yunbiaowulian.com/api/device/detail.html", params);
+	}
+	
 	public static class Token {
 		
 		private String accesstoken;
@@ -253,6 +296,13 @@ public class AdPlayServiceImpl implements AdPlayService {
 				.filter((t)->null!=t).collect(Collectors.toList());
 		createLayout(this.layoutId, String.valueOf(System.currentTimeMillis()), contentUrls);
 		return isSuccess(publish(this.layoutId, playIds));
+	}
+
+	@Override
+	public String bindDevice(MediaDevice device) {
+		bindDevice(device.getForeignId(), device.getSerialNumber());
+		String retn = getDeviceDetail(device.getForeignId());
+		return retn;
 	}
 
 }

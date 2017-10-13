@@ -10,4 +10,6 @@ public interface AdPlayService {
 	boolean play(List<Advertisement> ads, MediaDevice device);
 	
 	boolean play(List<Advertisement> ads, List<MediaDevice> devices);
+	
+	String bindDevice(MediaDevice device);
 }

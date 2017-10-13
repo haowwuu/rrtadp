@@ -9,25 +9,37 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.print.attribute.standard.Media;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.rrt.adp.model.Advertisement;
 import com.rrt.adp.model.MediaDevice;
 import com.rrt.adp.service.AdPlayService;
 
-public class AdPlayServiceTest {
+@WebAppConfiguration
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath:beans.xml")
+public class AdPlayServiceTest extends AbstractJUnit4SpringContextTests {
 	
+	@Resource
 	private AdPlayService playService;
 
 	@Before
 	public void setUp() throws Exception {
-		playService = new AdPlayServiceImpl();
+		
 	}
 
-	@Test
+	@Ignore
 	public void test() {
 		Advertisement ad1 = new Advertisement();
 		ad1.setContentUrl("http://seopic.699pic.com/photo/50035/1137.jpg_wh1200.jpg");
@@ -37,6 +49,14 @@ public class AdPlayServiceTest {
 		ads.add(ad1);
 		ads.add(ad2);
 		playService.play(ads, new MediaDevice());
+	}
+	
+	@Test
+	public void testBindDevice(){
+		MediaDevice device = new MediaDevice();
+		device.setForeignId("YB030971");
+		device.setSerialNumber("SN9506608320");
+		System.out.println(playService.bindDevice(device));
 	}
 	
 	@Ignore
