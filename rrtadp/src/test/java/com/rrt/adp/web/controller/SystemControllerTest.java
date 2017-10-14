@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -25,7 +26,7 @@ public class SystemControllerTest {
 		token = TestUtil.getToken();
 	}
 
-	@Test
+	@Ignore
 	public void testAddComments() {
 		RestTemplate restTemplate = new RestTemplate();  
         MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>(); 
@@ -43,12 +44,12 @@ public class SystemControllerTest {
         //System.out.println(result);
 	}
 
-	@Test
+	@Ignore
 	public void testDeleteComments() {
 		fail("Not yet implemented");
 	}
 
-	@Test
+	@Ignore
 	public void testPageComments() {
 		RestTemplate restTemplate = new RestTemplate();  
         
@@ -58,6 +59,18 @@ public class SystemControllerTest {
        
         String result = restTemplate.getForObject(
         		baseUrl+"/sys/comments/page?pageNum={pageNum}&pageSize={pageSize}", String.class, map);
+        System.out.println(result);
+	}
+	
+	@Test
+	public void testZanComments() {
+		RestTemplate restTemplate = new RestTemplate();  
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>(); 
+        
+        form.add("adId", "testzan");
+        form.add("token", token);
+      
+        String result = restTemplate.postForObject(baseUrl+"/sys/comments/zan", form, String.class);  
         System.out.println(result);
 	}
 

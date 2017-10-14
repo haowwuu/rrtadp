@@ -29,8 +29,7 @@ public class CommentsServiceImpl implements CommentsService {
 
 	@Override
 	public boolean addComments(Account account, Comments comments) {
-		if(null==account||null==account.getAccount()||
-				null==comments||null==comments.getContent()){
+		if(null==account||null==account.getAccount()||null==comments){
 			return false;
 		}
 		try{
