@@ -14,10 +14,12 @@ import com.rrt.adp.dao.AdvertisementDao;
 import com.rrt.adp.dao.ObjectFileDao;
 import com.rrt.adp.model.Account;
 import com.rrt.adp.model.Advertisement;
+import com.rrt.adp.model.Comments;
 import com.rrt.adp.model.DBModel;
 import com.rrt.adp.model.ObjectFile;
 import com.rrt.adp.model.Page;
 import com.rrt.adp.service.AdvertisementService;
+import com.rrt.adp.service.CommentsService;
 import com.rrt.adp.util.FileUtil;
 import com.rrt.adp.util.MessageUtil;
 import com.rrt.adp.util.MessageContext;
@@ -36,6 +38,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 	private MessageUtil msgUtil;
 	@Resource
 	private FileUtil fileUtil;
+	@Resource
+	private CommentsService commentsService;
 	
 	@Override
 	public Advertisement addAd(Advertisement ad, MultipartFile adFile, Account account) {
@@ -138,11 +142,15 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 		new Thread(() -> {
 			try{
 				List<Advertisement> advertisements = adDao.selectAdList(ad, page);
-				for(Advertisement a:advertisements){
+				advertisements.parallelStream().forEach((a)->{
+					Comments comments = new Comments();
+					comments.setReplayTo(a.getId());
+					comments.setType(Comments.TYPE_ZAN);
+					a.setComments(commentsService.getCommentsPage(comments, new Page<>(1, 20)));
 					if(Advertisement.TYPE_VIDEO.equals(a.getType())){
 						a.setCoverUrl(objFileDao.selectObjFileUrl(a.getId(), Advertisement.ATTR_COVER, 0));
 					}
-				}
+				});
 				adfuture.complete(advertisements);
 			}catch (Exception e) {
 				LOGGER.error("selectAdPage ad[{}] page[{}] exception [{}]", ad, page, e.getMessage());
@@ -174,11 +182,15 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 		new Thread(() -> {
 			try{
 				List<Advertisement> advertisements = adDao.selectAdListOrderByOrder(selectAd, page);
-				for(Advertisement a:advertisements){
+				advertisements.parallelStream().forEach((a)->{
+					Comments comments = new Comments();
+					comments.setReplayTo(a.getId());
+					comments.setType(Comments.TYPE_ZAN);
+					a.setComments(commentsService.getCommentsPage(comments, new Page<>(1, 20)));
 					if(Advertisement.TYPE_VIDEO.equals(a.getType())){
 						a.setCoverUrl(objFileDao.selectObjFileUrl(a.getId(), Advertisement.ATTR_COVER, 0));
 					}
-				}
+				});
 				adfuture.complete(advertisements);
 			}catch (Exception e) {
 				LOGGER.error("selectAdListOrderByOrder ad[{}] page[{}] exception [{}]", selectAd, page, e.getMessage());

@@ -77,11 +77,20 @@ public class OrderController {
 	
 	@ApiOperation("对某个设备开始订单竞价")
 	@RequestMapping(value="/bid", method=RequestMethod.POST)
-	public RestResult bidOrder(String deviceId, HttpServletRequest request){
-		if(RestSecurity.isAdmin(request)){
-			return RestResult.defaultFailResult(msgUtil.get("permission.deny"));
+	public RestResult bidDevice(String deviceId, HttpServletRequest request){
+		Account account = RestSecurity.getSessionAccount(request);
+		if(orderService.bid(deviceId, account)){
+			return RestResult.defaultSuccessResult();
 		}
-		if(orderService.bid(deviceId)){
+		
+		return RestResult.defaultFailResult(MessageContext.getMsg());
+	}
+	
+	@ApiOperation("播放设备竞价成功广告")
+	@RequestMapping(value="/play", method=RequestMethod.POST)
+	public RestResult playAd(String deviceId, HttpServletRequest request){
+		Account account = RestSecurity.getSessionAccount(request);
+		if(orderService.palyAd(deviceId, account)){
 			return RestResult.defaultSuccessResult();
 		}
 		

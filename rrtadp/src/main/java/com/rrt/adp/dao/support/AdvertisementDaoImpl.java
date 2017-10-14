@@ -4,11 +4,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -109,6 +112,18 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 		ad.setId(null);
 		ad.setOwner(account);
 		return selectAdList(ad);
+	}
+	
+	@Override
+	public List<Advertisement> selectAdIn(List<String> adIds){
+		if(null==adIds||adIds.size()<1){
+			return new ArrayList<>();
+		}
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("ids", adIds);
+		NamedParameterJdbcTemplate template = 
+			    new NamedParameterJdbcTemplate(this.jdbcTemplate.getDataSource());
+		return template.query("select * from rrt_ad as ad where ad.id in (:ids)", paramMap, new AdMapper());
 	}
 	
 	@Override

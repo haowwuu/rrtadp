@@ -11,6 +11,8 @@ import javax.annotation.Resource;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+
+import com.google.errorprone.annotations.ForOverride;
 import com.rrt.adp.dao.OrderDao;
 import com.rrt.adp.model.Order;
 import com.rrt.adp.model.Page;
@@ -127,6 +129,21 @@ public class OrderDaoImpl implements OrderDao {
 	public List<String> selectBidDevice() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@ForOverride
+	public List<String> selectBidSuccessAd(String deviceId){
+		if(!StringUtils.hasText(deviceId)){
+			return null;
+		}
+		return this.jdbcTemplate.query("select ad_id from rrt_order where device_id = ? and state = ?",
+			 new Object[]{deviceId, Order.STATE_BID_SUCCESS}, new RowMapper<String>(){
+
+				@Override
+				public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+					return rs.getString("ad_id");
+				}
+		});
 	}
 
 	@Override

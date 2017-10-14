@@ -109,6 +109,11 @@ public class CommentsDaoImpl implements CommentsDao {
 			values[i] = "%"+comments.getContent()+"%";
 			i++;
 		}
+		if(StringUtils.hasText(comments.getReplayTo())){
+			select.append(" and replay_to = ?");
+			values[i] = comments.getReplayTo();
+			i++;
+		}
 		if(StringUtils.hasText(comments.getAccount())){
 			select.append(" and account = ?");
 			values[i] = comments.getAccount();

@@ -21,6 +21,7 @@ import com.rrt.adp.model.DBModel;
 import com.rrt.adp.model.MediaDevice;
 import com.rrt.adp.model.Order;
 import com.rrt.adp.model.Page;
+import com.rrt.adp.service.AdPlayService;
 import com.rrt.adp.service.OrderService;
 import com.rrt.adp.util.MessageUtil;
 import com.rrt.adp.util.MessageContext;
@@ -39,6 +40,8 @@ public class OrderServiceImpl implements OrderService {
 	private AdvertisementDao adDao;
 	@Resource
 	private MediaDeviceDao deviceDao;
+	@Resource
+	private AdPlayService adPlayService;
 	
 	@Resource
 	private MessageUtil msgUtil;
@@ -140,13 +143,34 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
-	public boolean bid(String deviceId){
+	public boolean bid(String deviceId, Account account){
+		if(null==account||!account.isAdmin()){
+			MessageContext.setMsg(msgUtil.get("permission.deny"));
+			return false;
+		}
 		if(!StringUtils.hasText(deviceId)){
 			return true;
 		}
 		orderDao.updateDeviceBidSuccess(deviceId);
 		orderDao.updateDeviceBidFail(deviceId);
 		
+		return true;
+	}
+	
+	@Override
+	public boolean palyAd(String deviceId, Account account) {
+		if(null==account||!account.isAdmin()){
+			MessageContext.setMsg(msgUtil.get("permission.deny"));
+			return false;
+		}
+		MediaDevice device = deviceDao.selectDevice(deviceId);
+		if(null==device){
+			MessageContext.setMsg("device not exist");
+			return false;
+		}
+		List<String> adIds = orderDao.selectBidSuccessAd(deviceId);
+		List<Advertisement> ads = adDao.selectAdIn(adIds);
+		adPlayService.play(ads, device);
 		return true;
 	}
 	

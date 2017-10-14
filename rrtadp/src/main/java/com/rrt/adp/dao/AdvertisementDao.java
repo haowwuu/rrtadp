@@ -15,6 +15,8 @@ public interface AdvertisementDao {
 	
 	Advertisement selectAd(String adId);
 	
+	List<Advertisement> selectAdIn(List<String> adIds);
+	
 	List<Advertisement> selectAdList(Advertisement ad);
 	
 	List<Advertisement> selectUserAdList(String account);

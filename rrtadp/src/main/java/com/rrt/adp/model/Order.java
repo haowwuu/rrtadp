@@ -11,6 +11,8 @@ public class Order extends DBModel{
 	public static final String STATE_BID_SUCCESS = "S";
 	public static final String STATE_BID_FAIL = "F";
 	
+	public static final String STATE_END = "E";  
+	
 	private static final Set<String> ORDER_STATE_SET = new HashSet<>();
 	static{
 		ORDER_STATE_SET.addAll(STATE_SET);

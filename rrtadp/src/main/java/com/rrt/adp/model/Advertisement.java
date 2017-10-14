@@ -35,6 +35,8 @@ public class Advertisement extends DBModel{
 	
 	private String coverUrl;
 	
+	Page<Comments> comments;
+	
 	public Map<String, Object> dictionary(){
 		Map<String, Object> dic = new HashMap<>();
 		Map<String, String> adType = new HashMap<>();
@@ -114,6 +116,12 @@ public class Advertisement extends DBModel{
 	}
 	public void setCoverUrl(String coverUrl) {
 		this.coverUrl = coverUrl;
+	}
+	public Page<Comments> getComments() {
+		return comments;
+	}
+	public void setComments(Page<Comments> comments) {
+		this.comments = comments;
 	}
 
 	@Override

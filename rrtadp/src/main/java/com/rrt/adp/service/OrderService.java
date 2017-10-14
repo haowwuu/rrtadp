@@ -20,7 +20,9 @@ public interface OrderService {
 	
 	void bid();
 	
-	public boolean bid(String deviceId);
+	public boolean bid(String deviceId, Account account);
+	
+	public boolean palyAd(String deviceId, Account account);
 	
 	Page<Order> getOrderPage(Order order, Account account, Page<Order> page);
 	
