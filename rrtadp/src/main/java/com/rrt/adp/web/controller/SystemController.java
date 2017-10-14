@@ -106,8 +106,9 @@ public class SystemController {
 		Account account = RestSecurity.getSessionAccount(request);
 		if(account.isAdmin()){
 			pushUtil.push(audienceAccount, alert, title);
+			return RestResult.defaultSuccessResult();
 		}
-		return RestResult.defaultSuccessResult();
+		return RestResult.defaultFailResult("permission deny");
 	}
 	
 	@ApiOperation("联系我们")

@@ -170,7 +170,11 @@ public class OrderServiceImpl implements OrderService {
 		}
 		List<String> adIds = orderDao.selectBidSuccessAd(deviceId);
 		List<Advertisement> ads = adDao.selectAdIn(adIds);
-		adPlayService.play(ads, device);
+		if(!adPlayService.play(ads, device)){
+			MessageContext.setMsg("failed to play ads");
+			return false;
+		}
+		orderDao.updateOrderEnd(deviceId);
 		return true;
 	}
 	

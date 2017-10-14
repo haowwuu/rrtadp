@@ -62,15 +62,29 @@ public class SystemControllerTest {
         System.out.println(result);
 	}
 	
-	@Test
+	@Ignore
 	public void testZanComments() {
 		RestTemplate restTemplate = new RestTemplate();  
         MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>(); 
         
-        form.add("adId", "testzan");
+        form.add("adId", "testzanaccout");
         form.add("token", token);
       
         String result = restTemplate.postForObject(baseUrl+"/sys/comments/zan", form, String.class);  
+        System.out.println(result);
+	}
+	
+	@Test
+	public void testPush() {
+		RestTemplate restTemplate = new RestTemplate();  
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>(); 
+        
+        form.add("adId", "testzanaccout");
+        form.add("alert", "testApiPushAlert1114");
+        form.add("title", "testApiPushTitle");
+        //form.add("token", token);
+      
+        String result = restTemplate.postForObject(baseUrl+"/sys/push", form, String.class);  
         System.out.println(result);
 	}
 

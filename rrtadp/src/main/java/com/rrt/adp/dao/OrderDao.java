@@ -32,6 +32,8 @@ public interface OrderDao {
 	
 	int updateDeviceBidFail(String deviceId);
 	
+	int updateOrderEnd(String deviceId);
+	
 	int updateDeviceBidFail();
 	
 	List<Order> selectOrderList(Order order, Page<?> page);
