@@ -9,7 +9,7 @@ import com.rrt.adp.util.EncryptUtil;
 
 public class TestUtil {
 	
-	public static String baseUrl = "http://localhost:8080/rrtadp/";
+	public static String baseUrl = "http://localhost:8080/rrtgg/";
 	//public static String baseUrl = "http://47.92.100.40/rrtgg/";
 	
 	public static boolean isSuccessRestResult(String restResult){
@@ -35,7 +35,7 @@ public class TestUtil {
         if(idx>0){
         	token = result.substring(idx+8, idx+40);
         }
-        System.out.println("token:"+token);
+       // System.out.println("token:"+token);
         return token;
 	}
 	

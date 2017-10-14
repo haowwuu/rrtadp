@@ -2,6 +2,7 @@ package com.rrt.adp.dao;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -29,7 +30,7 @@ public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
 	@Resource
 	private AdvertisementDao advertisementDao;
 	
-	@Test
+	@Ignore
 	public void testInsertAd() {
 		Advertisement advertisement = new Advertisement();
 		advertisement.setTitle("ad-title");
@@ -65,7 +66,7 @@ public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
 		System.out.println(advertisement);
 	}
 
-	@Test
+	@Ignore
 	public void testSelectAdList() {
 		Advertisement advertisement = new Advertisement();
 		advertisement.setTitle("ad-title");
@@ -80,7 +81,7 @@ public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
 		ads.stream().forEach(System.out::println);
 	}
 	
-	@Test
+	@Ignore
 	public void testSelectPage() {
 		Advertisement advertisement = new Advertisement();
 		advertisement.setTitle("ad-title");
@@ -107,11 +108,17 @@ public class AdvertisementDaoTest extends AbstractJUnit4SpringContextTests{
 		System.out.println(count);
 	}
 	
-	@Test
+	@Ignore
 	public void testSelectAdListOrderByOrder(){
 		Advertisement advertisement = new Advertisement();
 		Page<?> page = new Page<>(1,10);
 		advertisementDao.selectAdListOrderByOrder(advertisement, page).stream().forEach(System.out::println);
+	}
+	
+	@Test
+	public void testSelectIn(){
+		String[] ids = {"AD1501161837174", "AD1501195894184"};
+		advertisementDao.selectAdIn(Arrays.asList(ids)).forEach(System.out::println);
 	}
 
 }

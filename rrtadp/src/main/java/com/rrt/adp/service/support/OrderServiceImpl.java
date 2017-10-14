@@ -1,5 +1,6 @@
 package com.rrt.adp.service.support;
 
+import java.text.Bidi;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -9,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.rrt.adp.dao.AdvertisementDao;
 import com.rrt.adp.dao.MediaDeviceDao;
@@ -19,10 +21,13 @@ import com.rrt.adp.model.DBModel;
 import com.rrt.adp.model.MediaDevice;
 import com.rrt.adp.model.Order;
 import com.rrt.adp.model.Page;
+import com.rrt.adp.service.AdPlayService;
 import com.rrt.adp.service.OrderService;
 import com.rrt.adp.util.MessageUtil;
 import com.rrt.adp.util.MessageContext;
 import com.rrt.adp.util.SequenceGenerator;
+
+import springfox.documentation.swagger.web.SwaggerApiListingReader;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -35,6 +40,8 @@ public class OrderServiceImpl implements OrderService {
 	private AdvertisementDao adDao;
 	@Resource
 	private MediaDeviceDao deviceDao;
+	@Resource
+	private AdPlayService adPlayService;
 	
 	@Resource
 	private MessageUtil msgUtil;
@@ -134,8 +141,40 @@ public class OrderServiceImpl implements OrderService {
 		order.setState(Order.STATE_DELETE);
 		return updateOrder(order, account);
 	}
-
-	@Scheduled(cron="0 0 17 * * ?")
+	
+	@Override
+	public boolean bid(String deviceId, Account account){
+		if(null==account||!account.isAdmin()){
+			MessageContext.setMsg(msgUtil.get("permission.deny"));
+			return false;
+		}
+		if(!StringUtils.hasText(deviceId)){
+			return true;
+		}
+		orderDao.updateDeviceBidSuccess(deviceId);
+		orderDao.updateDeviceBidFail(deviceId);
+		
+		return true;
+	}
+	
+	@Override
+	public boolean palyAd(String deviceId, Account account) {
+		if(null==account||!account.isAdmin()){
+			MessageContext.setMsg(msgUtil.get("permission.deny"));
+			return false;
+		}
+		MediaDevice device = deviceDao.selectDevice(deviceId);
+		if(null==device){
+			MessageContext.setMsg("device not exist");
+			return false;
+		}
+		List<String> adIds = orderDao.selectBidSuccessAd(deviceId);
+		List<Advertisement> ads = adDao.selectAdIn(adIds);
+		adPlayService.play(ads, device);
+		return true;
+	}
+	
+	//@Scheduled(cron="0 0 17 * * ?")
 	@Override
 	public void bid() {
 		List<String> deviceList = orderDao.selectBidDevice();

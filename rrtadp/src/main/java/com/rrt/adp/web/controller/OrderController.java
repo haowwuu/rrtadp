@@ -75,16 +75,28 @@ public class OrderController {
 		}
 	}
 	
-	@ApiOperation("开始订单竞价")
+	@ApiOperation("对某个设备开始订单竞价")
 	@RequestMapping(value="/bid", method=RequestMethod.POST)
-	public RestResult bidOrder(HttpServletRequest request){
-		if(RestSecurity.isAdmin(request)){
-			orderService.bid();
+	public RestResult bidDevice(String deviceId, HttpServletRequest request){
+		Account account = RestSecurity.getSessionAccount(request);
+		if(orderService.bid(deviceId, account)){
 			return RestResult.defaultSuccessResult();
-		}else{
-			return RestResult.defaultFailResult(msgUtil.get("permission.deny"));
 		}
+		
+		return RestResult.defaultFailResult(MessageContext.getMsg());
 	}
+	
+	@ApiOperation("播放设备竞价成功广告")
+	@RequestMapping(value="/play", method=RequestMethod.POST)
+	public RestResult playAd(String deviceId, HttpServletRequest request){
+		Account account = RestSecurity.getSessionAccount(request);
+		if(orderService.palyAd(deviceId, account)){
+			return RestResult.defaultSuccessResult();
+		}
+		
+		return RestResult.defaultFailResult(MessageContext.getMsg());
+	}
+	
 	
 	@ApiOperation("分页获取订单，分页参数pageNum， pageSize")
 	@RequestMapping(value="page", method={RequestMethod.GET, RequestMethod.POST})

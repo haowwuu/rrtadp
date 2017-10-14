@@ -23,6 +23,11 @@ public class MediaDevice extends DBModel {
 	private String keyWords;
 	private String name;
 	private String description;
+	
+	private String playId;
+	private String foreignId;
+	private String serialNumber;
+	
 	private String state;
 	private Date playTime;
 	private int playFrequency;
@@ -103,6 +108,29 @@ public class MediaDevice extends DBModel {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	public String getPlayId() {
+		return playId;
+	}
+
+	public void setPlayId(String playId) {
+		this.playId = playId;
+	}
+
+	public String getForeignId() {
+		return foreignId;
+	}
+
+	public void setForeignId(String foreignId) {
+		this.foreignId = foreignId;
+	}
+
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+
 	public String getState() {
 		return state;
 	}
@@ -162,10 +190,11 @@ public class MediaDevice extends DBModel {
 	@Override
 	public String toString() {
 		return "MediaDevice [deviceType=" + deviceType + ", deviceStatus=" + deviceStatus + ", basePrice=" + basePrice
-				+ ", keyWords=" + keyWords + ", name=" + name + ", description=" + description + ", state=" + state
-				+ ", playTime=" + playTime + ", playFrequency=" + playFrequency + ", lng=" + lng + ", lat=" + lat
-				+ ", districtCode=" + districtCode + ", address=" + address + ", owner=" + owner + ", id=" + id
-				+ ", getCreateTime()=" + getCreateTime() + ", getUpdateTime()=" + getUpdateTime() + "]";
+				+ ", keyWords=" + keyWords + ", name=" + name + ", description=" + description + ", playId=" + playId
+				+ ", foreignId=" + foreignId + ", serialNumber=" + serialNumber + ", state=" + state + ", playTime="
+				+ playTime + ", playFrequency=" + playFrequency + ", lng=" + lng + ", lat=" + lat + ", districtCode="
+				+ districtCode + ", address=" + address + ", owner=" + owner + ", devicePictureUrls="
+				+ devicePictureUrls + ", id=" + id + ", toString()=" + super.toString() + "]";
 	}
 
 }

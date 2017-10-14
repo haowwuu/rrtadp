@@ -1,50 +1,50 @@
 package com.rrt.adp.service.support;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.rrt.adp.model.Advertisement;
-import com.rrt.adp.model.MediaDevice;
 import com.rrt.adp.service.AdPlayService;
 import com.rrt.adp.util.HttpClient;
 import com.rrt.adp.util.JsonUtil;
-import com.rrt.adp.yb.model.Content;
 
 
 @Service
-public class AdPlayServiceImpl implements AdPlayService {
+public class TestAdPlayServiceImpl {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(AdPlayServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TestAdPlayServiceImpl.class);
 	
 	private String appId = "yb2B7BB0B1A782A53E";
 	private String appSecret = "a051de5b830142828d111b5a89af24bd";
 	private String authApi = "http://www.yunbiaowulian.com/api/token.html";
 	
-	private String token;
-	private String[] devices = {"32004"};
-	private String layoutId = "24379";
-	
-	@Resource
+	//@Resource
 	private HttpClient httpClient;
-	@Resource
+	//@Resource
 	private JsonUtil jsonUtil;
 	
+	public TestAdPlayServiceImpl() {
+		httpClient = new HttpClient();
+		jsonUtil = new JsonUtil();
+	}
+
 	
 	public String auth(){
 		Map<String, Object> params = new HashMap<>();
 		params.put("appid", this.appId);
 		params.put("appsecret", this.appSecret);
 		String retn = httpClient.get(authApi, params);
+		System.out.println(retn);
 		Token token = jsonUtil.beanFromJson(retn, Token.class);
 		if(null==token){
 			LOGGER.error("auth fail, return [{}]", retn);
@@ -56,10 +56,6 @@ public class AdPlayServiceImpl implements AdPlayService {
 	
 	private boolean isExpired(String result){
 		return null!=result&&result.indexOf("\"status\":0")>0;
-	}
-	
-	private boolean isSuccess(String result){
-		return null!=result&&result.indexOf("\"status\":1")>0;
 	}
 	
 	public String getDeviceList(String searchDeviceType, String menuId, String pageNow){
@@ -135,22 +131,21 @@ public class AdPlayServiceImpl implements AdPlayService {
 		return publish(layoutId, deviceList, null, null, null, null);
 	}
 	
-	public String publish(String layoutId, List<String> deviceList, String runSDateStr, 
-			String runEDateStr, String runStart, String runEnd){
+	public String publish(String layoutId, List<String> deviceList, String runSDateStr, String runEDateStr, String runStart, String runEnd){
 		if(null==layoutId||null==deviceList||deviceList.size()<1){
 			return null;
 		}
-		String retn = doPublish(layoutId, deviceList, runSDateStr, runEDateStr, runStart, runEnd);
+		String retn = publishFull(layoutId, deviceList, runSDateStr, runEDateStr, runStart, runEnd);
 		if(isExpired(retn)){
 			auth();
-			return doPublish(layoutId, deviceList, runSDateStr, runEDateStr, runStart, runEnd);
+			return publishFull(layoutId, deviceList, runSDateStr, runEDateStr, runStart, runEnd);
 		}
-		return retn;
+		return publishFull(layoutId, deviceList, runSDateStr, runEDateStr, runStart, runEnd);
 	}
 	
+	//http://www.yunbiaowulian.com/background/layout/publish.html?layoutId=24172&devices=32004%2C&reservation=2017-10-08+-+2017-10-08&startH=15&startM=00&endH=17&endM=00&run_rule=1&weekArray=1&weekArray=2&weekArray=3&weekArray=4&weekArray=5&weekArray=6&weekArray=7
 	//http://www.yunbiaowulian.com/api/layout/publish.html?accessToken=密钥
-	private String doPublish(String layoutId, List<String> deviceList, String runSDateStr,
-			String runEDateStr, String runStart, String runEnd) {
+	private String publishFull(String layoutId, List<String> deviceList, String runSDateStr, String runEDateStr, String runStart, String runEnd) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("accessToken", this.token);
 		params.put("layoutId", layoutId);
@@ -169,89 +164,36 @@ public class AdPlayServiceImpl implements AdPlayService {
 		return httpClient.get("http://www.yunbiaowulian.com/api/layout/publish.html", params);
 	}
 	
-	public String createLayout(String layoutId, String layoutName, List<String> adResources){
-		String retn = doCreateLayout(layoutId, layoutName, adResources);
-		if(isExpired(retn)){
-			auth();
-			return doCreateLayout(layoutId, layoutName, adResources);
-		}
-		return retn;
-	}
 	//http://www.yunbiaowulian.com/api/layout/update.html?accessToken=密钥&direction=竖屏&layoutFrom=0&pageNow=1
-	private String doCreateLayout(String layoutId, String layoutName, List<String> adResources){
+	public void createLayout(){
 		Map<String, Object> params = new HashMap<>();
 		params.put("accessToken", this.token);
-		layoutId = null==layoutId?"0":layoutId;
-		params.put("id", layoutId);
-		params.put("name", layoutName);
-		Content content = new Content(adResources);
-		params.put("content", jsonUtil.toJson(content));
+		params.put("id", 0);
+		params.put("name", "APILayoutJsonExample4");
+		/*List<String> urls = new ArrayList<>();
+		urls.add("http://imgs.yunbiaowulian.com/imgserver/resource/common/img/yq0KXFZz8JCAC9WpAAHK838qRuw734.jpg");
+		urls.add("http://imgs.yunbiaowulian.com/imgserver/resource/common/img/yq0KZVZz70OAJrxhAAGl8Dhd6yw772.jpg");
+		urls.add("http://imgs.yunbiaowulian.com/imgserver/resource/common/img/yq0KXVZz74SARMo9AAHlTXcbngE032.jpg");
+		urls.add("http://imgs.yunbiaowulian.com/imgserver/resource/common/img/yq0KXVZz74OAZpikAAI78AT7igc991.jpg");
+		Content content = new Content(urls);
+		List<Content> contents = new ArrayList<>();
+		contents.add(content);
+		System.out.println(jsonUtil.toJson(contents));
+		//params.put("content", jsonUtil.toJson(contents));
+*/		params.put("content", readFileByLines("E:\\json3.txt"));
 		params.put("layoutInfo", "0:1_1:1080*1920:1");
-		return httpClient.get("http://www.yunbiaowulian.com/api/layout/update.html", params);
+		
+		String retn = httpClient.get("http://www.yunbiaowulian.com/api/layout/update.html", params);
+		System.out.println(retn);
 	}
-	
-	public String deleteLayout(String layoutId){
-		if(null==layoutId){
-			return null;
-		}
-		String retn = doDeleteLayout(layoutId);
-		if(isExpired(retn)){
-			auth();
-			return doDeleteLayout(layoutId);
-		}
-		return retn;
-	}
-	
 	//http://www.yunbiaowulian.com/api/layout/delete.html?accessToken=密钥&layoutId=布局ID
-	private String doDeleteLayout(String layoutId){
+	public void deleteLayout(){
 		Map<String, Object> params = new HashMap<>();
 		params.put("accessToken", this.token);
-		params.put("layoutId", layoutId);
+		params.put("layoutId", 24190);
 	
-		return httpClient.get("http://www.yunbiaowulian.com/api/layout/delete.html", params);
-	}
-	
-	public String bindDevice(String serialNumber, String serialPwd){
-		if(null==serialNumber||null==serialPwd){
-			return null;
-		}
-		String retn = doBindDevice(serialNumber, serialPwd);
-		if(isExpired(retn)){
-			auth();
-			return doBindDevice(serialNumber, serialPwd);
-		}
-		return retn;
-	}
-	
-	//http://www.yunbiaowulian.com/api/device/bind.html?accessToken=密钥&serialNumber=YB0001&serialPwd=接入密码
-	private String doBindDevice(String serialNumber, String serialPwd){
-		Map<String, Object> params = new HashMap<>();
-		params.put("accessToken", this.token);
-		params.put("serialNumber", serialNumber);
-		params.put("serialPwd", serialPwd);
-	
-		return httpClient.get("http://www.yunbiaowulian.com/api/device/bind.html", params);
-	}
-	
-	public String getDeviceDetail(String serialNumber){
-		if(null==serialNumber){
-			return null;
-		}
-		String retn = deviceDetail(serialNumber);
-		if(isExpired(retn)){
-			auth();
-			return deviceDetail(serialNumber);
-		}
-		return retn;
-	}
-	
-	//http://www.yunbiaowulian.com/api/device/detail.html?accessToken=密钥&serialNumber=YB0001
-	private String deviceDetail(String serialNumber){
-		Map<String, Object> params = new HashMap<>();
-		params.put("accessToken", this.token);
-		params.put("serialNumber", serialNumber);
-	
-		return httpClient.get("http://www.yunbiaowulian.com/api/device/detail.html", params);
+		String retn = httpClient.get("http://www.yunbiaowulian.com/api/layout/delete.html", params);
+		System.out.println(retn);
 	}
 	
 	public static class Token {
@@ -272,49 +214,51 @@ public class AdPlayServiceImpl implements AdPlayService {
 			this.expires = expires;
 		}
 	}
-
-	@Override
-	public boolean play(List<Advertisement> ads, MediaDevice device) {
-		List<MediaDevice> devices = new ArrayList<>();
-		if(null!=device){
-			devices.add(device);
-		}
-		return play(ads, devices);
-	}
-
-	@Override
-	public boolean play(List<Advertisement> ads, List<MediaDevice> devices) {
-		if(null==ads||ads.size()<1){
-			return true;
-		}
-		List<String> playIds = Arrays.asList(this.devices);
-		if(null!=devices&&devices.size()>0){
-			playIds.addAll(devices.stream().map(MediaDevice::getPlayId)
-					.filter((t)->null!=t).collect(Collectors.toList())) ;
-		}
-		List<String> contentUrls = ads.stream().map(Advertisement::getContentUrl)
-				.filter((t)->null!=t).collect(Collectors.toList());
-		createLayout(this.layoutId, String.valueOf(System.currentTimeMillis()), contentUrls);
-		return isSuccess(publish(this.layoutId, playIds));
-	}
-
-	@Override
-	public String bindDevice(MediaDevice device) {
-		bindDevice(device.getForeignId(), device.getSerialNumber());
-		String retn = getDeviceDetail(device.getForeignId());
-		return getDeviceId(retn);
-	}
 	
-	private String getDeviceId(String json){
-		if(null==json){
-			return null;
-		}
-		int idIdx = json.indexOf("\"id\":");
-		if(idIdx<0){
-			return null;
-		}
-		String idStr = json.substring(idIdx);
-		return idStr.substring(5, idStr.indexOf(","));
+	 public static String readFileByLines(String fileName) {
+        File file = new File(fileName);
+        BufferedReader reader = null;
+        StringBuilder sb = new StringBuilder();
+        try {
+            reader = new BufferedReader(new FileReader(file));
+            String tempString = null;
+            while ((tempString = reader.readLine()) != null) {
+                sb.append(tempString.trim());
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e1) {
+                }
+            }
+        }
+        return sb.toString();
+    }
+	
+	private String token = "eWIyQjdCQjBCMUE3ODJBNTNFOmEwNTFkZTViODMwMTQyODI4ZDExMWI1YTg5YWYyNGJkOjE1MDc2MTUxNzgyMjE=";
+	public static void main(String[] args){
+		AdPlayServiceImplTest playService = new AdPlayServiceImplTest();
+		//playService.auth();
+		//playService.getDeviceList();
+		//playService.getUserDetail();
+		//playService.getLayOutList();
+		//playService.getLayoutDetail("24298");
+		
+		playService.publish();
+		//playService.createLayout();
+		//playService.deleteLayout();
+		
+//		List<String> urls = new ArrayList<>();
+//		urls.add("http://imgs.yunbiaowulian.com/imgserver/resource/2017/06/12/cc9f6ee7-4b96-406f-a10e-4493d88a04e8_s.jpg");
+//		Content content = new Content(urls);
+//		List<Content> contents = new ArrayList<>();
+//		contents.add(content);
+//		System.out.println(playService.jsonUtil.toJson(contents));
+//		System.out.println(readFileByLines("E:\\json.txt"));
 	}
 
 }

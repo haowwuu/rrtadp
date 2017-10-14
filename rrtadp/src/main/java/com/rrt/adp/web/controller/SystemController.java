@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,6 +57,38 @@ public class SystemController {
 	@RequestMapping(value="/comments/page", method={RequestMethod.GET, RequestMethod.POST})
 	public RestResult pageComments(Comments comments, Page<Comments> page){
 		comments.setType(Comments.TYPE_PLATFORM);
+		Page<Comments> pages = commentsService.getCommentsPage(comments, page);
+		if(null!=pages){
+			return RestResult.defaultSuccessResult(pages);
+		}
+		return RestResult.defaultFailResult(MessageContext.getMsg());
+	}
+	
+	@ApiOperation("点赞接口, 为广告点赞 传入广告id")
+	@RequestMapping(value="/comments/zan", method=RequestMethod.POST)
+	public RestResult zan(String adId, HttpServletRequest request){
+		if(!StringUtils.hasText(adId)){
+			return RestResult.defaultSuccessResult();
+		}
+		Comments comments = new Comments();
+		comments.setType(Comments.TYPE_ZAN);
+		comments.setReplayTo(adId);
+		Account account = RestSecurity.getSessionAccount(request);
+		if(commentsService.addComments(account, comments)){
+			return RestResult.defaultSuccessResult();
+		}
+		return RestResult.defaultFailResult(MessageContext.getMsg());
+	}
+	
+	@ApiOperation("分页获取点赞数和点赞用户，分页参数pageNum， pageSize")
+	@RequestMapping(value="/comments/zan/page", method={RequestMethod.GET, RequestMethod.POST})
+	public RestResult pageComments(String adId, Page<Comments> page){
+		if(!StringUtils.hasText(adId)){
+			return RestResult.defaultSuccessResult(page);
+		}
+		Comments comments = new Comments();
+		comments.setReplayTo(adId);
+		comments.setType(Comments.TYPE_ZAN);
 		Page<Comments> pages = commentsService.getCommentsPage(comments, page);
 		if(null!=pages){
 			return RestResult.defaultSuccessResult(pages);

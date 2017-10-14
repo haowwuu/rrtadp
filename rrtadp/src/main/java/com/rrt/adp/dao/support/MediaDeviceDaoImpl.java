@@ -30,9 +30,9 @@ public class MediaDeviceDaoImpl implements MediaDeviceDao {
 		device.setCreateTime(new Date());
 		device.setState(MediaDevice.STATE_NEW);
 		return this.jdbcTemplate.update("insert into rrt_media_device (id, create_time, update_time, "
-				+ "device_type, device_status, base_price, key_words, name, description, state, "
-				+ "play_time, play_frequency, lng, lat, district_code, address, owner) "
-				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+				+ "device_type, device_status, base_price, key_words, name, description, play_id, foreign_id, serial_number, "
+				+ "state, play_time, play_frequency, lng, lat, district_code, address, owner) "
+				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 				new Object[]{
 						device.getId(),
 						device.getCreateTime(),
@@ -43,6 +43,9 @@ public class MediaDeviceDaoImpl implements MediaDeviceDao {
 						device.getKeyWords(),
 						device.getName(),
 						device.getDescription(),
+						device.getPlayId(),
+						device.getForeignId(),
+						device.getSerialNumber(),
 						device.getState(),
 						device.getPlayTime(),
 						device.getPlayFrequency(),
@@ -119,7 +122,7 @@ public class MediaDeviceDaoImpl implements MediaDeviceDao {
 	
 	@Override
 	public List<MediaDevice> selectDeviceListOrderByOrder(MediaDevice device, Page<?> page) {
-		String sql = "select dev.id, dev.create_time, dev.update_time, "
+		String sql = "select dev.id, dev.create_time, dev.update_time, dev.play_id, dev.foreign_id, dev.serial_number, "
 				+ "dev.device_type, dev.device_status, dev.base_price, dev.key_words, dev.name, dev.description, dev.state, "
 				+ "dev.play_time, dev.play_frequency, dev.lng, dev.lat, dev.district_code, dev.address, dev.owner, "
 				+ "count(*) as num from rrt_media_device as dev left join rrt_order as ord on  (dev.id = ord.ad_id)";
@@ -153,6 +156,9 @@ public class MediaDeviceDaoImpl implements MediaDeviceDao {
 	        device.setKeyWords(rs.getString("key_words"));
 	        device.setName(rs.getString("name"));
 	        device.setDescription(rs.getString("description"));
+	        device.setPlayId(rs.getString("play_id"));
+	        device.setForeignId(rs.getString("foreign_id"));
+	        device.setSerialNumber(rs.getString("serial_number"));
 	        device.setState(rs.getString("state"));
 	        device.setPlayTime(rs.getDate("play_time"));
 	        device.setPlayFrequency(rs.getInt("play_frequency"));
@@ -204,6 +210,21 @@ public class MediaDeviceDaoImpl implements MediaDeviceDao {
 		if(StringUtils.hasText(device.getName())){
 			select.append(" and dev.name like ?");
 			values[i]="%"+device.getName()+"%";
+			i++;
+		}
+		if(StringUtils.hasText(device.getPlayId())){
+			select.append(" and dev.play_id = ?");
+			values[i]=device.getPlayId();
+			i++;
+		}
+		if(StringUtils.hasText(device.getForeignId())){
+			select.append(" and dev.foreign_id = ?");
+			values[i]=device.getForeignId();
+			i++;
+		}
+		if(StringUtils.hasText(device.getSerialNumber())){
+			select.append(" and dev.serial_number = ?");
+			values[i]=device.getSerialNumber();
 			i++;
 		}
 		if(StringUtils.hasText(device.getState())){
@@ -282,6 +303,21 @@ public class MediaDeviceDaoImpl implements MediaDeviceDao {
 		if(StringUtils.hasText(device.getDescription())){
 			update.append(",description = ?");
 			values[i] = device.getDescription();
+			i++;
+		}
+		if(StringUtils.hasText(device.getPlayId())){
+			update.append(",play_id = ?");
+			values[i] = device.getPlayId();
+			i++;
+		}
+		if(StringUtils.hasText(device.getForeignId())){
+			update.append(",foreign_id = ?");
+			values[i] = device.getForeignId();
+			i++;
+		}
+		if(StringUtils.hasText(device.getSerialNumber())){
+			update.append(",serial_number = ?");
+			values[i] = device.getSerialNumber();
 			i++;
 		}
 		if(StringUtils.hasText(device.getState())){

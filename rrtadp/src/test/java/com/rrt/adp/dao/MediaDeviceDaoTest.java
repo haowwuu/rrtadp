@@ -38,6 +38,9 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 		device.setKeyWords("key1,key2,key3");
 		device.setName("中文名乱码测试");
 		device.setDescription("description");
+		device.setPlayId("23451");
+		device.setForeignId("yb333");
+		device.setSerialNumber("sn45678");
 		device.setState(MediaDevice.STATE_NEW);
 		device.setPlayTime(new Date());
 		device.setPlayFrequency(10);
@@ -62,6 +65,9 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 		device.setId("MD1500729361092");
 		device.setDistrictCode("3302");
 		device.setState(MediaDevice.STATE_CHECKED);
+		device.setPlayId("2222");
+		device.setForeignId("yb4356");
+		device.setSerialNumber("sn9876");
 		
 		deviceDao.updateDevice(device);
 	}
@@ -81,6 +87,9 @@ public class MediaDeviceDaoTest extends AbstractJUnit4SpringContextTests {
 		device.setBasePrice(100);
 		device.setKeyWords("key1");
 		device.setDescription("description");
+		device.setPlayId("2222");
+		device.setForeignId("yb4356");
+		device.setSerialNumber("sn9876");
 		device.setState(MediaDevice.STATE_NEW);
 		device.setPlayTime(new Date());
 		device.setPlayFrequency(10);

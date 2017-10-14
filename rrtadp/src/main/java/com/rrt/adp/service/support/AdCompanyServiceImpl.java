@@ -83,7 +83,7 @@ public class AdCompanyServiceImpl implements AdCompanyService {
 				companyfuture.complete(advertisements);
 			}catch (Exception e) {
 				LOGGER.error("selectAdPage ad[{}] page[{}] exception [{}]", company, page, e.getMessage());
-				page.setPageNum(-1);
+				companyfuture.completeExceptionally(e);
 			}
 		}).start();
 		
@@ -95,7 +95,7 @@ public class AdCompanyServiceImpl implements AdCompanyService {
 			LOGGER.error("getAdCompanyPage ad[{}] page[{}] exception [{}]", company, page, e.getMessage());
 			return null;
 		} 
-		return page.getPageNum()<0?null:page;
+		return page;
 	}
 
 }

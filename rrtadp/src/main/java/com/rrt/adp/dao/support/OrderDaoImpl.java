@@ -11,6 +11,8 @@ import javax.annotation.Resource;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+
+import com.google.errorprone.annotations.ForOverride;
 import com.rrt.adp.dao.OrderDao;
 import com.rrt.adp.model.Order;
 import com.rrt.adp.model.Page;
@@ -128,6 +130,21 @@ public class OrderDaoImpl implements OrderDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@ForOverride
+	public List<String> selectBidSuccessAd(String deviceId){
+		if(!StringUtils.hasText(deviceId)){
+			return null;
+		}
+		return this.jdbcTemplate.query("select ad_id from rrt_order where device_id = ? and state = ?",
+			 new Object[]{deviceId, Order.STATE_BID_SUCCESS}, new RowMapper<String>(){
+
+				@Override
+				public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+					return rs.getString("ad_id");
+				}
+		});
+	}
 
 	@Override
 	public int updateDeviceBidSuccess(String deviceId) {
@@ -137,6 +154,16 @@ public class OrderDaoImpl implements OrderDao {
 		return this.jdbcTemplate.update("update rrt_order set state = ? "
 			+ "where device_id = ? and state = ? or state = ? order by price DESC LIMIT 20", 
 			new Object[]{Order.STATE_BID_SUCCESS, deviceId, Order.STATE_NEW, Order.STATE_CHECKED});
+	}
+	
+	@Override
+	public int updateDeviceBidFail(String deviceId) {
+		if(!StringUtils.hasText(deviceId)){
+			return 0;
+		}
+		return this.jdbcTemplate.update("update rrt_order set state = ? "
+			+ "where device_id = ? and state = ? or state = ?", 
+			new Object[]{Order.STATE_BID_FAIL, deviceId, Order.STATE_NEW, Order.STATE_CHECKED});
 	}
 
 	@Override

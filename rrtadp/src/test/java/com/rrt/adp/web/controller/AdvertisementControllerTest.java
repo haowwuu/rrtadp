@@ -25,7 +25,7 @@ public class AdvertisementControllerTest {
 		token = TestUtil.getToken();
 	}
 
-	@Test
+	@Ignore
 	public void testCreateAd() {
 		RestTemplate restTemplate = new RestTemplate();  
 		String filePath = "/Users/wuhao/git/rrt/rrtadp/target/rrtgg/images/logo.png";
@@ -51,14 +51,15 @@ public class AdvertisementControllerTest {
         System.out.println(result);
 	}
 	
-	@Ignore
+	@Test
 	public void testPageUserAd() {
 		RestTemplate restTemplate = new RestTemplate();  
         MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();  
         form.add("token", token);
         form.add("pageNum", "1");
         form.add("pageSize", "20");
-        form.add("owner", "rrtgg");
+        //form.add("owner", "rrtgg");
+        form.add("id", "AD1500895029525");
       
         String result = restTemplate.postForObject(baseUrl+"/ad/page", form, String.class);  
         System.out.println(result);

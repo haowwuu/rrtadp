@@ -7,6 +7,8 @@ public class Comments extends DBModel {
 	public static final String TYPE_DEVICE = "D";
 	public static final String TYPE_ORDER = "O";
 	
+	public static final String TYPE_ZAN = "Z";
+	
 	String account;
 	String type;
 	String content;

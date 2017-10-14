@@ -26,7 +26,11 @@ public interface OrderDao {
 	
 	List<String> selectBidDevice();
 	
+	List<String> selectBidSuccessAd(String deviceId);
+	
 	int updateDeviceBidSuccess(String deviceId);
+	
+	int updateDeviceBidFail(String deviceId);
 	
 	int updateDeviceBidFail();
 	
