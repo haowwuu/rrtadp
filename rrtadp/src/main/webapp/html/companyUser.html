@@ -27,13 +27,14 @@
 	<script type="text/javascript" src="js/dataTables.bootstrap.min.js"></script>	
 	<script type="text/javascript" src="js/jquery-ui.js"></script>
 	<script type="text/javascript" src="js/jquery.md5.js"></script>
+	<script src="https://cdn.bootcss.com/jquery.form/4.2.2/jquery.form.min.js"></script>
   </head>
   
   <body>
  	<div class="container">
 	    <div id="confirmModal" class="modal fade in" style="z-index:80;">
 	        <div class="modal-dialog modal-content" style="margin-top:5%; width:400px;">
-	            <div class="modal-header" style="background-color: #428bca; padding: 3px 10px;" ><strong>确定删除数据?</strong></div>
+	            <div class="modal-header" style="background-color: #428bca; padding: 3px 10px;" ></div>
 	            <div class="modal-body container-fluid">
 	                <p class="confirm-content"></p>
 	            </div>
@@ -54,77 +55,82 @@
 		  		</div>
 		  		<div class="modal-body container-fluid">
 		  			<form id="applicationForm" class="form-horizontal" role="form" enctype="multipart/form-data">
-		  				<div class="col-sm-6" style="padding-left:0">
-				            <div class="form-group has-feedback">
-				            	<label for="account" class="col-sm-4 control-label">账号：</label>
-			                	<div class="col-sm-8 rf-no-padding"> 
-			                		<input type="text" class="hidden" name="appId">            
-			                    	<input type="text" class="form-control" name="account" regx="^\S{2,25}$" title="应用名称:2-25个字符组成">
-			                	</div>    
-				            </div>
-				            <div class="form-group has-feedback">
-				            	<label for="companyName" class="col-sm-4 control-label">企业名称：</label>
-			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="text" class="form-control" name="companyName" regx="^\S{2,50}$" title="应用地址:2-50个字符组成">
-			                	</div>    
-				            </div>
-				            <div class="form-group has-feedback">
-				            	<label for="contactPerson" class="col-sm-4 control-label">联系人：</label>
-			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="text" class="form-control" name="contactPerson" regx="^[\S\s]{0,100}$" title="应用描述:最多100个字符组成">
-			                	</div>    
-				            </div>
-				            <div class="form-group has-feedback" >
-				            	<label for="officePhone" class="col-sm-4 control-label">办公电话：</label>
-			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="text" class="form-control" name="officePhone" >
-			                	</div>    
-				            </div>
-				            <div class="form-group has-feedback" >
-				            	<label for="certificate" class="col-sm-4 control-label">企业证书号：</label>
-			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="text" class="form-control" name="certificate" >
-			                	</div>    
-				            </div>
-				           
-			            </div>
-			            <div class="col-sm-6">
-				           
-				            <div class="form-group has-feedback">
-				            	<label for="password" class="col-sm-4 control-label">密码：</label>
-			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="password" class="form-control" name="password" regx="^\S{1,10}$" title="管理员:1-10个字符组成">
-			                	</div>    
-				            </div>
-				            <div class="form-group has-feedback">
-				            	<label for="legalPerson" class="col-sm-4 control-label">企业法人：</label>
-			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="text" class="form-control" name="legalPerson" regx="^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$" title="请填写Email">
-			                	</div>    
-				            </div>
-				            <div class="form-group has-feedback">
-				            	<label for="contactPhone" class="col-sm-4 control-label">联系电话：</label>
-			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="text" class="form-control" name="contactPhone" regx="^[0-9-]{3,12}$" title="请填写联系电话">
-			                	</div>    
-				            </div>
-				            <div class="form-group has-feedback" >
-				            	<label for="companyAddress" class="col-sm-4 control-label">公司地址：</label>
-			                	<div class="col-sm-8 rf-no-padding">          
-			                    	<input type="text" class="form-control" name="companyAddress" >
-			                	</div>    
-				            </div>
-				           
-				            <div class="form-group has-feedback" >
-				            	<label for="IDCardFrontPicUrl" class="col-sm-4 control-label">证书图片：</label>
-			                	<div class="col-sm-4 rf-no-padding"> 
-			                	    <input type="file" style="border:none;" class="form-control" name="certFrontPicFile" >
-			                	</div>
-			                	<div class="col-sm-4 rf-no-padding">          
-			                    	<input type="file" style="border:none;" class="form-control" name="certBackPicFile" >
-			                	</div>       
-				            </div>
-			            </div>
+						<div class="form-group has-feedback">
+							<label class="col-sm-2 control-label">账号：</label>
+							<div class="col-sm-7 rf-no-padding">
+								<input type="text" class="hidden" name="appId">
+								<input type="text" class="form-control" name="account" regx="^\S{2,25}$" title="应用名称:2-25个字符组成">
+							</div>
+						</div>
+						<div class="form-group has-feedback">
+							<label class="col-sm-2 control-label">昵称：</label>
+							<div class="col-sm-7 rf-no-padding">
+								<input type="text" class="form-control" name="nickName" regx="^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$" title="请填写Email">
+							</div>
+						</div>
+						<div class="form-group has-feedback">
+							<label class="col-sm-2 control-label">密码：</label>
+							<div class="col-sm-7 rf-no-padding">
+								<input type="password" class="form-control" name="password" regx="^\S{1,10}$" title="管理员:1-10个字符组成">
+							</div>
+						</div>
+						<!--<div class="form-group has-feedback">-->
+							<!--<label class="col-sm-2 control-label">确认密码：</label>-->
+							<!--<div class="col-sm-7 rf-no-padding">-->
+								<!--<input type="password" class="form-control" name="password1" regx="^\S{1,10}$" title="管理员:1-10个字符组成">-->
+							<!--</div>-->
+						<!--</div>-->
+						<div class="form-group has-feedback">
+							<label class="col-sm-2 control-label">企业名称：</label>
+							<div class="col-sm-7 rf-no-padding">
+								<input type="text" class="form-control" name="companyName" regx="^\S{2,50}$" title="应用地址:2-50个字符组成">
+							</div>
+						</div>
+						<div class="form-group has-feedback">
+							<label class="col-sm-2 control-label">组织机构代码：</label>
+							<div class="col-sm-7 rf-no-padding">
+								<input type="text" class="form-control" name="certificate" regx="^\S{2,50}$" title="应用地址:2-50个字符组成">
+							</div>
+						</div>
+						<div class="form-group has-feedback" >
+							<label class="col-sm-2 control-label">法人姓名：</label>
+							<div class="col-sm-7 rf-no-padding">
+								<input type="text" class="form-control" name="legalPerson" >
+							</div>
+						</div>
+						<div class="form-group has-feedback" >
+							<label class="col-sm-2 control-label">法人身份证号：</label>
+							<div class="col-sm-7 rf-no-padding">
+								<input type="text" class="form-control" name="description" >
+							</div>
+						</div>
+						<div class="form-group has-feedback">
+							<label class="col-sm-2 control-label">电话：</label>
+							<div class="col-sm-7 rf-no-padding">
+								<input type="text" class="form-control" name="phone" regx="^[\S\s]{0,100}$" title="应用描述:最多100个字符组成">
+							</div>
+						</div>
+
+
+						<div class="form-group has-feedback" style="display: none;">
+							<label class="col-sm-2 control-label">审核状态：</label>
+							<div class="col-sm-7 rf-no-padding">
+								<input type="text" class="form-control" name="state" value="N">
+							</div>
+						</div>
+
+						<div class="form-group has-feedback" >
+							<label class="col-sm-2 control-label">营业执照：</label>
+							<div class="col-sm-7">
+								<div style="width: 80px;height: 80px;position: relative;">
+									<img src="../images/add_img.png" id="certFrontPicImg"
+										 style="height:80px;width: 80px;position: absolute;left:0;top:0;"/>
+									<input type="file"
+										   style="border:none;height:80px;width: 80px;opacity: 0;position: absolute;left:0;top:0;"
+										   class="form-control" name="certFrontPicFile" >
+								</div>
+							</div>
+						</div>
 		  			</form>
 		  		</div>
 		  		<div class="modal-footer" style="padding:5px 15px;">
@@ -133,6 +139,79 @@
 		  		</div>
 	  		</div>
   		</div>
+		<div id="detailModal" class="modal fade in" >
+			<div class="modal-dialog modal-content" style="margin-top:5%; width:800px;">
+				<div class="modal-header" style="background-color: #428bca; padding: 10px 10px;">
+					<!-- <button class="close" style="padding: 0 10px 20px 10px;" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>  -->
+					<!-- <h4>application title</h4> -->
+				</div>
+				<div class="modal-body container-fluid">
+					<form class="form-horizontal" role="form" enctype="multipart/form-data">
+						<div class="form-group has-feedback">
+							<label class="col-sm-2 control-label">ID：</label>
+							<span class="col-sm-7 control-label" style="text-align: left;" name="id"></span>
+						</div>
+						<div class="form-group has-feedback">
+							<label class="col-sm-2 control-label">账号：</label>
+							<span class="col-sm-7 control-label" style="text-align: left;" name="account"></span>
+						</div>
+						<div class="form-group has-feedback">
+							<label class="col-sm-2 control-label">昵称：</label>
+							<span class="col-sm-7 control-label" name="nickName" style="text-align: left;" ></span>
+						</div>
+						<div class="form-group has-feedback">
+							<label class="col-sm-2 control-label">企业名称：</label>
+							<span class="col-sm-7 control-label" name="companyName" style="text-align: left;" ></span>
+						</div>
+
+						<div class="form-group has-feedback">
+							<label class="col-sm-2 control-label">电话：</label>
+							<span class="col-sm-7 control-label" name="phone" style="text-align: left;" ></span>
+						</div>
+
+						<div class="form-group has-feedback" >
+							<label class="col-sm-2 control-label">组织机构代码：</label>
+							<span class="col-sm-7 control-label" name="certificate" style="text-align: left;" ></span>
+						</div>
+						<div class="form-group has-feedback" >
+							<label class="col-sm-2 control-label">法人姓名：</label>
+							<span class="col-sm-7 control-label" name="legalPerson" style="text-align: left;" ></span>
+						</div>
+						<div class="form-group has-feedback" >
+							<label class="col-sm-2 control-label">法人身份证号：</label>
+							<span class="col-sm-7 control-label" name="description" style="text-align: left;" ></span>
+						</div>
+
+						<!--<div class="form-group has-feedback" >-->
+						<!--<label  class="col-sm-2 control-label">身份证正面：</label>-->
+						<!--<div class="col-sm-7 rf-no-padding">-->
+						<!--<input type="file" style="border:none;" class="form-control" name="idFrontPicFile" >-->
+						<!--</div>-->
+						<!--</div>-->
+						<!--<div class="form-group has-feedback" >-->
+						<!--<label  class="col-sm-2 control-label">身份证反面：</label>-->
+						<!--<div class="col-sm-7 rf-no-padding">-->
+						<!--<input type="file" style="border:none;" class="form-control" name="idBackPicFile" >-->
+						<!--</div>-->
+						<!--</div>-->
+
+						<div class="form-group has-feedback" >
+							<label class="col-sm-2 control-label">营业执照：</label>
+							<div class="col-sm-7">
+								<div style="width: 80px;height: 80px;position: relative;">
+									<img src="../images/default_pic.png" id="certFrontPicImgDetail"
+										 style="height:80px;width: 80px;position: absolute;left:0;top:0;"/>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer" style="padding:5px 15px;">
+					<button name="audit" class="btn btn-primary">审核通过</button>
+					<button class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
   	</div>
   	
   	<div id="contents" class="container-fluid">
@@ -140,9 +219,9 @@
 	  		<div class="panel-body">
 		    	<ul class="toolbar">
 		        <li class="click" onclick="application.addModal()"><span><img src="images/t01.png" /></span>添加</li>
-		        <li class="click" onclick="application.updateModal()"><span><img src="images/t02.png" /></span>修改</li>
-		        <li class="click" onclick="application.deleteModal()"><span><img src="images/t03.png" /></span>删除</li>
-		        <li class="click" onclick="application.updateState()"><span><img src="images/t04.png" /></span>审核通过</li>
+		        <!--<li class="click" onclick="application.updateModal()"><span><img src="images/t02.png" /></span>修改</li>-->
+		        <!--<li class="click" onclick="application.deleteModal()"><span><img src="images/t03.png" /></span>删除</li>-->
+		        <!--<li class="click" onclick="application.updateState()"><span><img src="images/t04.png" /></span>审核通过</li>-->
 		       <!--  <li class="click" onclick="application.dataModal()"><span><img src="images/t04.png" /></span>查看</li> -->
 		        </ul>
 
@@ -158,16 +237,15 @@
 	    	<table id="applicationTable" class="table table-striped table-bordered"  >
 	    		<thead>
 	    			<tr>
-	    				<th class="col-md-2" >账号</th>
-		    			<th class="col-md-3" >企业名称</th>
-		    			<!-- <th class="col-md-3" style="min-width:150px;">应用地址</th> -->
-		    			<th class="col-md-4" >企业法人</th>
-		    			<th class="col-md-4" >企业联系人</th>
-		    			<th class="col-md-4" style="min-width:100px;">联系电话</th>
-		    			<th class="col-md-4" style="min-width:50px;">办公电话</th>
-		    			<th class="col-md-4" style="min-width:50px;">公司地址</th>
-		    			<th class="col-md-4" style="min-width:50px;">企业证书</th>
-		    			<th class="col-md-4" style="min-width:50px;">审核状态</th>
+	    				<th>账号</th>
+		    			<th>企业名称</th>
+						<th>昵称</th>
+		    			<th style="min-width:100px;">电话</th>
+		    			<th style="min-width:100px;">组织结构代码</th>
+						<th style="min-width:100px;">法人姓名</th>
+						<th style="min-width:100px;">法人身份证号</th>
+		    			<th style="min-width:60px;">审核状态</th>
+						<th style="min-width:50px;">操作</th>
 		    		</tr>
 	    		</thead>
 	    		<tbody>
@@ -184,6 +262,10 @@
 			$("#searchInput").keyup( function() {
 				$("#applicationTable").DataTable().draw();
 			});
+
+			$("[name='certFrontPicFile']").change(function(){
+                xmTanUploadImg(this,$("#certFrontPicImg")[0]);
+			});
     	});
     	
     	$.fn.dataTable.ext.search.push(
@@ -197,7 +279,36 @@
 				return false;
 			}
 		);
-		
+
+        var xmTanUploadImg = function(obj,img) {
+            var file = obj.files[0];
+
+            console.log(obj);console.log(file);
+            console.log("file.size = " + file.size);  //file.size 单位为byte
+
+            var reader = new FileReader();
+
+            //读取文件过程方法
+            reader.onloadstart = function (e) {
+                console.log("开始读取....");
+            }
+            reader.onprogress = function (e) {
+                console.log("正在读取中....");
+            }
+            reader.onabort = function (e) {
+                console.log("中断读取....");
+            }
+            reader.onerror = function (e) {
+                console.log("读取异常....");
+            }
+            reader.onload = function (e) {
+                console.log("成功读取....");
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+
     	var application={
     		rowid:null,
     		row:{},
@@ -218,7 +329,7 @@
                         "targets": "_all"
                    	},
                    	{
-                   		"targets" : 8,
+                   		"targets" : 7,
 						"render" : function(data, type, row) {
 							if("N"==data){
 								return "新用户";
@@ -231,18 +342,35 @@
 							}
 							return data;
 						}
-                   	}
+                   	},
+                    {
+                        "targets" : 0,
+                        "render" : function(data, type, row) {
+                            return '<a style="cursor: pointer;">'+data+'</a>';
+                        }
+                    },
+                    {
+                        "targets" : 8,
+                        "render" : function(data, type, row) {
+                            if(row.state=='D'){
+                                return '<a  style="cursor: pointer;">恢复</a>';
+							}else{
+                                return '<a  style="cursor: pointer;">删除</a>';
+							}
+                        }
+                    }
                 ],	      
     			"columns":[
     				{"data":"account"},
     				{"data":"companyName"},
-    				{"data":"legalPerson"},
-    				{"data":"contactPerson"},
-    				{"data":"contactPhone"},
-    				{"data":"officePhone"},
-    				{"data":"companyAddress"},
+                    {"data":"nickName"},
+                    {"data":"phone"},
     				{"data":"certificate"},
-    				{"data":"state"}
+                    {"data":"legalPerson"},
+                    {"data":"description"},
+    				{"data":"state"},
+                    {"data":"op"}
+
     			],
     			"bStateSave": true,
     			"oLanguage": {
@@ -310,19 +438,33 @@
 	    		if(!v){
 	    			return;
 	    		}
-	    		if(v.password){
-	    			v.password = $.md5(v.account+v.password);
-	    		}
-	    		$.ajax({
-	    			type:"post",
-	    			url:"user/regist/company",
-	    			dataType:"json",
-	    			data:v,
-	    			success:function(data){
-	    				application.reload();
-	    				$("#modal").modal('hide');
-	    			}
-	    		})
+	    		$("[name='password']").val($.md5(v.account+v.password));
+
+//	    		$.ajax({
+//	    			type:"post",
+//	    			url:"user/regist/person",
+//	    			dataType:"json",
+//	    			data:v,
+//	    			success:function(data){
+//	    				application.reload();
+//	    				$("#modal").modal('hide');
+//	    			}
+//	    		});
+                $("#applicationForm").ajaxSubmit({
+                    url : "user/regist/company",
+                    type : 'POST',
+                    //contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+                    // headers : {"ClientCallMode" : "ajax"}, //添加请求头部
+                    success : function(data) {
+                        application.reload();
+                        $("#modal").modal('hide');
+                    },
+                    error: function(data) {
+                        alert("上传失败");
+                    }
+                });
+
+
 	    	},
 	    	updateModal:function(){
 	    		var row = application.row;
@@ -333,8 +475,9 @@
 	    		for(var p in row){   
 	    			$("#applicationForm input[name="+p+"]").val(row[p]);
 	    		}
-	    		$("#modal button[name='submit']").attr("onclick","application.update()");
+	    		$("#applicationForm input[name=IDCard]").val(row.idcard);
 	    		$("#applicationForm input[name=password]").val("");
+	    		$("#modal button[name='submit']").attr("onclick","application.update()");
 	    		$("#modal").modal('show');
 	    	},
 	    	update:function(){
@@ -353,8 +496,8 @@
 	    			}
 	    		});
 	    	},
-	    	updateState:function(){
-	    		if(!application.rowid){
+	    	updateState:function(row,state){
+	    		if(!row){
 	    			return;
 	    		}
 	    		$.ajax({
@@ -362,26 +505,39 @@
 	    			url:"user/audit",
 	    			dataType:"json",
 	    			data:{
-	    				account:application.rowid,
-	    				state:"C",
+	    				account:row.account,
+	    				state:state,
 	    				type:"C"
 	    			},
 	    			success:function(data){
 	    				application.reload();
-	    				//$("#modal").modal('hide');
+                        $("#confirmModal").modal('hide');
+                        $("#detailModal").modal('hide');
 	    			}
 	    		});
 	    	},
-	    	deleteModal:function(){
-	    		if(!application.rowid){
+            renewModal:function(row,msg){
+                if(!row){
+                    return;
+                }
+                $("#confirmModal .confirm-content").html(msg);
+                $("#confirmModal button[name='submit']").off("click").click(function(){
+                    application.updateState(row,"N");
+                });
+                $("#confirmModal").modal('show');
+            },
+	    	deleteModal:function(row,msg){
+	    		if(!row){
 	    			return;
 	    		}
-	    		$("#confirmModal .confirm-content").html(application.rowid);
-	    		$("#confirmModal button[name='submit']").attr("onclick","application.deleteApp()");
+	    		$("#confirmModal .confirm-content").html(msg);
+	    		$("#confirmModal button[name='submit']").off("click").click(function(){
+                    application.deleteApp(row)
+				});
 	    		$("#confirmModal").modal('show'); 
 	    	},
-	    	deleteApp:function(){
-	    		$.post("user/delete", {account:application.rowid, type:"C"}, function(data){
+	    	deleteApp:function(row){
+	    		$.post("user/delete", {account:row.account, type:"C"}, function(data){
     				application.reload();
     				$("#confirmModal").modal('hide');
 	    		}, "json");
@@ -403,24 +559,77 @@
 	    	},
 	    	test:function(){
 	    		console.log("test");
-	    	}
-    	}
+	    	},
+			detail:function(row){
+                for(var p in row){
+                    $("#detailModal [name="+p+"]").text(row[p]);
+                }
+                debugger;
+                if(row.state){
+                    $("#detailModal [name='state']").text(stateRender(row.state));
+				}
+
+
+                if(row.certificateFrontPicUrl){
+                    $("#certFrontPicImgDetail").attr("src",row.certificateFrontPicUrl)
+						.off("click").click(function(){
+                        window.open(row.certificateFrontPicUrl);
+					});
+				}else{
+                    $("#certFrontPicImgDetail").off("click");
+				}
+
+                $("#detailModal").modal('show');
+                if(row.state == "N"){
+                    $("[name='audit']").off("click").click(function(){
+                        application.updateState(row,"C");
+                    }).show();
+				}else{
+                    $("[name='audit']").hide().off("click");
+				}
+
+			}
+    	};
     	
-    	$('#applicationTable tbody').on('click', 'tr', function(){
- 	        if ($(this).hasClass('selected')) {
- 	            $(this).removeClass('selected');
- 	        } else {
- 	            $('#applicationTable').DataTable().$('tr.selected').removeClass('selected');
- 	            $(this).addClass('selected');
- 	        }
- 	        var data = $('#applicationTable').DataTable().row('.selected').data();
- 	        application.rowid = data.account;
- 	        application.row = data;
- 	        console.log(data);
- 	    });
-    	
-    	
-    
+//    	$('#applicationTable tbody').on('click', 'tr', function(){
+// 	        if ($(this).hasClass('selected')) {
+// 	            $(this).removeClass('selected');
+// 	        } else {
+// 	            $('#applicationTable').DataTable().$('tr.selected').removeClass('selected');
+// 	            $(this).addClass('selected');
+// 	        }
+// 	        var data = $('#applicationTable').DataTable().row('.selected').data();
+// 	        application.rowid = data.account;
+// 	        application.row = data;
+// 	        console.log(data);
+// 	    });
+
+        $('#applicationTable tbody').on('click', 'td', function(arg1){
+            var data=$('#applicationTable').DataTable().row(this).data()
+            if(arg1.currentTarget.cellIndex == 0){
+                application.detail(data);
+			}else if((arg1.currentTarget.cellIndex == 8)){
+                if(data.state=='D'){
+                    application.renewModal(data,"确定恢复账户："+data.account);
+				}else{
+                    application.deleteModal(data,"确定删除账户："+data.account);
+				}
+			}
+        });
+
+
+        var stateRender = function(data, type, row) {
+            if("N"==data){
+                return "新用户";
+            }
+            if("C"==data){
+                return "已审核";
+            }
+            if("D"==data){
+                return "已删除";
+            }
+            return data;
+        }
     </script>
     
   </body>

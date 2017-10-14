@@ -1,0 +1,376 @@
+<!doctype html>
+<html>
+<head>
+
+    <title>人人投广告管理平台</title>
+    <meta charset="utf-8">
+    <meta http-equiv="keywords" content="dsp,contents,service">
+    <meta http-equiv="description" content="dsp main page">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="css/dsp.css" />
+
+
+
+    <script type="text/javascript" src="js/jquery-1.12.3.js"></script>
+
+    <script type="text/javascript" src="js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/jquery.md5.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div id="confirmModal" class="modal fade in" style="z-index:80;">
+        <div class="modal-dialog modal-content" style="margin-top:5%; width:400px;">
+            <div class="modal-header" style="background-color: #428bca; padding: 3px 10px;" ><strong>确定删除数据?</strong></div>
+            <div class="modal-body container-fluid">
+                <p class="confirm-content"></p>
+            </div>
+            <div class="modal-footer" style="padding:5px 15px;">
+                <button name="submit" class="btn btn-primary">确认</button>
+                <button class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div id="modal" class="modal fade in" style="z-index:80;">
+        <div class="modal-dialog modal-content" style="margin-top:5%; width:800px;">
+            <div class="modal-header" style="background-color: #428bca; padding: 10px 10px;">
+                <!-- <button class="close" style="padding: 0 10px 20px 10px;" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>  -->
+                <!-- <h4>application title</h4> -->
+            </div>
+            <div class="modal-body container-fluid">
+                <form id="applicationForm" class="form-horizontal" role="form" enctype="multipart/form-data">
+                    <div class="col-sm-6" style="padding-left:0">
+                        <div class="form-group has-feedback">
+                            <label for="id" class="col-sm-4 control-label">编号：</label>
+                            <div class="col-sm-8 rf-no-padding">
+                                <input type="text" class="hidden" name="id">
+                                <input type="text" class="form-control" name="code" regx="^\S{1,25}$" title="名称:1-25个字符组成">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group has-feedback">
+                            <label for="type" class="col-sm-4 control-label">名称：</label>
+                            <div class="col-sm-8 rf-no-padding">
+                                <input type="text" class="form-control" name="name" title="代码:2-50个字符组成">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="padding:5px 15px;">
+                <button name="submit" class="btn btn-primary">保存</button>
+                <button class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="contents" class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <ul class="toolbar">
+                <li class="click" onclick="application.addModal()"><span><img src="images/t01.png" /></span>添加</li>
+                <li class="click" onclick="application.updateModal()"><span><img src="images/t02.png" /></span>修改</li>
+                <li class="click" onclick="application.deleteModal()"><span><img src="images/t03.png" /></span>删除</li>
+                <li class="click" style="display: none;" onclick="application.updateState()"><span><img src="images/t04.png" /></span>审核通过</li>
+                <!--  <li class="click" onclick="application.dataModal()"><span><img src="images/t04.png" /></span>查看</li> -->
+            </ul>
+
+            <div class="input-group" class="col-md-4">
+                <span class="input-group-addon">搜索</span>
+                <input id="searchInput" type="text" class="form-control" >
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <!-- <h4><strong>平台用户</strong></h4> -->
+        <table id="applicationTable" class="table table-striped table-bordered"  >
+            <thead>
+            <tr>
+                <th class="col-md-2" >编码</th>
+                <th class="col-md-2" >名称</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    $(function(){
+        $("#searchInput").keyup( function() {
+            $("#applicationTable").DataTable().draw();
+        });
+        application.autoComplete();
+    });
+
+    $.fn.dataTable.ext.search.push(
+        function( settings, data, dataIndex ) {
+            var search = $("#searchInput").val();
+            for(i in data){
+                if(data[i].indexOf(search)>=0){
+                    return true;
+                }
+            }
+            return false;
+        }
+    );
+
+    var application={
+        rowid:null,
+        row:{},
+        table: $("#applicationTable").DataTable({
+            "bAutoWidth": false,
+            //"ajax": "user/personUerList",
+            "ajax":{
+                "url":"code/deviceTag/all",
+                "contentType": "application/json",
+                "data":function(d){
+                    return d;
+                },
+                "dataSrc":function(data){
+                    return data.data;
+                }
+            },
+            "columnDefs": [
+                {
+                    "defaultContent": "",
+                    "targets": "_all"
+                }
+            ],
+            "columns":[
+                {"data":"code"},
+                {"data":"name"}
+            ],
+            "bStateSave": true,
+            "oLanguage": {
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": "<p>对不起，查询不到任何相关数据</p> <span onclick='application.addModal();' class='btn btn-default btn-xs'>新增</span>",
+                "sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
+                "sInfoEmtpy": "找不到相关数据",
+                "sInfoFiltered": "数据表中共为 _MAX_ 条记录)",
+                "sProcessing": "正在加载中...",
+                "sSearch": "搜索",
+                "sUrl": "",
+                "oPaginate": {
+                    "sFirst":    "第一页",
+                    "sPrevious": " 上一页 ",
+                    "sNext":     " 下一页 ",
+                    "sLast":     " 最后一页 "
+                }
+            },
+            "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "bInfo": false,
+            "bFilter": true,  //l-每页显示数量 f-过滤输入  t-表单Table i-信息  p-翻页 r-pRocessing
+            "sDom": '<"top"i>rt<"bottom"pl><"clear">',
+        }),
+        reload:function(){
+            this.table.ajax.reload();
+        },
+        showKeySecret:function(v){
+            var display, visibility;
+            if(v){
+                display="block";
+                visibility="hidden";
+            }else{
+                display="none";
+                visibility="visible";
+            }
+            $("#applicationForm div[name='appKeyDiv']").css("display", display);
+            $("#applicationForm div[name='appSecretDiv']").css("display", display);
+            $("#modal button[name='submit']").css("visibility", visibility);
+        },
+        dataModal:function(row){
+            this.showKeySecret(true);
+            for(var p in row){
+                $("#applicationForm input[name="+p+"]").val(row[p]);
+            }
+            $("#modal").modal('show');
+        },
+        getVal:function(formId){
+            var app={};
+            var form = $(formId).serializeArray();
+            for(var input in form){
+                if(form[input].value){
+                    app[form[input].name]=form[input].value;
+                }
+            }
+            return app;
+        },
+        addModal:function(){
+            $("#applicationForm input").val('');
+            this.showKeySecret(false);
+            $("#modal button[name='submit']").attr("onclick","application.add()");
+            $("#modal").modal('show');
+        },
+        add:function(){
+            var v = this.validate("#applicationForm");
+            if(!v){
+                return;
+            }
+
+            $.ajax({
+                type:"post",
+                url:"code/deviceTag/add",
+                dataType:"json",
+                data:v,
+                success:function(data){
+                    application.reload();
+                    $("#modal").modal('hide');
+                }
+            })
+        },
+        updateModal:function(){
+            if(!application.rowid){
+                return;
+            }
+            var row = application.row;
+            this.showKeySecret(false);
+            for(var p in row){
+                $("#applicationForm input[name="+p+"]").val(row[p]);
+            }
+            $("#modal button[name='submit']").attr("onclick","application.update()");
+            $("#modal").modal('show');
+        },
+        update:function(){
+            var v = this.validate("#applicationForm");
+            if(!v){
+                return;
+            }
+            $.ajax({
+                type:"post",
+                url:"code/deviceTag/update",
+                dataType:"json",
+                data:v,
+                success:function(data){
+                    application.reload();
+                    $("#modal").modal('hide');
+                }
+            });
+        },
+        updateState:function(){
+            if(!application.rowid){
+                return;
+            }
+            $.ajax({
+                type:"post",
+                url:"adcompany/update",
+                dataType:"json",
+                data:{
+                    id:application.rowid,
+                    state:"C"
+                },
+                success:function(data){
+                    application.reload();
+                    //$("#modal").modal('hide');
+                }
+            });
+        },
+        deleteModal:function(){
+            if(!application.rowid){
+                return;
+            }
+            console.log(application.account);
+            $("#confirmModal .confirm-content").html(application.rowid);
+            $("#confirmModal button[name='submit']").attr("onclick","application.deleteApp()");
+            $("#confirmModal").modal('show');
+        },
+        deleteApp:function(){
+            $.post("code/deviceTag/delete", {codeId:application.rowid}, function(data){
+                application.reload();
+                $("#confirmModal").modal('hide');
+            }, "json");
+        },
+        validate:function(formId){
+            var v = {};
+            var inputs = $(formId + " input");
+            for(var i=0; i<inputs.length; i++){
+                var obj = inputs[i];
+                if(!obj){
+                    continue;
+                }
+                var obj = inputs[i];
+                var name = $(obj).attr('name');
+                var val = $(obj).val();
+                v[name]=val;
+            }
+            return v;
+        },
+        test:function(){
+            console.log("test");
+        },
+        adtype:[
+            {label:"文字", value:"T"},
+            {label:"图片", value:"P"},
+            {label:"视频", value:"V"},
+            {label:"其他", value:"M"}
+        ],
+        /* autoComplete:function(){
+            $("#applicationForm input[name='type']").autocomplete({
+                  //source: [ "文字", "图片", "视频", "其他" ],
+                  source: application.adtype,
+                  minLength:0
+            }).focus(function(event, ui) {
+               // $(this).autocomplete("search", $(this).val());
+                $("#applicationForm input[name='type']").val(ui.item.lable);
+                return false;
+            });
+        }  */
+        autoComplete:function(){
+            var obj = $("#applicationForm input[name='type']");
+            obj.autocomplete({
+                source: application.adtype,
+                minLength:0,
+                focus:function(event, ui){
+                    obj.val(ui.item.value);
+                    return false;
+                },
+                select: function( event, ui ) {
+                    obj.val(ui.item.value);
+                    return false;
+                }
+            })
+        }
+    }
+
+    $('#applicationTable tbody').on('click', 'tr', function(){
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        } else {
+            $('#applicationTable').DataTable().$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+        var data = $('#applicationTable').DataTable().row('.selected').data();
+        application.rowid = data.id;
+        application.row = data;
+        console.log(data);
+    });
+
+
+
+</script>
+
+</body>
+</html>
