@@ -7,7 +7,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.print.attribute.standard.Media;
@@ -21,6 +25,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.web.servlet.config.VelocityConfigurerBeanDefinitionParser;
 
 import com.rrt.adp.model.Advertisement;
 import com.rrt.adp.model.MediaDevice;
@@ -33,25 +38,48 @@ public class AdPlayServiceTest extends AbstractJUnit4SpringContextTests {
 	
 	@Resource
 	private AdPlayService playService;
+	private String[] devices = {"32004"};
 
 	@Before
 	public void setUp() throws Exception {
 		
 	}
 
-	@Ignore
+	@Test
 	public void test() {
 		Advertisement ad1 = new Advertisement();
 		ad1.setContentUrl("http://seopic.699pic.com/photo/50035/1137.jpg_wh1200.jpg");
 		Advertisement ad2 = new Advertisement();
-		ad2.setContentUrl("http://seopic.699pic.com/photo/50040/0299.jpg_wh1200.jpg");
+		ad2.setContentUrl("http://47.92.100.40/adfile/test.jpg");
+		Advertisement ad3 = new Advertisement();
+		ad3.setContentUrl("http://47.92.100.40/adfile/AD1508061974321/contentUrl/0/1507460363514.mp4");
+		Advertisement ad4 = new Advertisement();
+		ad4.setContentUrl("http://47.92.100.40/adfile/AD1508061802391/contentUrl/0/magazine-unlock-04-2.3.698-_98f8e746737c44408650be0967500fa1.jpg");
 		List<Advertisement> ads = new ArrayList<>();
 		ads.add(ad1);
-		ads.add(ad2);
+		//ads.add(ad2);
+		//ads.add(ad3);
+		//ads.add(ad4);
 		playService.play(ads, new MediaDevice());
 	}
 	
-	@Test
+	@Ignore
+	public void testAdd(){
+		//List<String> playIds = Arrays.asList(this.devices);
+		Set<String> playIds = new HashSet<>();
+		playIds.addAll(Arrays.asList(this.devices));
+		List<MediaDevice> devices = new ArrayList<>();
+		MediaDevice device = new MediaDevice();
+		device.setPlayId("32004");
+		devices.add(device);
+		if(null!=devices&&devices.size()>0){
+			playIds.addAll(devices.stream().map(MediaDevice::getPlayId)
+					.filter((t)->null!=t).collect(Collectors.toList())) ;
+		}
+		System.out.println(playIds);
+	}
+	
+	@Ignore
 	public void testBindDevice(){
 		MediaDevice device = new MediaDevice();
 		device.setForeignId("YB030971");

@@ -192,6 +192,9 @@
 							if("F"==data){
 								return "竞价失败";
 							}
+							if("E"==data){
+								return "订单完成";
+							}
 							return data;
 						}
                    	},
@@ -276,9 +279,7 @@
 	    		if(!v){
 	    			return;
 	    		}
-	    		if(v.password){
-	    			v.password = $.md5(v.account+v.password);
-	    		}
+	    		
 	    		$.ajax({
 	    			type:"post",
 	    			url:"order/new",

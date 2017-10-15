@@ -3,8 +3,10 @@ package com.rrt.adp.service.support;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -287,7 +289,8 @@ public class AdPlayServiceImpl implements AdPlayService {
 		if(null==ads||ads.size()<1){
 			return true;
 		}
-		List<String> playIds = Arrays.asList(this.devices);
+		Set<String> playIds = new HashSet<>();
+		playIds.addAll(Arrays.asList(this.devices));
 		if(null!=devices&&devices.size()>0){
 			playIds.addAll(devices.stream().map(MediaDevice::getPlayId)
 					.filter((t)->null!=t).collect(Collectors.toList())) ;
@@ -295,7 +298,9 @@ public class AdPlayServiceImpl implements AdPlayService {
 		List<String> contentUrls = ads.stream().map(Advertisement::getContentUrl)
 				.filter((t)->null!=t).collect(Collectors.toList());
 		createLayout(this.layoutId, String.valueOf(System.currentTimeMillis()), contentUrls);
-		return isSuccess(publish(this.layoutId, playIds));
+		List<String> ids = new ArrayList<>();
+		ids.addAll(playIds);
+		return isSuccess(publish(this.layoutId, ids));
 	}
 
 	@Override
