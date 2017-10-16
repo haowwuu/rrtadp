@@ -243,12 +243,12 @@ public class TestAdPlayServiceImpl {
 	public static void main(String[] args){
 		AdPlayServiceImplTest playService = new AdPlayServiceImplTest();
 		//playService.auth();
-		//playService.getDeviceList();
+		playService.getDeviceList();
 		//playService.getUserDetail();
 		//playService.getLayOutList();
 		//playService.getLayoutDetail("24298");
 		
-		playService.publish();
+		//playService.publish();
 		//playService.createLayout();
 		//playService.deleteLayout();
 		

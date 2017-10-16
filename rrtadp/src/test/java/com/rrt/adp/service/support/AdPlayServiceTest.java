@@ -6,8 +6,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,6 +33,7 @@ import org.springframework.web.servlet.config.VelocityConfigurerBeanDefinitionPa
 import com.rrt.adp.model.Advertisement;
 import com.rrt.adp.model.MediaDevice;
 import com.rrt.adp.service.AdPlayService;
+import com.sun.org.apache.xml.internal.resolver.helpers.PublicId;
 
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -48,7 +52,8 @@ public class AdPlayServiceTest extends AbstractJUnit4SpringContextTests {
 	@Test
 	public void test() {
 		Advertisement ad1 = new Advertisement();
-		ad1.setContentUrl("http://seopic.699pic.com/photo/50035/1137.jpg_wh1200.jpg");
+		//ad1.setContentUrl("http://seopic.699pic.com/photo/50035/1137.jpg_wh1200.jpg");
+		ad1.setContentUrl("http://47.92.100.40/adfile/AD1508062329312/contentUrl/0/85a0ff2c8b82408f9888e5362af36578.jpg");
 		Advertisement ad2 = new Advertisement();
 		ad2.setContentUrl("http://47.92.100.40/adfile/test.jpg");
 		Advertisement ad3 = new Advertisement();
@@ -57,10 +62,17 @@ public class AdPlayServiceTest extends AbstractJUnit4SpringContextTests {
 		ad4.setContentUrl("http://47.92.100.40/adfile/AD1508061802391/contentUrl/0/magazine-unlock-04-2.3.698-_98f8e746737c44408650be0967500fa1.jpg");
 		List<Advertisement> ads = new ArrayList<>();
 		ads.add(ad1);
-		//ads.add(ad2);
-		//ads.add(ad3);
-		//ads.add(ad4);
+		ads.add(ad2);
+		ads.add(ad3);
+		ads.add(ad4);
 		playService.play(ads, new MediaDevice());
+	}
+	
+	@Ignore
+	public void testTiemName(){
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		String date = dateFormat.format(new Date());
+		System.out.println(date);
 	}
 	
 	@Ignore
