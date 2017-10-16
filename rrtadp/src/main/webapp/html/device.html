@@ -59,19 +59,31 @@
 							<label class="col-sm-2 control-label">编号：</label>
 							<div class="col-sm-7 rf-no-padding">
 								<input type="text" class="hidden" name="appId">
-								<input type="text" class="form-control" name="id" regx="^\S{2,25}$" title="应用名称:2-25个字符组成">
+								<input type="text" class="form-control" name="id" >
 							</div>
 						</div>
 						<div class="form-group has-feedback">
 							<label class="col-sm-2 control-label">名称：</label>
 							<div class="col-sm-7 rf-no-padding">
-								<input type="text" class="form-control" name="name" regx="^\S{1,10}$" title="管理员:1-10个字符组成">
+								<input type="text" class="form-control" name="name" >
+							</div>
+						</div>
+						<div class="form-group has-feedback">
+							<label class="col-sm-2 control-label">YB编号：</label>
+							<div class="col-sm-7 rf-no-padding">
+								<input type="text" class="form-control" name="foreignId" >
+							</div>
+						</div>
+						<div class="form-group has-feedback">
+							<label class="col-sm-2 control-label">SN编号：</label>
+							<div class="col-sm-7 rf-no-padding">
+								<input type="text" class="form-control" name="serialNumber" >
 							</div>
 						</div>
 						<div class="form-group has-feedback">
 							<label class="col-sm-2 control-label">底价：</label>
 							<div class="col-sm-7 rf-no-padding">
-								<input type="text" class="form-control" name="basePrice" regx="^\S{2,50}$" title="应用地址:2-50个字符组成">
+								<input type="text" class="form-control" name="basePrice" >
 							</div>
 						</div>
 						<div class="form-group has-feedback" >
@@ -151,6 +163,14 @@
 							<span class="col-sm-7 control-label" style="text-align: left;" name="name"></span>
 						</div>
 						<div class="form-group has-feedback">
+							<label class="col-sm-2 control-label">YB编号：</label>
+							<span class="col-sm-7 control-label" style="text-align: left;" name="foreignId"></span>
+						</div>
+						<div class="form-group has-feedback">
+							<label class="col-sm-2 control-label">SN编号：</label>
+							<span class="col-sm-7 control-label" style="text-align: left;" name="serialNumber"></span>
+						</div>
+						<div class="form-group has-feedback">
 							<label class="col-sm-2 control-label">底价：</label>
 							<span class="col-sm-7 control-label" name="basePrice" style="text-align: left;" ></span>
 						</div>
@@ -202,11 +222,41 @@
 		</div>
   	</div>
   	
+  	<div class="container">
+	    <div id="bidResultModal" class="modal fade in" style="z-index:80;">
+	        <div class="modal-dialog modal-content" style="margin-top:5%; width:800px;">
+	            <div class="modal-header" style="background-color: #428bca; padding: 3px 10px;" ><strong>竞价结果</strong></div>
+	            <div class="modal-body container-fluid">
+	                <table id="bidResultTable" class="table table-striped table-bordered"  >
+			    		<thead>
+			    			<tr>
+			    				<th>订单编号</th>
+				    			<th>广告编号</th>
+				    			<th>广告主</th>
+				    			<th>设备编号</th>
+				    			<th>竞拍价格</th>
+				    			<th>下单时间</th>
+				    			<th>订单状态</th>
+				    		</tr>
+			    		</thead>
+			    		<tbody>
+			    			
+			    		</tbody>
+			    	</table>
+	            </div>
+	            <div class="modal-footer" style="padding:5px 15px;">
+	                <button name="submit" class="btn btn-primary">播放</button>
+	                <button class="btn btn-default" data-dismiss="modal">取消</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+  	
   	<div id="contents" class="container-fluid">
 	  	<div class="panel panel-default">
 	  		<div class="panel-body">
 		    	<ul class="toolbar">
-		        <li class="click" onclick="application.addModal()"><span><img src="../images/t01.png" /></span>添加</li>
+		        <li class="click" onclick="application.addModal()"><span><img src="images/t01.png" /></span>添加</li>
 		        <!--<li class="click" onclick="application.updateModal()"><span><img src="images/t02.png" /></span>修改</li>-->
 		        <!--<li class="click" onclick="application.deleteModal()"><span><img src="images/t03.png" /></span>删除</li>-->
 		        <!--<li class="click" onclick="application.updateState()"><span><img src="images/t04.png" /></span>审核通过</li>-->
@@ -229,12 +279,15 @@
 	    				<th>编号</th>
 		    			<th>名称</th>
 		    			<th>设备状态</th>
-						<th>地址</th>
+						<!-- <th>地址</th> -->
+						<th>YB编号</th>
+						<th>SN编号</th>
 		    			<th>底价</th>
 		    			<th>标签</th>
 		    			<th>行政区划代码</th>
 		    			<th>拥有者</th>
 						<th>状态</th>
+						<th>操作</th>
 		    		</tr>
 	    		</thead>
 	    		<tbody>
@@ -338,7 +391,7 @@
 						}
                    	},
                     {
-                        "targets" : 8,
+                        "targets" : 9,
                         "render" : function(data, type, row) {
                             if("N"==data){
                                 return "未审核";
@@ -351,13 +404,32 @@
                             }
                             return "已删除";
                         }
+                    },
+                   	{
+                        "targets" :10,
+                        "render" : function(data, type, row) {
+                        	var r = JSON.stringify(row);
+                        	var html = "<div> ";
+							if("C"==row.deviceStatus){
+								html += "<span onclick='application.updataStatus("+r+")' class='btn btn-default btn-xs'>启动竞价</span>";
+							}else if("O"==row.deviceStatus){
+								html += "<span onclick='application.updataStatus("+r+")'  class='btn btn-default btn-xs'>结束竞价</span>";
+							}
+							html += "<span onclick='application.bidResultModal("+r+")'  class='btn btn-default btn-xs'>竞价结果</span>";
+							html += "<span onclick='application.updateModal("+r+")' class='btn btn-default btn-xs'>编辑</span>";
+							html += "<span onclick='application.deleteModal("+r+")' class='btn btn-default btn-xs'>删除</span></div>";
+							return html;
+							
+                        }
                     }
                 ],	      
     			"columns":[
     				{"data":"id"},
     				{"data":"name"},
     				{"data":"deviceStatus"},
-                    {"data":"address"},
+                   /*  {"data":"address"}, */
+                    {"data":"foreignId"},
+                    {"data":"serialNumber"},
     				{"data":"basePrice"},
     				{"data":"keyWords"},
     				{"data":"districtCode"},
@@ -403,11 +475,17 @@
 	    		$("#modal button[name='submit']").css("visibility", visibility);
 	    	},
 	    	dataModal:function(row){
-	    		this.showKeySecret(true);
+	    		//this.showKeySecret(true);
 	    		for(var p in row){   
 	    			$("#applicationForm input[name="+p+"]").val(row[p]);
 	    		} 	
 	    		$("#modal").modal('show');
+	    	},
+	    	bidResultModal:function(row){
+	    		
+	    	    bidResult(row.id);
+	    	    $("#bidResultModal button[name='submit']").attr("onclick","application.playAd('"+row.id+"')");
+	    		$("#bidResultModal").modal('show');
 	    	},
 	    	getVal:function(formId){
 	    		var app={};
@@ -421,7 +499,7 @@
 	    	},
 	    	addModal:function(){
 	    		$("#applicationForm input").val('');
-	    		this.showKeySecret(false);
+	    		//this.showKeySecret(false);
 	    		$("#modal button[name='submit']").attr("onclick","application.add()");
 	    		$("#modal").modal('show');
 	    		$("#devicePictureImg").attr("src","images/add_img.png");
@@ -431,43 +509,34 @@
 	    		if(!v){
 	    			return;
 	    		}
-//	    		v.deviceStatus = "W";
-//	    		v.deviceType = "S";
-//	    		$.ajax({
-//	    			type:"post",
-//	    			url:"device/new",
-//	    			dataType:"json",
-//	    			data:v,
-//	    			success:function(data){
-//	    				application.reload();
-//	    				$("#modal").modal('hide');
-//	    			}
-//	    		})
 
                 $("#applicationForm").ajaxSubmit({
                     url : "device/new",
                     type : 'POST',
-
+                    
 					data:{
-                        deviceStatus : "W",
+                        deviceStatus : "C",
                         deviceType : "S",
 						state:"N"
 					},
                     success : function(data) {
-                        application.reload();
-                        $("#modal").modal('hide');
+                    	if(data.code=="0"){
+                    		application.reload();
+                            $("#modal").modal('hide');
+                    	}else{
+                    		alert(data.message);
+                    	}
                     },
                     error: function(data) {
                         alert("上传失败");
                     }
                 });
 	    	},
-	    	updateModal:function(){
-	    		if(!application.rowid){
+	    	updateModal:function(row){
+	    		if(!row){
 	    			return;
 	    		}
-	    		var row = application.row;
-	    		this.showKeySecret(false);
+	    		//this.showKeySecret(false);
 	    		for(var p in row){   
 	    			$("#applicationForm input[name="+p+"]").val(row[p]);
 	    		}
@@ -508,6 +577,39 @@
 	    				$("#detailModal").modal('hide');
 	    			}
 	    		});
+	    	},
+	    	updataStatus:function(row){
+	    		if(!row){
+	    			return
+	    		}
+	    		var ds
+	    		if("C"==row.deviceStatus){
+					ds = "O"
+				}else if("O"==row.deviceStatus){
+					ds = "C"
+				}
+	    		if(!ds){
+	    			return
+	    		}
+	    		$.post("device/update", {id:row.id, deviceStatus:ds}, function(data){
+    				application.reload();
+	    		}, "json");
+	    		
+	    		if("C"==ds){
+	    			$.post("order/bid", {deviceId:row.id}, function(data){
+	    				console.log(data)
+		    		}, "json");
+	    		}
+	    	},
+	    	playAd:function(id){
+	    		if(!id){
+	    			return
+	    		}
+	    		
+	    		$.post("order/play", {deviceId:id}, function(data){
+	    			$("#bidResultModal").modal('hide');
+	    		}, "json");
+	    		
 	    	},
 	    	deleteModal:function(){
 	    		if(!application.rowid){
@@ -614,10 +716,111 @@
 
         $('#applicationTable tbody').on('click', 'td', function(arg1){
             var data=$('#applicationTable').DataTable().row(this).data()
+            application.row = data;
             if(arg1.currentTarget.cellIndex == 0){
                 application.detail(data);
             }
         });
+        
+        var bidResult = function(deviceId){
+	        	var unix2date = function(unixTime) {
+	                var time = new Date(unixTime);
+	                var format = function(v){
+	                	if(v<10){
+	                		v = "0"+v;
+	                	}
+	                	return v;
+	                }
+	                var ymdhis = "";
+	                ymdhis += time.getUTCFullYear() + "-";
+	                ymdhis += format(time.getUTCMonth()+1) + "-";
+	                ymdhis += format(time.getUTCDate());
+	                
+	                ymdhis += " " + format(time.getUTCHours()) + ":";
+	                ymdhis += format(time.getUTCMinutes()) + ":";
+	                ymdhis += format(time.getUTCSeconds());
+	                
+	                return ymdhis;
+	            }
+        		$("#bidResultTable").DataTable({
+        			"bAutoWidth": false,
+        			"ajax":{
+        				"url":"order/page",
+        				"contentType": "application/json",
+        				"data":{"deviceId":deviceId,"pageNum":1,"pageSize":100},
+        				"dataSrc": function ( json ) {
+        				      return json.data.list;
+        				    }
+        			},
+        			"columnDefs": [
+                    	{	                          
+                        	"defaultContent": "",
+                            "targets": "_all"
+                       	},
+                       	{
+                       		"targets" : 6,
+    						"render" : function(data, type, row) {
+    							if("N"==data){
+    								return "新订单";
+    							}
+    							if("C"==data){
+    								return "已审核";
+    							}
+    							if("D"==data){
+    								return "已删除";
+    							}
+    							if("S"==data){
+    								return "竞价成功";
+    							}
+    							if("F"==data){
+    								return "竞价失败";
+    							}
+    							if("E"==data){
+    								return "订单完成";
+    							}
+    							return data;
+    						}
+                       	},
+                       	{
+                       		"targets" : 5,
+    						"render" : function(data, type, row) {
+    							return unix2date(data);
+    						}
+                       	}
+                    ],	      
+        			"columns":[
+        				{"data":"id"},
+        				{"data":"adId"},
+        				{"data":"adOwner"},
+        				{"data":"deviceId"},
+        				{"data":"price"},
+        				{"data":"createTime"},
+        				{"data":"state"}
+        			],
+        			"bStateSave": true,
+        			"oLanguage": {
+    					"sLengthMenu": "每页显示 _MENU_ 条记录",
+    				    "sZeroRecords": "<p>对不起，查询不到任何相关数据</p> <span onclick='application.addModal();' class='btn btn-default btn-xs'>新增</span>",
+    				    "sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
+    				    "sInfoEmtpy": "找不到相关数据",
+    				    "sInfoFiltered": "数据表中共为 _MAX_ 条记录)",
+    				    "sProcessing": "正在加载中...",
+    				    "sSearch": "搜索",
+    				    "sUrl": "", 
+    				    "oPaginate": {
+    				    	"sFirst":    "第一页",
+    				        "sPrevious": " 上一页 ",
+    				        "sNext":     " 下一页 ",
+    				        "sLast":     " 最后一页 "
+    				     }
+    				}, 
+    				"aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+    				"bInfo": false,
+    				"bFilter": true,  //l-每页显示数量 f-过滤输入  t-表单Table i-信息  p-翻页 r-pRocessing
+    				"sDom": '<"top"i>rt<"bottom"pl><"clear">',
+        		})
+        		
+        }
     
     </script>
     

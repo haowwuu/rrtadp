@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.resp.APIConnectionException;
@@ -17,6 +19,7 @@ import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.Notification;
 
+@Component
 public class PushUtil {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(PushUtil.class);
@@ -42,8 +45,12 @@ public class PushUtil {
 	}
 	
 	private PushPayload buildPayload(String account, String alert, String title){	
+		Audience audience = Audience.all();
+		if(StringUtils.hasText(account)){
+			audience = Audience.alias(account);
+		}
 		return PushPayload.newBuilder().setPlatform(Platform.all())
-				.setAudience(Audience.alias(account))
+				.setAudience(audience)
 				//.setAudience(Audience.all())
 				.setNotification(Notification.newBuilder()
 						.addPlatformNotification(AndroidNotification.newBuilder()

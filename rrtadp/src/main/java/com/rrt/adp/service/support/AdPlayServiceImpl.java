@@ -1,10 +1,15 @@
 package com.rrt.adp.service.support;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -31,6 +36,7 @@ public class AdPlayServiceImpl implements AdPlayService {
 	private String authApi = "http://www.yunbiaowulian.com/api/token.html";
 	
 	private String token;
+	//private String[] devices = {"32004","31575","41076"};
 	private String[] devices = {"32004"};
 	private String layoutId = "24379";
 	
@@ -165,7 +171,7 @@ public class AdPlayServiceImpl implements AdPlayService {
 		params.put("runEnd", runEnd);
 		params.put("run_rule", "1");
 		params.put("weekDayStr", "1,2,3,4,5,6,7");
-		 
+		
 		return httpClient.get("http://www.yunbiaowulian.com/api/layout/publish.html", params);
 	}
 	
@@ -287,15 +293,19 @@ public class AdPlayServiceImpl implements AdPlayService {
 		if(null==ads||ads.size()<1){
 			return true;
 		}
-		List<String> playIds = Arrays.asList(this.devices);
+		Set<String> playIds = new HashSet<>();
+		playIds.addAll(Arrays.asList(this.devices));
 		if(null!=devices&&devices.size()>0){
 			playIds.addAll(devices.stream().map(MediaDevice::getPlayId)
 					.filter((t)->null!=t).collect(Collectors.toList())) ;
 		}
 		List<String> contentUrls = ads.stream().map(Advertisement::getContentUrl)
 				.filter((t)->null!=t).collect(Collectors.toList());
-		createLayout(this.layoutId, String.valueOf(System.currentTimeMillis()), contentUrls);
-		return isSuccess(publish(this.layoutId, playIds));
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		createLayout(this.layoutId, dateFormat.format(new Date()), contentUrls);
+		List<String> ids = new ArrayList<>();
+		ids.addAll(playIds);
+		return isSuccess(publish(this.layoutId, ids));
 	}
 
 	@Override

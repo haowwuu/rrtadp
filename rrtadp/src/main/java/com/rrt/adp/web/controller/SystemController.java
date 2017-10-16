@@ -18,6 +18,7 @@ import com.rrt.adp.model.PersonUser;
 import com.rrt.adp.service.CommentsService;
 import com.rrt.adp.service.UserService;
 import com.rrt.adp.util.MessageContext;
+import com.rrt.adp.util.PushUtil;
 import com.rrt.adp.web.RestResult;
 import com.rrt.adp.web.RestSecurity;
 
@@ -31,6 +32,8 @@ public class SystemController {
 	private CommentsService commentsService;
 	@Resource
 	private UserService userService;
+	@Resource
+	private PushUtil pushUtil;
 	
 	@ApiOperation("添加意见评论")
 	@RequestMapping(value="/comments/new", method=RequestMethod.POST)
@@ -70,10 +73,11 @@ public class SystemController {
 		if(!StringUtils.hasText(adId)){
 			return RestResult.defaultSuccessResult();
 		}
+		Account account = RestSecurity.getSessionAccount(request);
 		Comments comments = new Comments();
 		comments.setType(Comments.TYPE_ZAN);
 		comments.setReplayTo(adId);
-		Account account = RestSecurity.getSessionAccount(request);
+		comments.setAccount(account.getAccount());
 		if(commentsService.addComments(account, comments)){
 			return RestResult.defaultSuccessResult();
 		}
@@ -94,6 +98,17 @@ public class SystemController {
 			return RestResult.defaultSuccessResult(pages);
 		}
 		return RestResult.defaultFailResult(MessageContext.getMsg());
+	}
+	
+	@ApiOperation("消息推送接口， 如果audienceAccount为空，则广播消息")
+	@RequestMapping(value="/push", method=RequestMethod.POST)
+	public RestResult pushMessage(String audienceAccount, String alert, String title, HttpServletRequest request){
+		Account account = RestSecurity.getSessionAccount(request);
+		if(account.isAdmin()){
+			pushUtil.push(audienceAccount, alert, title);
+			return RestResult.defaultSuccessResult();
+		}
+		return RestResult.defaultFailResult("permission deny");
 	}
 	
 	@ApiOperation("联系我们")
