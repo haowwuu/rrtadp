@@ -32,6 +32,7 @@ public class CommentsServiceImpl implements CommentsService {
 		if(null==account||null==account.getAccount()||null==comments){
 			return false;
 		}
+		comments.setAccount(account.getAccount());
 		try{
 			commentsDao.insertComments(comments);
 		}catch (Exception e) {

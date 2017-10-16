@@ -124,6 +124,16 @@
         <version>3.0.1</version>
         <scope>provided</scope>
     </dependency>
+	  <dependency>
+		  <groupId>org.apache.httpcomponents</groupId>
+		  <artifactId>httpcore</artifactId>
+		  <version>RELEASE</version>
+	  </dependency>
+	  <dependency>
+		  <groupId>org.apache.httpcomponents</groupId>
+		  <artifactId>httpclient</artifactId>
+		  <version>RELEASE</version>
+	  </dependency>
 
   </dependencies>
   <build>
